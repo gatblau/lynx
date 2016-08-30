@@ -1,16 +1,17 @@
 package features.group
 
-import javax.inject.{Inject, Singleton}
+import javax.inject.{Inject, Named, Singleton}
 
 import cucumber.api.java.en.And
-import lynx.api.{ Group, Result, CollectApi }
+import lynx.api.{CollectApi, Group, Result}
 import util._
 
 @Singleton
 class groupSteps {
 
   @Inject
-  var collectApi : CollectApi = _
+  @Named("testCollectAPIClient")
+  var client : CollectApi = _
 
   @And("^group information is known$")
   def group_information_is_known() : Unit = {
@@ -19,7 +20,7 @@ class groupSteps {
 
   @And("^a request to create the group is made$")
   def a_request_to_create_the_group_is_made() : Unit = {
-    val result = collectApi.createGroup(Cache.get(Keys.GROUP))
+    val result = client.createGroup(Cache.get(Keys.GROUP))
     Cache.set(Keys.RESULT, result)
   }
 

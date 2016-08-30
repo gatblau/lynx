@@ -1,5 +1,7 @@
 package lynx.api
 
+import scala.beans.BeanProperty
+
 case class Group(
-  name: String,
-  description: String)
+  @BeanProperty var name: String,
+  @BeanProperty var description: String)

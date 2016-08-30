@@ -13,6 +13,8 @@ lazy val lynx = (project in file("."))
 lazy val collect = (project in file("collect"))
   .settings(Settings.basicSettings: _*)
   .enablePlugins(PlayScala)
+//  .settings(mainClass in (assembly) := Some("play.core.server.ProdServerStart"))
+//  .settings(fullClasspath in assembly += Attributed.blank(PlayKeys.playPackageAssets.value))
   .settings(libraryDependencies ++=
     Lib.compile(
       javaee,
@@ -31,7 +33,7 @@ lazy val cli = (project in file("cli"))
       javaee,
       weld,
       jaxrsclient,
-      jaxrsjsonpprovider
+      jacksonprovider
     ) ++
       Lib.test(
         cucumberJava,

@@ -31,4 +31,7 @@ object Lib {
   val playws = "com.typesafe.play" % "play-ws_2.11" % Version.PLAYWS
   val jaxrsclient = "org.jboss.resteasy" % "resteasy-client" % Version.RESTEASY
   val jaxrsjsonpprovider = "org.jboss.resteasy" % "resteasy-json-p-provider" % Version.RESTEASY
+  val jackson = "org.codehaus.jackson" % "jackson-mapper-asl" % Version.JACKSON
+  val jacksonprovider = "org.jboss.resteasy" % "resteasy-jackson-provider" % Version.RESTEASY
+  val jaxb = "javax.xml.bind" % "jaxb-api" % Version.JAXB
 }

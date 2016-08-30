@@ -15,4 +15,6 @@ object Version {
   val LOGBACK = "1.1.7"
   val PLAYWS = "2.5.6"
   val RESTEASY = "3.0.19.Final"
+  val JACKSON = "1.9.13"
+  val JAXB = "2.2.12"
 }
