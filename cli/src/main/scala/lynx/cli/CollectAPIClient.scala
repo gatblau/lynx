@@ -33,11 +33,11 @@ class CollectAPIClient()
     client.close()
   }
 
-  override def createGroup(group: Group): Result[Group] = {
+  override def createGroup(group: Group): Result = {
     val entity : Entity[Group] = Entity.entity(group, MediaType.APPLICATION_JSON)
-    val result = client.target(s"$uri/group")
+    val result = client.target(s"$uri/api/group")
       .request()
-      .post(entity, classOf[Result[Group]])
+      .post(entity, classOf[Result])
     result
   }
 }

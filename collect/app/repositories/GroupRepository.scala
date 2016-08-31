@@ -11,21 +11,21 @@ class GroupRepository {
   @PersistenceContext( unitName = "" )
   var em : EntityManager = _
 
-  def create(group: lynx.api.Group) : Result[lynx.api.Group] = {
+  def create(group: lynx.api.Group) : Result = {
     try {
       val entity = em.merge(map(group))
-      new Result[lynx.api.Group](
+      new Result(
         success = true,
         id = entity.getId(),
-        None,
+        "",
         ""
       )
     }
     catch {
-      case e : Exception => new Result[lynx.api.Group](
+      case e : Exception => new Result(
         success = false,
         id = -1,
-        None,
+        "",
         e.getMessage()
       )
     }

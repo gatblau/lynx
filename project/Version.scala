@@ -3,7 +3,7 @@ package project
 object Version {
   val APP = "0.0.1-SNAPSHOT"
   val SCALA = "2.11.7"
-  val MYSQLCONN = "5.1.36"
+  val MYSQLCONN = "6.0.3"
   val SLICK = "3.1.1"
   val JAVAEE = "7.0"
   val HIBERNATE = "5.1.0.Final"
@@ -17,4 +17,5 @@ object Version {
   val RESTEASY = "3.0.19.Final"
   val JACKSON = "1.9.13"
   val JAXB = "2.2.12"
+  val DBUNIT = "2.5.3"
 }

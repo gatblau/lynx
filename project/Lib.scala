@@ -34,4 +34,5 @@ object Lib {
   val jackson = "org.codehaus.jackson" % "jackson-mapper-asl" % Version.JACKSON
   val jacksonprovider = "org.jboss.resteasy" % "resteasy-jackson-provider" % Version.RESTEASY
   val jaxb = "javax.xml.bind" % "jaxb-api" % Version.JAXB
+  val dbunit = "org.dbunit" % "dbunit" % Version.DBUNIT
 }

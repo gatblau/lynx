@@ -39,7 +39,9 @@ lazy val cli = (project in file("cli"))
         cucumberJava,
         cucumberWeld,
         cucumberJUnit,
-        junit
+        junit,
+        dbunit,
+        mysqlconn
       )
   ).dependsOn(api)
 
@@ -48,6 +50,7 @@ lazy val api = (project in file("api"))
   .settings(libraryDependencies ++=
     Lib.compile(
       weld,
-      logback
+      logback,
+      jackson
     )
   )

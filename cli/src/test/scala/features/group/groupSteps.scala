@@ -13,9 +13,12 @@ class groupSteps {
   @Named("testCollectAPIClient")
   var client : CollectApi = _
 
+  @Inject
+  var db : DatabaseDriver = _
+
   @And("^group information is known$")
   def group_information_is_known() : Unit = {
-    Cache.set(Keys.GROUP, new Group("Dev Manager", "In charge of App development"))
+    Cache.set(Keys.GROUP, new Group("Business Unit"))
   }
 
   @And("^a request to create the group is made$")
@@ -26,8 +29,11 @@ class groupSteps {
 
   @And("^group is created$")
   def group_is_created() : Unit = {
-    val result : Result[Group] = Cache.get(Keys.RESULT)
-    assert(result.success)
-    assert(result.id > 0)
+    val result : Result = Cache.get(Keys.RESULT)
+    assert(result.success, "Response success flag returned false!")
+    assert(
+      db.query("select * from `group` where id = %s", result.id.toString()).getRowCount == 1,
+      "Group entry was not created in the database!"
+    )
   }
 }

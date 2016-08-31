@@ -8,7 +8,7 @@ class CollectApiTestProducer {
   @Produces
   @Named("testCollectAPIClient")
   private def testCollectAPIClient(@New api: CollectAPIClient) : CollectApi = {
-    api.setup("test","test","http://localhost:9000")
+    api.setup("http://localhost:9000", "test","test")
     api
   }
 }
