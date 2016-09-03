@@ -32,7 +32,7 @@ public class Option implements Serializable {
     public static final String FIND_BY_VALUE_CONTAINING ="Option.findByValueContaining";
 	
     @Id @Column(name="id" ) 
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
 //MP-MANAGED-ADDED-AREA-BEGINNING @fact_id-field-annotation@

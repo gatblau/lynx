@@ -2,22 +2,19 @@ package controllers
 
 import javax.inject.Inject
 
-import play.api.libs.json._
 import lynx.api._
-import play.api.libs.json.Writes
+import play.api.libs.json.Reads._
+import play.api.libs.json.{Writes, _}
 import play.api.mvc.{Action, Controller}
 import repositories.GroupRepository
-
-import play.api.libs.json._
-import play.api.libs.json.Reads._
-import play.api.libs.functional.syntax._
 
 class Groups extends Controller {
 
   @Inject
-  var repo : GroupRepository = _
+  var repo: GroupRepository = _
 
-  def create(group : Group) = Action {
+  def create = Action(parse.json) { request =>
+    val group = new Group((request.body \ "name").as[String])
     val result = repo.create(group)
     Ok(Json.toJson(result))
   }
@@ -26,14 +23,9 @@ class Groups extends Controller {
     def writes(result: Result) = Json.obj(
       "id" -> result.id,
       "success" -> result.success,
-      "entity" -> "",
-      "message" -> ""
-    )
-  }
-
-  implicit val groupReads = new Reads[Group] {
-    override def reads(json: JsValue): Group = new Group(
-      (json \ "name").as[String]
+      "entity" -> result.entity,
+      "message" -> result.message
     )
   }
 }
+

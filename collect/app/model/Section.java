@@ -26,7 +26,7 @@ public class Section implements Serializable {
     public static final String FIND_ALL = "Section.findAll";
 	
     @Id @Column(name="id" ) 
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne (fetch=FetchType.LAZY , optional=false)

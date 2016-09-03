@@ -30,7 +30,7 @@ class groupSteps {
   @And("^group is created$")
   def group_is_created() : Unit = {
     val result : Result = Cache.get(Keys.RESULT)
-    assert(result.success, "Response success flag returned false!")
+    assert(result.success, "Response success flag returned false! " + result.message)
     assert(
       db.query("select * from `group` where id = %s", result.id.toString()).getRowCount == 1,
       "Group entry was not created in the database!"

@@ -29,7 +29,7 @@ public class SectionDef implements Serializable {
     public static final String FIND_BY_STATIC_NAME = "SectionDef.findByStatic_Name";
 	
     @Id @Column(name="id" ) 
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
 //MP-MANAGED-ADDED-AREA-BEGINNING @static-field-annotation@

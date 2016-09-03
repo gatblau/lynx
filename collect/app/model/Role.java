@@ -26,7 +26,7 @@ public class Role implements Serializable {
     public static final String FIND_ALL = "Role.findAll";
 	
     @Id @Column(name="id" ) 
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
 //MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @respondentRoleViaRoleId-field-role@

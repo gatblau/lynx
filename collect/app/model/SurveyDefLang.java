@@ -34,7 +34,7 @@ public class SurveyDefLang implements Serializable {
     public static final String FIND_BY_DESCRIPTION_CONTAINING ="SurveyDefLang.findByDescriptionContaining";
 	
     @Id @Column(name="id" ) 
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
 //MP-MANAGED-ADDED-AREA-BEGINNING @name-field-annotation@

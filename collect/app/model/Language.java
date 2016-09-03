@@ -36,7 +36,7 @@ public class Language implements Serializable {
     public static final String FIND_BY_CODE_CONTAINING ="Language.findByCodeContaining";
 	
     @Id @Column(name="id" ) 
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
 //MP-MANAGED-ADDED-AREA-BEGINNING @name-field-annotation@

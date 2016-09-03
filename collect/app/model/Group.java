@@ -22,7 +22,6 @@ import java.util.Set;
 	,@NamedQuery(name="Group.findByNameContaining", query="SELECT a FROM Group a WHERE a.name like :name")
 
 })
-
 public class Group implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -31,7 +30,7 @@ public class Group implements Serializable {
     public static final String FIND_BY_NAME_CONTAINING ="Group.findByNameContaining";
 	
     @Id @Column(name="id" ) 
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
 //MP-MANAGED-ADDED-AREA-BEGINNING @name-field-annotation@
