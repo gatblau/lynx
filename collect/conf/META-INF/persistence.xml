@@ -8,7 +8,7 @@
     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
     <non-jta-data-source>LynxC_DS</non-jta-data-source>
     <properties>
-        <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLInnoDBDialect"/>
+        <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
         <property name="hibernate.archive.autodetection" value="class"/>
         <property name="hibernate.show_sql" value="true"/>
         <property name="hibernate.format_sql" value="true"/>

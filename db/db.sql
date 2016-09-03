@@ -18,7 +18,7 @@ USE `lynxc` ;
 -- Table `lynxc`.`role`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `lynxc`.`role` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`))
   ENGINE = InnoDB;
 
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`role` (
 -- Table `lynxc`.`group`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `lynxc`.`group` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `name_UNIQUE` (`name` ASC))
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`group` (
 -- Table `lynxc`.`language`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `lynxc`.`language` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `code` VARCHAR(10) NOT NULL,
   PRIMARY KEY (`id`),
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`language` (
 -- Table `lynxc`.`respondent`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `lynxc`.`respondent` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `firstname` VARCHAR(45) NOT NULL,
   `lastname` VARCHAR(45) NOT NULL,
   `email` VARCHAR(45) NOT NULL,
@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`respondent` (
 -- Table `lynxc`.`survey_def`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `lynxc`.`survey_def` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`))
   ENGINE = InnoDB;
 
@@ -96,7 +96,7 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`survey_def` (
 -- Table `lynxc`.`section_def`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `lynxc`.`section_def` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `static` TINYINT(1) NULL,
   `survey_def_id` INT NOT NULL,
   `section_def_id` INT NOT NULL,
@@ -120,7 +120,7 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`section_def` (
 -- Table `lynxc`.`survey`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `lynxc`.`survey` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `survey_def_id` INT NOT NULL,
   `updated` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -176,7 +176,7 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`fact_def` (
 -- Table `lynxc`.`option_def`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `lynxc`.`option_def` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `fact_def_id` INT NOT NULL,
   PRIMARY KEY (`id`),
@@ -194,7 +194,7 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`option_def` (
 -- Table `lynxc`.`section`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `lynxc`.`section` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `section_def_id` INT NOT NULL,
   `survey_id` INT NOT NULL,
   PRIMARY KEY (`id`),
@@ -217,7 +217,7 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`section` (
 -- Table `lynxc`.`fact`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `lynxc`.`fact` (
-  `section_id` INT NOT NULL,
+  `section_id` INT NOT NULL AUTO_INCREMENT,
   `fact_def_id` INT NOT NULL,
   INDEX `fk_fact_section1_idx` (`section_id` ASC),
   INDEX `fk_fact_fact_def1_idx` (`fact_def_id` ASC),
@@ -239,7 +239,7 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`fact` (
 -- Table `lynxc`.`option`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `lynxc`.`option` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `fact_id` INT NOT NULL,
   `fact_option_def_id` INT NOT NULL,
   `value` VARCHAR(150) NOT NULL,
@@ -257,7 +257,7 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`option` (
 -- Table `lynxc`.`role_lang`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `lynxc`.`role_lang` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `description` TEXT NULL,
   `role_id` INT NOT NULL,
@@ -308,7 +308,7 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`fact_def_lang` (
 -- Table `lynxc`.`option_def_lang`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `lynxc`.`option_def_lang` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NULL,
   `description` TEXT NULL,
   `type` VARCHAR(45) NULL,
@@ -334,7 +334,7 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`option_def_lang` (
 -- Table `lynxc`.`section_def_lang`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `lynxc`.`section_def_lang` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NULL,
   `description` TEXT NULL,
   `section_def_id` INT NOT NULL,
@@ -359,7 +359,7 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`section_def_lang` (
 -- Table `lynxc`.`survey_def_lang`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `lynxc`.`survey_def_lang` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NULL,
   `description` TEXT NULL,
   `survey_def_id` INT NOT NULL,
