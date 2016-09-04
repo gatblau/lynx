@@ -3,29 +3,29 @@ package model;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity (name="SurveyDefLang")
-@Table (name="\"survey_def_lang\"")
+@Entity (name="SurveyLang")
+@Table (name="\"survey_lang\"")
 @NamedQueries ({
-	 @NamedQuery(name="SurveyDefLang.findAll", query="SELECT a FROM SurveyDefLang a")
-	,@NamedQuery(name="SurveyDefLang.findByName", query="SELECT a FROM SurveyDefLang a WHERE a.name = :name")
-	,@NamedQuery(name="SurveyDefLang.findByNameContaining", query="SELECT a FROM SurveyDefLang a WHERE a.name like :name")
-	,@NamedQuery(name="SurveyDefLang.findByDescription", query="SELECT a FROM SurveyDefLang a WHERE a.description = :description")
-	,@NamedQuery(name="SurveyDefLang.findByDescriptionContaining", query="SELECT a FROM SurveyDefLang a WHERE a.description like :description")
+	 @NamedQuery(name="SurveyLang.findAll", query="SELECT a FROM SurveyLang a")
+	,@NamedQuery(name="SurveyLang.findByName", query="SELECT a FROM SurveyLang a WHERE a.name = :name")
+	,@NamedQuery(name="SurveyLang.findByNameContaining", query="SELECT a FROM SurveyLang a WHERE a.name like :name")
+    ,@NamedQuery(name="SurveyLang.findByDescription", query="SELECT a FROM SurveyLang a WHERE a.description = :description")
+	,@NamedQuery(name="SurveyLang.findByDescriptionContaining", query="SELECT a FROM SurveyLang a WHERE a.description like :description")
 })
-public class SurveyDefLang implements Serializable {
+public class SurveyLang implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    public static final String FIND_ALL = "SurveyDefLang.findAll";
-    public static final String FIND_BY_NAME = "SurveyDefLang.findByName";
-    public static final String FIND_BY_NAME_CONTAINING ="SurveyDefLang.findByNameContaining";
-    public static final String FIND_BY_DESCRIPTION = "SurveyDefLang.findByDescription";
-    public static final String FIND_BY_DESCRIPTION_CONTAINING ="SurveyDefLang.findByDescriptionContaining";
+    public static final String FIND_ALL = "SurveyLang.findAll";
+    public static final String FIND_BY_NAME = "SurveyLang.findByName";
+    public static final String FIND_BY_NAME_CONTAINING ="SurveyLang.findByNameContaining";
+    public static final String FIND_BY_DESCRIPTION = "SurveyLang.findByDescription";
+    public static final String FIND_BY_DESCRIPTION_CONTAINING ="SurveyLang.findByDescriptionContaining";
 	
     @Id @Column(name="id" ) 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name="name"  , length=45 , nullable=true , unique=false)
+    @Column(name="name"  , length=200 , nullable=false , unique=false)
     private String name; 
 
     @Column(name="description"   , nullable=true , unique=false)
@@ -39,35 +39,35 @@ public class SurveyDefLang implements Serializable {
     private Integer languageId_;
 
     @ManyToOne (fetch=FetchType.LAZY , optional=false)
-    @JoinColumn(name="survey_def_id", referencedColumnName = "id" , nullable=false , unique=true  , insertable=true, updatable=true) 
-    private SurveyDef surveyDefId;  
+    @JoinColumn(name="survey_id", referencedColumnName = "id" , nullable=false , unique=true  , insertable=true, updatable=true) 
+    private Survey surveyId;  
 
-    @Column(name="survey_def_id"  , nullable=false , unique=true, insertable=false, updatable=false)
-    private Integer surveyDefId_;
+    @Column(name="survey_id"  , nullable=false , unique=true, insertable=false, updatable=false)
+    private Integer surveyId_;
 
-    public SurveyDefLang() {
+    public SurveyLang() {
     }
 
-    public SurveyDefLang(
+    public SurveyLang(
        Integer id,
        String name,
        String description,
-       Integer surveyDefId,
+       Integer surveyId,
        Integer languageId) {
 	 this(
        id,
        name,
        description,
-       surveyDefId,
+       surveyId,
        languageId
 	 ,true);
 	}
     
-	public SurveyDefLang(
+	public SurveyLang(
        Integer id,
        String name,
        String description,
-       Integer surveyDefId,
+       Integer surveyId,
        Integer languageId	
     , boolean setRelationship) {
        setId (id);
@@ -78,19 +78,19 @@ public class SurveyDefLang implements Serializable {
           this.languageId.setId(languageId);
 	      setLanguageId_ (languageId);
        }
-       if (setRelationship && surveyDefId!=null) {
-          this.surveyDefId = new SurveyDef();
-          this.surveyDefId.setId(surveyDefId);
-	      setSurveyDefId_ (surveyDefId);
+       if (setRelationship && surveyId!=null) {
+          this.surveyId = new Survey();
+          this.surveyId.setId(surveyId);
+	      setSurveyId_ (surveyId);
        }
     }
 
-	public SurveyDefLang flat() {
-	   return new SurveyDefLang(
+	public SurveyLang flat() {
+	   return new SurveyLang(
           getId(),
           getName(),
           getDescription(),
-          getSurveyDefId_(),
+          getSurveyId_(),
           getLanguageId_()
        , false
 	   );
@@ -119,7 +119,7 @@ public class SurveyDefLang implements Serializable {
     public void setDescription (String description) {
         this.description =  description;
     }
-	
+
     public Language getLanguageId () {
     	return languageId;
     }
@@ -136,19 +136,20 @@ public class SurveyDefLang implements Serializable {
         this.languageId_ =  languageId;
     }
 	
-    public SurveyDef getSurveyDefId () {
-    	return surveyDefId;
+    public Survey getSurveyId () {
+    	return surveyId;
     }
 	
-    public void setSurveyDefId (SurveyDef surveyDefId) {
-    	this.surveyDefId = surveyDefId;
+    public void setSurveyId (Survey surveyId) {
+    	this.surveyId = surveyId;
     }
 
-    public Integer getSurveyDefId_() {
-        return surveyDefId_;
+    public Integer getSurveyId_() {
+        return surveyId_;
     }
 	
-    public void setSurveyDefId_ (Integer surveyDefId) {
-        this.surveyDefId_ =  surveyDefId;
+    public void setSurveyId_ (Integer surveyId) {
+        this.surveyId_ =  surveyId;
     }
+
 }

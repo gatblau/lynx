@@ -48,6 +48,23 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`language` (
 
 
 -- -----------------------------------------------------
+-- Table `lynxc`.`country`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `lynxc`.`country` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `default_language_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_country_language1_idx` (`default_language_id` ASC),
+  CONSTRAINT `fk_country_language1`
+  FOREIGN KEY (`default_language_id`)
+  REFERENCES `lynxc`.`language` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+  ENGINE = InnoDB
+  COMMENT = 'The country the respondent lives in.';
+
+
+-- -----------------------------------------------------
 -- Table `lynxc`.`respondent`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `lynxc`.`respondent` (
@@ -56,15 +73,18 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`respondent` (
   `lastname` VARCHAR(45) NOT NULL,
   `email` VARCHAR(45) NOT NULL,
   `telephone` VARCHAR(45) NULL,
-  `pwd_hash` VARCHAR(45) NULL,
+  `pwd_hash` VARCHAR(100) NULL,
   `role_id` INT NOT NULL,
   `group_id` INT NOT NULL,
-  `active` TINYINT(1) NOT NULL,
-  `language_id` INT NOT NULL,
+  `enabled` TINYINT(1) NOT NULL,
+  `preferred_language_id` INT NOT NULL,
+  `country_id` INT NOT NULL,
+  `activation_code` VARCHAR(45) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_respondent_role1_idx` (`role_id` ASC),
   INDEX `fk_respondent_group1_idx` (`group_id` ASC),
-  INDEX `fk_respondent_language1_idx` (`language_id` ASC),
+  INDEX `fk_respondent_language1_idx` (`preferred_language_id` ASC),
+  INDEX `fk_respondent_country1_idx` (`country_id` ASC),
   CONSTRAINT `fk_respondent_role1`
   FOREIGN KEY (`role_id`)
   REFERENCES `lynxc`.`role` (`id`)
@@ -76,11 +96,17 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`respondent` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_respondent_language1`
-  FOREIGN KEY (`language_id`)
+  FOREIGN KEY (`preferred_language_id`)
   REFERENCES `lynxc`.`language` (`id`)
     ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_respondent_country1`
+  FOREIGN KEY (`country_id`)
+  REFERENCES `lynxc`.`country` (`id`)
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-  ENGINE = InnoDB;
+  ENGINE = InnoDB
+  COMMENT = 'A respondent to a survey.';
 
 
 -- -----------------------------------------------------
@@ -97,19 +123,19 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`survey_def` (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `lynxc`.`section_def` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `static` TINYINT(1) NULL,
+  `dynamic` TINYINT(1) NOT NULL DEFAULT 0,
   `survey_def_id` INT NOT NULL,
-  `section_def_id` INT NOT NULL,
+  `parent_section_def_id` INT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_section_def_survey_def1_idx` (`survey_def_id` ASC),
-  INDEX `fk_section_def_section_def1_idx` (`section_def_id` ASC),
+  INDEX `fk_section_def_section_def1_idx` (`parent_section_def_id` ASC),
   CONSTRAINT `fk_section_def_survey_def1`
   FOREIGN KEY (`survey_def_id`)
   REFERENCES `lynxc`.`survey_def` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_section_def_section_def1`
-  FOREIGN KEY (`section_def_id`)
+  FOREIGN KEY (`parent_section_def_id`)
   REFERENCES `lynxc`.`section_def` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -125,11 +151,18 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`survey` (
   `updated` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `version` INT NOT NULL DEFAULT 1,
+  `locked_by` INT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_survey_survey_def1_idx` (`survey_def_id` ASC),
+  INDEX `fk_survey_respondent1_idx` (`locked_by` ASC),
   CONSTRAINT `fk_survey_survey_def1`
   FOREIGN KEY (`survey_def_id`)
   REFERENCES `lynxc`.`survey_def` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_survey_respondent1`
+  FOREIGN KEY (`locked_by`)
+  REFERENCES `lynxc`.`respondent` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
   ENGINE = InnoDB;
@@ -141,6 +174,10 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`survey` (
 CREATE TABLE IF NOT EXISTS `lynxc`.`survey_respondent` (
   `survey_id` INT NOT NULL,
   `respondent_id` INT NOT NULL,
+  `can_read` TINYINT(1) NOT NULL DEFAULT 1,
+  `can_write` TINYINT(1) NOT NULL DEFAULT 0,
+  `last_read` TIMESTAMP NULL,
+  `last_write` TIMESTAMP NULL,
   INDEX `fk_survey_respondent_survey1_idx` (`survey_id` ASC),
   INDEX `fk_survey_respondent_respondent1_idx` (`respondent_id` ASC),
   CONSTRAINT `fk_survey_respondent_survey1`
@@ -153,6 +190,17 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`survey_respondent` (
   REFERENCES `lynxc`.`respondent` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
+  ENGINE = InnoDB
+  COMMENT = 'The information for a respondent of a specific survey.';
+
+
+-- -----------------------------------------------------
+-- Table `lynxc`.`fact_type`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `lynxc`.`fact_type` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `value` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`))
   ENGINE = InnoDB;
 
 
@@ -162,11 +210,22 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`survey_respondent` (
 CREATE TABLE IF NOT EXISTS `lynxc`.`fact_def` (
   `id` INT NOT NULL,
   `section_def_id` INT NOT NULL,
+  `fact_type_id` INT NOT NULL,
+  `required` TINYINT(1) NOT NULL DEFAULT 0,
+  `regex` VARCHAR(200) NULL,
+  `min` VARCHAR(100) NULL,
+  `max` VARCHAR(100) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_fact_def_section_def1_idx` (`section_def_id` ASC),
+  INDEX `fk_fact_def_fact_type1_idx` (`fact_type_id` ASC),
   CONSTRAINT `fk_fact_def_section_def1`
   FOREIGN KEY (`section_def_id`)
   REFERENCES `lynxc`.`section_def` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_fact_def_fact_type1`
+  FOREIGN KEY (`fact_type_id`)
+  REFERENCES `lynxc`.`fact_type` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
   ENGINE = InnoDB;
@@ -177,11 +236,9 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`fact_def` (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `lynxc`.`option_def` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
   `fact_def_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_fact_option_def_fact_def1_idx` (`fact_def_id` ASC),
-  UNIQUE INDEX `name_UNIQUE` (`name` ASC),
   CONSTRAINT `fk_fact_option_def_fact_def1`
   FOREIGN KEY (`fact_def_id`)
   REFERENCES `lynxc`.`fact_def` (`id`)
@@ -217,19 +274,20 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`section` (
 -- Table `lynxc`.`fact`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `lynxc`.`fact` (
-  `section_id` INT NOT NULL AUTO_INCREMENT,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `fact_def_id` INT NOT NULL,
-  INDEX `fk_fact_section1_idx` (`section_id` ASC),
+  `section_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
   INDEX `fk_fact_fact_def1_idx` (`fact_def_id` ASC),
-  PRIMARY KEY (`section_id`, `fact_def_id`),
-  CONSTRAINT `fk_fact_section1`
-  FOREIGN KEY (`section_id`)
-  REFERENCES `lynxc`.`section` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+  INDEX `fk_fact_section1_idx` (`section_id` ASC),
   CONSTRAINT `fk_fact_fact_def1`
   FOREIGN KEY (`fact_def_id`)
   REFERENCES `lynxc`.`fact_def` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_fact_section1`
+  FOREIGN KEY (`section_id`)
+  REFERENCES `lynxc`.`section` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
   ENGINE = InnoDB;
@@ -240,14 +298,20 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`fact` (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `lynxc`.`option` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `fact_id` INT NOT NULL,
-  `fact_option_def_id` INT NOT NULL,
   `value` VARCHAR(150) NOT NULL,
+  `option_def_id` INT NOT NULL,
+  `fact_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_option_fact_option_def1_idx` (`fact_option_def_id` ASC),
-  CONSTRAINT `fk_option_fact_option_def1`
-  FOREIGN KEY (`fact_option_def_id`)
+  INDEX `fk_option_option_def1_idx` (`option_def_id` ASC),
+  INDEX `fk_option_fact1_idx` (`fact_id` ASC),
+  CONSTRAINT `fk_option_option_def1`
+  FOREIGN KEY (`option_def_id`)
   REFERENCES `lynxc`.`option_def` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_option_fact1`
+  FOREIGN KEY (`fact_id`)
+  REFERENCES `lynxc`.`fact` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
   ENGINE = InnoDB;
@@ -311,7 +375,6 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`option_def_lang` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NULL,
   `description` TEXT NULL,
-  `type` VARCHAR(45) NULL,
   `language_id` INT NOT NULL,
   `option_def_id` INT NOT NULL,
   PRIMARY KEY (`id`),
@@ -373,6 +436,57 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`survey_def_lang` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_survey_def_lang_language1`
+  FOREIGN KEY (`language_id`)
+  REFERENCES `lynxc`.`language` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+  ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `lynxc`.`country_lang`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `lynxc`.`country_lang` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `country_id` INT NOT NULL,
+  `language_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC),
+  INDEX `fk_country_lang_country1_idx` (`country_id` ASC),
+  INDEX `fk_country_lang_language1_idx` (`language_id` ASC),
+  CONSTRAINT `fk_country_lang_country1`
+  FOREIGN KEY (`country_id`)
+  REFERENCES `lynxc`.`country` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_country_lang_language1`
+  FOREIGN KEY (`language_id`)
+  REFERENCES `lynxc`.`language` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+  ENGINE = InnoDB
+  COMMENT = 'The name of the country in a specific language.';
+
+
+-- -----------------------------------------------------
+-- Table `lynxc`.`survey_lang`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `lynxc`.`survey_lang` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(200) NOT NULL,
+  `description` TEXT NULL,
+  `survey_id` INT NOT NULL,
+  `language_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_survey_lang_survey1_idx` (`survey_id` ASC),
+  INDEX `fk_survey_lang_language1_idx` (`language_id` ASC),
+  CONSTRAINT `fk_survey_lang_survey1`
+  FOREIGN KEY (`survey_id`)
+  REFERENCES `lynxc`.`survey` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_survey_lang_language1`
   FOREIGN KEY (`language_id`)
   REFERENCES `lynxc`.`language` (`id`)
     ON DELETE NO ACTION

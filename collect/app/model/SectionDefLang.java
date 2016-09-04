@@ -1,29 +1,46 @@
+/**
+	* Copyright (c) minuteproject, minuteproject@gmail.com
+	* All rights reserved.
+	* 
+	* Licensed under the Apache License, Version 2.0 (the "License")
+	* you may not use this file except in compliance with the License.
+	* You may obtain a copy of the License at
+	* 
+	* http://www.apache.org/licenses/LICENSE-2.0
+	* 
+	* Unless required by applicable law or agreed to in writing, software
+	* distributed under the License is distributed on an "AS IS" BASIS,
+	* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	* See the License for the specific language governing permissions and
+	* limitations under the License.
+	* 
+	* More information on minuteproject:
+	* twitter @minuteproject
+	* wiki http://minuteproject.wikispaces.com 
+	* blog http://minuteproject.blogspot.net
+	* 
+*/
+/**
+	* template reference : 
+	* - Minuteproject version : 0.9.8
+	* - name      : DomainEntityJPA2Annotation
+	* - file name : DomainEntityJPA2Annotation.vm
+	* - time      : 2016/09/04 AD at 08:23:24 BST
+*/
 package model;
 
-//MP-MANAGED-ADDED-AREA-BEGINNING @import@
-//MP-MANAGED-ADDED-AREA-ENDING @import@
 import javax.persistence.*;
 import java.io.Serializable;
 
-/**
- *
- * <p>Title: SectionDefLang</p>
- *
- * <p>Description: Domain Object describing a SectionDefLang entity</p>
- *
- */
 @Entity (name="SectionDefLang")
 @Table (name="\"section_def_lang\"")
 @NamedQueries ({
 	 @NamedQuery(name="SectionDefLang.findAll", query="SELECT a FROM SectionDefLang a")
 	,@NamedQuery(name="SectionDefLang.findByName", query="SELECT a FROM SectionDefLang a WHERE a.name = :name")
 	,@NamedQuery(name="SectionDefLang.findByNameContaining", query="SELECT a FROM SectionDefLang a WHERE a.name like :name")
-
 	,@NamedQuery(name="SectionDefLang.findByDescription", query="SELECT a FROM SectionDefLang a WHERE a.description = :description")
 	,@NamedQuery(name="SectionDefLang.findByDescriptionContaining", query="SELECT a FROM SectionDefLang a WHERE a.description like :description")
-
 })
-
 public class SectionDefLang implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -37,19 +54,11 @@ public class SectionDefLang implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-//MP-MANAGED-ADDED-AREA-BEGINNING @name-field-annotation@
-//MP-MANAGED-ADDED-AREA-ENDING @name-field-annotation@
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @ATTRIBUTE-name@
     @Column(name="name"  , length=45 , nullable=true , unique=false)
     private String name; 
-//MP-MANAGED-UPDATABLE-ENDING
 
-//MP-MANAGED-ADDED-AREA-BEGINNING @description-field-annotation@
-//MP-MANAGED-ADDED-AREA-ENDING @description-field-annotation@
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @ATTRIBUTE-description@
     @Column(name="description"   , nullable=true , unique=false)
-    private String description; 
-//MP-MANAGED-UPDATABLE-ENDING
+    private String description;
 
     @ManyToOne (fetch=FetchType.LAZY , optional=false)
     @JoinColumn(name="language_id", referencedColumnName = "id" , nullable=false , unique=false , insertable=true, updatable=true) 
@@ -65,15 +74,9 @@ public class SectionDefLang implements Serializable {
     @Column(name="section_def_id"  , nullable=false , unique=true, insertable=false, updatable=false)
     private Integer sectionDefId_;
 
-    /**
-    * Default constructor
-    */
     public SectionDefLang() {
     }
 
-	/**
-	* All field constructor 
-	*/
     public SectionDefLang(
        Integer id,
        String name,
@@ -96,12 +99,9 @@ public class SectionDefLang implements Serializable {
        Integer sectionDefId,
        Integer languageId	
     , boolean setRelationship) {
-       //primary keys
        setId (id);
-       //attributes
        setName (name);
        setDescription (description);
-       //parents
        if (setRelationship && languageId!=null) {
           this.languageId = new Language();
           this.languageId.setId(languageId);
@@ -132,8 +132,7 @@ public class SectionDefLang implements Serializable {
     public void setId (Integer id) {
         this.id =  id;
     }
-    
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @GETTER-SETTER-name@
+
     public String getName() {
         return name;
     }
@@ -141,10 +140,7 @@ public class SectionDefLang implements Serializable {
     public void setName (String name) {
         this.name =  name;
     }
-	
-//MP-MANAGED-UPDATABLE-ENDING
 
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @GETTER-SETTER-description@
     public String getDescription() {
         return description;
     }
@@ -152,9 +148,6 @@ public class SectionDefLang implements Serializable {
     public void setDescription (String description) {
         this.description =  description;
     }
-	
-//MP-MANAGED-UPDATABLE-ENDING
-
 
     public Language getLanguageId () {
     	return languageId;
@@ -187,12 +180,5 @@ public class SectionDefLang implements Serializable {
     public void setSectionDefId_ (Integer sectionDefId) {
         this.sectionDefId_ =  sectionDefId;
     }
-	
-
-
-
-
-//MP-MANAGED-ADDED-AREA-BEGINNING @implementation@
-//MP-MANAGED-ADDED-AREA-ENDING @implementation@
 
 }

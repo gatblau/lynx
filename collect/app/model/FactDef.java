@@ -1,96 +1,130 @@
 package model;
 
-//MP-MANAGED-ADDED-AREA-BEGINNING @import@
-//MP-MANAGED-ADDED-AREA-ENDING @import@
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- *
- * <p>Title: FactDef</p>
- *
- * <p>Description: Domain Object describing a FactDef entity</p>
- *
- */
 @Entity (name="FactDef")
 @Table (name="\"fact_def\"")
 @NamedQueries ({
 	 @NamedQuery(name="FactDef.findAll", query="SELECT a FROM FactDef a")
+	,@NamedQuery(name="FactDef.findByRequired", query="SELECT a FROM FactDef a WHERE a.required = :required")
+	,@NamedQuery(name="FactDef.findByRegex", query="SELECT a FROM FactDef a WHERE a.regex = :regex")
+	,@NamedQuery(name="FactDef.findByRegexContaining", query="SELECT a FROM FactDef a WHERE a.regex like :regex")
+	,@NamedQuery(name="FactDef.findByMin", query="SELECT a FROM FactDef a WHERE a.min = :min")
+	,@NamedQuery(name="FactDef.findByMinContaining", query="SELECT a FROM FactDef a WHERE a.min like :min")
+	,@NamedQuery(name="FactDef.findByMax", query="SELECT a FROM FactDef a WHERE a.max = :max")
+	,@NamedQuery(name="FactDef.findByMaxContaining", query="SELECT a FROM FactDef a WHERE a.max like :max")
 })
-
 public class FactDef implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public static final String FIND_ALL = "FactDef.findAll";
+    public static final String FIND_BY_REQUIRED = "FactDef.findByRequired";
+    public static final String FIND_BY_REGEX = "FactDef.findByRegex";
+    public static final String FIND_BY_REGEX_CONTAINING ="FactDef.findByRegexContaining";
+    public static final String FIND_BY_MIN = "FactDef.findByMin";
+    public static final String FIND_BY_MIN_CONTAINING ="FactDef.findByMinContaining";
+    public static final String FIND_BY_MAX = "FactDef.findByMax";
+    public static final String FIND_BY_MAX_CONTAINING ="FactDef.findByMaxContaining";
 	
     @Id @Column(name="id" ) 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name="required"   , nullable=false , unique=false)
+    private Boolean required; 
+
+    @Column(name="regex"  , length=200 , nullable=true , unique=false)
+    private String regex; 
+
+    @Column(name="min"  , length=100 , nullable=true , unique=false)
+    private String min; 
+
+    @Column(name="max"  , length=100 , nullable=true , unique=false)
+    private String max;
+
     @ManyToOne (fetch=FetchType.LAZY , optional=false)
-    @JoinColumn(name="section_def_id", referencedColumnName = "id" , nullable=false , unique=false , insertable=true, updatable=true) 
+    @JoinColumn(name="fact_type_id", referencedColumnName = "id" , nullable=false , unique=false , insertable=true, updatable=true) 
+    private FactType factTypeId;  
+
+    @Column(name="fact_type_id"  , nullable=false , unique=true, insertable=false, updatable=false)
+    private Integer factTypeId_;
+
+    @ManyToOne (fetch=FetchType.LAZY , optional=false)
+    @JoinColumn(name="section_def_id", referencedColumnName = "id" , nullable=false , unique=true  , insertable=true, updatable=true) 
     private SectionDef sectionDefId;  
 
     @Column(name="section_def_id"  , nullable=false , unique=true, insertable=false, updatable=false)
     private Integer sectionDefId_;
 
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @factDefLangFactDefViaFactDefId-field-fact_def@
+    @OneToMany (targetEntity=model.Fact.class, fetch=FetchType.LAZY, mappedBy="factDefId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
+    private Set <Fact> factFactDefViaFactDefId = new HashSet<Fact>(); 
+
     @OneToMany (targetEntity=model.FactDefLang.class, fetch=FetchType.LAZY, mappedBy="factDefId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
     private Set <FactDefLang> factDefLangFactDefViaFactDefId = new HashSet<FactDefLang>(); 
 
-//MP-MANAGED-UPDATABLE-ENDING
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @optionDefFactDefViaFactDefId-field-fact_def@
     @OneToMany (targetEntity=model.OptionDef.class, fetch=FetchType.LAZY, mappedBy="factDefId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
     private Set <OptionDef> optionDefFactDefViaFactDefId = new HashSet<OptionDef>(); 
 
-//MP-MANAGED-UPDATABLE-ENDING
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @m2m-sectionFactViaId-fact_def@
-    @ManyToMany
-    @JoinTable(name="FACT", 
-        joinColumns=@JoinColumn(name="fact_def_id"), 
-        inverseJoinColumns=@JoinColumn(name="section_id") 
-    )
-    private Set <Section> sectionFactViaId = new HashSet <Section> ();
-
-//MP-MANAGED-UPDATABLE-ENDING
-    /**
-    * Default constructor
-    */
     public FactDef() {
     }
 
-	/**
-	* All field constructor 
-	*/
     public FactDef(
        Integer id,
-       Integer sectionDefId) {
+       Integer sectionDefId,
+       Integer factTypeId,
+       Boolean required,
+       String regex,
+       String min,
+       String max) {
 	 this(
        id,
-       sectionDefId
+       sectionDefId,
+       factTypeId,
+       required,
+       regex,
+       min,
+       max
 	 ,true);
 	}
     
 	public FactDef(
        Integer id,
-       Integer sectionDefId	
+       Integer sectionDefId,
+       Integer factTypeId,
+       Boolean required,
+       String regex,
+       String min,
+       String max	
     , boolean setRelationship) {
-       //primary keys
        setId (id);
-       //attributes
-       //parents
+       setRequired (required);
+       setRegex (regex);
+       setMin (min);
+       setMax (max);
+       if (setRelationship && factTypeId!=null) {
+          this.factTypeId = new FactType();
+          this.factTypeId.setId(factTypeId);
+	      setFactTypeId_ (factTypeId);
+       }
        if (setRelationship && sectionDefId!=null) {
           this.sectionDefId = new SectionDef();
           this.sectionDefId.setId(sectionDefId);
+	      setSectionDefId_ (sectionDefId);
        }
     }
 
 	public FactDef flat() {
 	   return new FactDef(
           getId(),
-          getSectionDefId_()
+          getSectionDefId_(),
+          getFactTypeId_(),
+          getRequired(),
+          getRegex(),
+          getMin(),
+          getMax()
        , false
 	   );
 	}
@@ -102,8 +136,55 @@ public class FactDef implements Serializable {
     public void setId (Integer id) {
         this.id =  id;
     }
-    
 
+    public Boolean getRequired() {
+        return required;
+    }
+	
+    public void setRequired (Boolean required) {
+        this.required =  required;
+    }
+
+    public String getRegex() {
+        return regex;
+    }
+	
+    public void setRegex (String regex) {
+        this.regex =  regex;
+    }
+
+    public String getMin() {
+        return min;
+    }
+	
+    public void setMin (String min) {
+        this.min =  min;
+    }
+
+    public String getMax() {
+        return max;
+    }
+	
+    public void setMax (String max) {
+        this.max =  max;
+    }
+
+    public FactType getFactTypeId () {
+    	return factTypeId;
+    }
+	
+    public void setFactTypeId (FactType factTypeId) {
+    	this.factTypeId = factTypeId;
+    }
+
+    public Integer getFactTypeId_() {
+        return factTypeId_;
+    }
+	
+    public void setFactTypeId_ (Integer factTypeId) {
+        this.factTypeId_ =  factTypeId;
+    }
+	
     public SectionDef getSectionDefId () {
     	return sectionDefId;
     }
@@ -119,11 +200,22 @@ public class FactDef implements Serializable {
     public void setSectionDefId_ (Integer sectionDefId) {
         this.sectionDefId_ =  sectionDefId;
     }
-	
 
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @factViaFactDefById-getter-fact_def@
-//MP-MANAGED-UPDATABLE-ENDING
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @factDefLangFactDefViaFactDefId-getter-fact_def@
+    public Set<Fact> getFactFactDefViaFactDefId() {
+        if (factFactDefViaFactDefId == null){
+            factFactDefViaFactDefId = new HashSet<Fact>();
+        }
+        return factFactDefViaFactDefId;
+    }
+
+    public void setFactFactDefViaFactDefId (Set<Fact> factFactDefViaFactDefId) {
+        this.factFactDefViaFactDefId = factFactDefViaFactDefId;
+    }	
+    
+    public void addFactFactDefViaFactDefId (Fact element) {
+    	    getFactFactDefViaFactDefId().add(element);
+    }
+
     public Set<FactDefLang> getFactDefLangFactDefViaFactDefId() {
         if (factDefLangFactDefViaFactDefId == null){
             factDefLangFactDefViaFactDefId = new HashSet<FactDefLang>();
@@ -138,9 +230,7 @@ public class FactDef implements Serializable {
     public void addFactDefLangFactDefViaFactDefId (FactDefLang element) {
     	    getFactDefLangFactDefViaFactDefId().add(element);
     }
-    
-//MP-MANAGED-UPDATABLE-ENDING
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @optionDefFactDefViaFactDefId-getter-fact_def@
+
     public Set<OptionDef> getOptionDefFactDefViaFactDefId() {
         if (optionDefFactDefViaFactDefId == null){
             optionDefFactDefViaFactDefId = new HashSet<OptionDef>();
@@ -155,27 +245,12 @@ public class FactDef implements Serializable {
     public void addOptionDefFactDefViaFactDefId (OptionDef element) {
     	    getOptionDefFactDefViaFactDefId().add(element);
     }
-    
-//MP-MANAGED-UPDATABLE-ENDING
 
-    public Set<Section> getSectionFactViaId() {
-        if (sectionFactViaId == null){
-            sectionFactViaId = new HashSet<Section>();
-        }
-        return sectionFactViaId;
+    @PrePersist
+    public void prePersist_ () {
     }
 
-    public void setSectionFactViaId (Set<Section> sectionFactViaId) {
-        this.sectionFactViaId = sectionFactViaId;
+    @PreUpdate
+    public void preUpdate_ () {
     }
-    	
-    public void addSectionFactViaId (Section element) {
-        getSectionFactViaId().add(element);
-    }
-	
-
-
-//MP-MANAGED-ADDED-AREA-BEGINNING @implementation@
-//MP-MANAGED-ADDED-AREA-ENDING @implementation@
-
 }

@@ -4,13 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 
-/**
- *
- * <p>Title: SurveyRespondentId</p>
- *
- * <p>Description: Embedded Id describing a SurveyRespondentId entity primary key</p>
- *
- */
 @Embeddable
 public class SurveyRespondentId implements Serializable {
 
@@ -43,5 +36,4 @@ public class SurveyRespondentId implements Serializable {
         + ":" + surveyId
         ;
     }
-    
 }

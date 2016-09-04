@@ -1,32 +1,19 @@
 package model;
 
-//MP-MANAGED-ADDED-AREA-BEGINNING @import@
-//MP-MANAGED-ADDED-AREA-ENDING @import@
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- *
- * <p>Title: Survey</p>
- *
- * <p>Description: Domain Object describing a Survey entity</p>
- *
- */
 @Entity (name="Survey")
 @Table (name="\"survey\"")
 @NamedQueries ({
 	 @NamedQuery(name="Survey.findAll", query="SELECT a FROM Survey a")
 	,@NamedQuery(name="Survey.findByUpdated", query="SELECT a FROM Survey a WHERE a.updated = :updated")
-
 	,@NamedQuery(name="Survey.findByCreated", query="SELECT a FROM Survey a WHERE a.created = :created")
-
 	,@NamedQuery(name="Survey.findByVersion", query="SELECT a FROM Survey a WHERE a.version = :version")
-
 })
-
 public class Survey implements Serializable {
     private static final long serialVersionUID = 1L;
 	public static final Integer __DEFAULT_VERSION = Integer.valueOf(1);
@@ -40,65 +27,55 @@ public class Survey implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-//MP-MANAGED-ADDED-AREA-BEGINNING @updated-field-annotation@
-//MP-MANAGED-ADDED-AREA-ENDING @updated-field-annotation@
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @ATTRIBUTE-updated@
     @Column(name="updated"   , nullable=true , unique=false)
     private Timestamp updated; 
-//MP-MANAGED-UPDATABLE-ENDING
 
-//MP-MANAGED-ADDED-AREA-BEGINNING @created-field-annotation@
-//MP-MANAGED-ADDED-AREA-ENDING @created-field-annotation@
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @ATTRIBUTE-created@
     @Column(name="created"   , nullable=false , unique=false)
     private Timestamp created; 
-//MP-MANAGED-UPDATABLE-ENDING
 
-//MP-MANAGED-ADDED-AREA-BEGINNING @version-field-annotation@
-//MP-MANAGED-ADDED-AREA-ENDING @version-field-annotation@
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @ATTRIBUTE-version@
     @Column(name="version"   , nullable=false , unique=false)
-    private Integer version; 
-//MP-MANAGED-UPDATABLE-ENDING
+    private Integer version;
+
+    @ManyToOne (fetch=FetchType.LAZY )
+    @JoinColumn(name="locked_by", referencedColumnName = "id" , nullable=true , unique=false , insertable=true, updatable=true) 
+    private Respondent lockedBy;  
+
+    @Column(name="locked_by"  , nullable=true , unique=true, insertable=false, updatable=false)
+    private Integer lockedBy_;
 
     @ManyToOne (fetch=FetchType.LAZY , optional=false)
-    @JoinColumn(name="survey_def_id", referencedColumnName = "id" , nullable=false , unique=false , insertable=true, updatable=true) 
+    @JoinColumn(name="survey_def_id", referencedColumnName = "id" , nullable=false , unique=true  , insertable=true, updatable=true) 
     private SurveyDef surveyDefId;  
 
     @Column(name="survey_def_id"  , nullable=false , unique=true, insertable=false, updatable=false)
     private Integer surveyDefId_;
 
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @sectionSurveyViaSurveyId-field-survey@
     @OneToMany (targetEntity=model.Section.class, fetch=FetchType.LAZY, mappedBy="surveyId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
     private Set <Section> sectionSurveyViaSurveyId = new HashSet<Section>(); 
 
-//MP-MANAGED-UPDATABLE-ENDING
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @surveyRespondentSurveyViaSurveyId-field-survey@
+    @OneToMany (targetEntity=model.SurveyLang.class, fetch=FetchType.LAZY, mappedBy="surveyId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
+    private Set <SurveyLang> surveyLangSurveyViaSurveyId = new HashSet<SurveyLang>(); 
+
     @OneToMany (targetEntity=model.SurveyRespondent.class, fetch=FetchType.LAZY, mappedBy="surveyRespondentId__.surveyId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
     private Set <SurveyRespondent> surveyRespondentSurveyViaSurveyId = new HashSet<SurveyRespondent>(); 
 
-//MP-MANAGED-UPDATABLE-ENDING
-    /**
-    * Default constructor
-    */
     public Survey() {
     }
 
-	/**
-	* All field constructor 
-	*/
     public Survey(
        Integer id,
        Integer surveyDefId,
        Timestamp updated,
        Timestamp created,
-       Integer version) {
+       Integer version,
+       Integer lockedBy) {
 	 this(
        id,
        surveyDefId,
        updated,
        created,
-       version
+       version,
+       lockedBy
 	 ,true);
 	}
     
@@ -107,7 +84,8 @@ public class Survey implements Serializable {
        Integer surveyDefId,
        Timestamp updated,
        Timestamp created,
-       Integer version	
+       Integer version,
+       Integer lockedBy	
     , boolean setRelationship) {
        //primary keys
        setId (id);
@@ -116,6 +94,11 @@ public class Survey implements Serializable {
        setCreated (created);
        setVersion (version);
        //parents
+       if (setRelationship && lockedBy!=null) {
+          this.lockedBy = new Respondent();
+          this.lockedBy.setId(lockedBy);
+	      setLockedBy_ (lockedBy);
+       }
        if (setRelationship && surveyDefId!=null) {
           this.surveyDefId = new SurveyDef();
           this.surveyDefId.setId(surveyDefId);
@@ -129,7 +112,8 @@ public class Survey implements Serializable {
           getSurveyDefId_(),
           getUpdated(),
           getCreated(),
-          getVersion()
+          getVersion(),
+          getLockedBy_()
        , false
 	   );
 	}
@@ -141,8 +125,7 @@ public class Survey implements Serializable {
     public void setId (Integer id) {
         this.id =  id;
     }
-    
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @GETTER-SETTER-updated@
+
     public Timestamp getUpdated() {
         return updated;
     }
@@ -150,10 +133,7 @@ public class Survey implements Serializable {
     public void setUpdated (Timestamp updated) {
         this.updated =  updated;
     }
-	
-//MP-MANAGED-UPDATABLE-ENDING
 
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @GETTER-SETTER-created@
     public Timestamp getCreated() {
         return created;
     }
@@ -161,10 +141,7 @@ public class Survey implements Serializable {
     public void setCreated (Timestamp created) {
         this.created =  created;
     }
-	
-//MP-MANAGED-UPDATABLE-ENDING
 
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @GETTER-SETTER-version@
     public Integer getVersion() {
         return version;
     }
@@ -172,10 +149,23 @@ public class Survey implements Serializable {
     public void setVersion (Integer version) {
         this.version =  version;
     }
+
+    public Respondent getLockedBy () {
+    	return lockedBy;
+    }
 	
-//MP-MANAGED-UPDATABLE-ENDING
+    public void setLockedBy (Respondent lockedBy) {
+    	this.lockedBy = lockedBy;
+    }
 
-
+    public Integer getLockedBy_() {
+        return lockedBy_;
+    }
+	
+    public void setLockedBy_ (Integer lockedBy) {
+        this.lockedBy_ =  lockedBy;
+    }
+	
     public SurveyDef getSurveyDefId () {
     	return surveyDefId;
     }
@@ -191,9 +181,7 @@ public class Survey implements Serializable {
     public void setSurveyDefId_ (Integer surveyDefId) {
         this.surveyDefId_ =  surveyDefId;
     }
-	
 
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @sectionSurveyViaSurveyId-getter-survey@
     public Set<Section> getSectionSurveyViaSurveyId() {
         if (sectionSurveyViaSurveyId == null){
             sectionSurveyViaSurveyId = new HashSet<Section>();
@@ -208,9 +196,22 @@ public class Survey implements Serializable {
     public void addSectionSurveyViaSurveyId (Section element) {
     	    getSectionSurveyViaSurveyId().add(element);
     }
+
+    public Set<SurveyLang> getSurveyLangSurveyViaSurveyId() {
+        if (surveyLangSurveyViaSurveyId == null){
+            surveyLangSurveyViaSurveyId = new HashSet<SurveyLang>();
+        }
+        return surveyLangSurveyViaSurveyId;
+    }
+
+    public void setSurveyLangSurveyViaSurveyId (Set<SurveyLang> surveyLangSurveyViaSurveyId) {
+        this.surveyLangSurveyViaSurveyId = surveyLangSurveyViaSurveyId;
+    }	
     
-//MP-MANAGED-UPDATABLE-ENDING
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @surveyRespondentSurveyViaSurveyId-getter-survey@
+    public void addSurveyLangSurveyViaSurveyId (SurveyLang element) {
+    	    getSurveyLangSurveyViaSurveyId().add(element);
+    }
+
     public Set<SurveyRespondent> getSurveyRespondentSurveyViaSurveyId() {
         if (surveyRespondentSurveyViaSurveyId == null){
             surveyRespondentSurveyViaSurveyId = new HashSet<SurveyRespondent>();
@@ -225,24 +226,14 @@ public class Survey implements Serializable {
     public void addSurveyRespondentSurveyViaSurveyId (SurveyRespondent element) {
     	    getSurveyRespondentSurveyViaSurveyId().add(element);
     }
-    
-//MP-MANAGED-UPDATABLE-ENDING
 
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @prepersist-survey@
-    @javax.persistence.PrePersist
+    @PrePersist
     public void prePersist_ () {
         if (version==null) version=__DEFAULT_VERSION;
     }
-//MP-MANAGED-UPDATABLE-ENDING
 
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @preupdate-survey@
-    @javax.persistence.PreUpdate
+    @PreUpdate
     public void preUpdate_ () {
         if (version==null) version=__DEFAULT_VERSION;
     }
-//MP-MANAGED-UPDATABLE-ENDING
-
-//MP-MANAGED-ADDED-AREA-BEGINNING @implementation@
-//MP-MANAGED-ADDED-AREA-ENDING @implementation@
-
 }

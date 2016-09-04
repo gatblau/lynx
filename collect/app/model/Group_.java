@@ -6,12 +6,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 
 @StaticMetamodel(Group.class)
 public class Group_ {
-
-    public static volatile SingularAttribute<Group, Integer> id;
-
-    public static volatile SingularAttribute<Group, String> name;
-
-    public static volatile SetAttribute<Group, Respondent> respondentGroupViaGroupId;
-
-
+	public static volatile SingularAttribute<Group, Integer> id;
+	public static volatile SingularAttribute<Group, String> name;
+	public static volatile SetAttribute<Group, Respondent> respondentGroupViaGroupId;
 }

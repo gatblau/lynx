@@ -1,11 +1,51 @@
+/**
+	* Copyright (c) minuteproject, minuteproject@gmail.com
+	* All rights reserved.
+	* 
+	* Licensed under the Apache License, Version 2.0 (the "License")
+	* you may not use this file except in compliance with the License.
+	* You may obtain a copy of the License at
+	* 
+	* http://www.apache.org/licenses/LICENSE-2.0
+	* 
+	* Unless required by applicable law or agreed to in writing, software
+	* distributed under the License is distributed on an "AS IS" BASIS,
+	* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	* See the License for the specific language governing permissions and
+	* limitations under the License.
+	* 
+	* More information on minuteproject:
+	* twitter @minuteproject
+	* wiki http://minuteproject.wikispaces.com 
+	* blog http://minuteproject.blogspot.net
+	* 
+*/
+/**
+	* template reference : 
+	* - Minuteproject version : 0.9.8
+	* - name      : DomainEntityJPA2Annotation
+	* - file name : DomainEntityJPA2Annotation.vm
+	* - time      : 2016/09/04 AD at 08:23:24 BST
+*/
 package model;
 
 //MP-MANAGED-ADDED-AREA-BEGINNING @import@
 //MP-MANAGED-ADDED-AREA-ENDING @import@
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.HashSet;
+import java.sql.*;
+import java.util.Date;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Set;
+import java.util.HashSet;
+
+import java.io.Serializable;
+import javax.persistence.*;
+import model.Survey;
+import model.SurveyRespondent;
+import model.Country;
+import model.Group;
+import model.Language;
+import model.Role;
 
 /**
  *
@@ -20,23 +60,34 @@ import java.util.Set;
 	 @NamedQuery(name="Respondent.findAll", query="SELECT a FROM Respondent a")
 	,@NamedQuery(name="Respondent.findByFirstname", query="SELECT a FROM Respondent a WHERE a.firstname = :firstname")
 	,@NamedQuery(name="Respondent.findByFirstnameContaining", query="SELECT a FROM Respondent a WHERE a.firstname like :firstname")
-
+//MP-MANAGED-ADDED-AREA-BEGINNING @custom-queries@
+//MP-MANAGED-ADDED-AREA-ENDING @custom-queries@
 	,@NamedQuery(name="Respondent.findByLastname", query="SELECT a FROM Respondent a WHERE a.lastname = :lastname")
 	,@NamedQuery(name="Respondent.findByLastnameContaining", query="SELECT a FROM Respondent a WHERE a.lastname like :lastname")
-
+//MP-MANAGED-ADDED-AREA-BEGINNING @custom-queries@
+//MP-MANAGED-ADDED-AREA-ENDING @custom-queries@
 	,@NamedQuery(name="Respondent.findByEmail", query="SELECT a FROM Respondent a WHERE a.email = :email")
 	,@NamedQuery(name="Respondent.findByEmailContaining", query="SELECT a FROM Respondent a WHERE a.email like :email")
-
+//MP-MANAGED-ADDED-AREA-BEGINNING @custom-queries@
+//MP-MANAGED-ADDED-AREA-ENDING @custom-queries@
 	,@NamedQuery(name="Respondent.findByTelephone", query="SELECT a FROM Respondent a WHERE a.telephone = :telephone")
 	,@NamedQuery(name="Respondent.findByTelephoneContaining", query="SELECT a FROM Respondent a WHERE a.telephone like :telephone")
-
+//MP-MANAGED-ADDED-AREA-BEGINNING @custom-queries@
+//MP-MANAGED-ADDED-AREA-ENDING @custom-queries@
 	,@NamedQuery(name="Respondent.findByPwdHash", query="SELECT a FROM Respondent a WHERE a.pwdHash = :pwdHash")
 	,@NamedQuery(name="Respondent.findByPwdHashContaining", query="SELECT a FROM Respondent a WHERE a.pwdHash like :pwdHash")
-
-	,@NamedQuery(name="Respondent.findByActive", query="SELECT a FROM Respondent a WHERE a.active = :active")
-
+//MP-MANAGED-ADDED-AREA-BEGINNING @custom-queries@
+//MP-MANAGED-ADDED-AREA-ENDING @custom-queries@
+	,@NamedQuery(name="Respondent.findByEnabled", query="SELECT a FROM Respondent a WHERE a.enabled = :enabled")
+//MP-MANAGED-ADDED-AREA-BEGINNING @custom-queries@
+//MP-MANAGED-ADDED-AREA-ENDING @custom-queries@
+	,@NamedQuery(name="Respondent.findByActivationCode", query="SELECT a FROM Respondent a WHERE a.activationCode = :activationCode")
+	,@NamedQuery(name="Respondent.findByActivationCodeContaining", query="SELECT a FROM Respondent a WHERE a.activationCode like :activationCode")
+//MP-MANAGED-ADDED-AREA-BEGINNING @custom-queries@
+//MP-MANAGED-ADDED-AREA-ENDING @custom-queries@
 })
-
+//MP-MANAGED-ADDED-AREA-BEGINNING @custom-annotations@
+//MP-MANAGED-ADDED-AREA-ENDING @custom-annotations@
 public class Respondent implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -51,7 +102,9 @@ public class Respondent implements Serializable {
     public static final String FIND_BY_TELEPHONE_CONTAINING ="Respondent.findByTelephoneContaining";
     public static final String FIND_BY_PWDHASH = "Respondent.findByPwdHash";
     public static final String FIND_BY_PWDHASH_CONTAINING ="Respondent.findByPwdHashContaining";
-    public static final String FIND_BY_ACTIVE = "Respondent.findByActive";
+    public static final String FIND_BY_ENABLED = "Respondent.findByEnabled";
+    public static final String FIND_BY_ACTIVATIONCODE = "Respondent.findByActivationCode";
+    public static final String FIND_BY_ACTIVATIONCODE_CONTAINING ="Respondent.findByActivationCodeContaining";
 	
     @Id @Column(name="id" ) 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -88,30 +141,44 @@ public class Respondent implements Serializable {
 //MP-MANAGED-ADDED-AREA-BEGINNING @pwd_hash-field-annotation@
 //MP-MANAGED-ADDED-AREA-ENDING @pwd_hash-field-annotation@
 //MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @ATTRIBUTE-pwd_hash@
-    @Column(name="pwd_hash"  , length=45 , nullable=true , unique=false)
+    @Column(name="pwd_hash"  , length=100 , nullable=true , unique=false)
     private String pwdHash; 
 //MP-MANAGED-UPDATABLE-ENDING
 
-//MP-MANAGED-ADDED-AREA-BEGINNING @active-field-annotation@
-//MP-MANAGED-ADDED-AREA-ENDING @active-field-annotation@
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @ATTRIBUTE-active@
-    @Column(name="active"   , nullable=false , unique=false)
-    private Boolean active; 
+//MP-MANAGED-ADDED-AREA-BEGINNING @enabled-field-annotation@
+//MP-MANAGED-ADDED-AREA-ENDING @enabled-field-annotation@
+//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @ATTRIBUTE-enabled@
+    @Column(name="enabled"   , nullable=false , unique=false)
+    private Boolean enabled; 
+//MP-MANAGED-UPDATABLE-ENDING
+
+//MP-MANAGED-ADDED-AREA-BEGINNING @activation_code-field-annotation@
+//MP-MANAGED-ADDED-AREA-ENDING @activation_code-field-annotation@
+//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @ATTRIBUTE-activation_code@
+    @Column(name="activation_code"  , length=45 , nullable=true , unique=false)
+    private String activationCode; 
 //MP-MANAGED-UPDATABLE-ENDING
 
     @ManyToOne (fetch=FetchType.LAZY , optional=false)
-    @JoinColumn(name="group_id", referencedColumnName = "id" , nullable=false , unique=false , insertable=true, updatable=true) 
+    @JoinColumn(name="country_id", referencedColumnName = "id" , nullable=false , unique=false , insertable=true, updatable=true) 
+    private Country countryId;  
+
+    @Column(name="country_id"  , nullable=false , unique=true, insertable=false, updatable=false)
+    private Integer countryId_;
+
+    @ManyToOne (fetch=FetchType.LAZY , optional=false)
+    @JoinColumn(name="group_id", referencedColumnName = "id" , nullable=false , unique=true  , insertable=true, updatable=true) 
     private Group groupId;  
 
     @Column(name="group_id"  , nullable=false , unique=true, insertable=false, updatable=false)
     private Integer groupId_;
 
     @ManyToOne (fetch=FetchType.LAZY , optional=false)
-    @JoinColumn(name="language_id", referencedColumnName = "id" , nullable=false , unique=true  , insertable=true, updatable=true) 
-    private Language languageId;  
+    @JoinColumn(name="preferred_language_id", referencedColumnName = "id" , nullable=false , unique=true  , insertable=true, updatable=true) 
+    private Language preferredLanguageId;  
 
-    @Column(name="language_id"  , nullable=false , unique=true, insertable=false, updatable=false)
-    private Integer languageId_;
+    @Column(name="preferred_language_id"  , nullable=false , unique=true, insertable=false, updatable=false)
+    private Integer preferredLanguageId_;
 
     @ManyToOne (fetch=FetchType.LAZY , optional=false)
     @JoinColumn(name="role_id", referencedColumnName = "id" , nullable=false , unique=true  , insertable=true, updatable=true) 
@@ -120,6 +187,11 @@ public class Respondent implements Serializable {
     @Column(name="role_id"  , nullable=false , unique=true, insertable=false, updatable=false)
     private Integer roleId_;
 
+//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @surveyRespondentViaLockedBy-field-respondent@
+    @OneToMany (targetEntity=model.Survey.class, fetch=FetchType.LAZY, mappedBy="lockedBy", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
+    private Set <Survey> surveyRespondentViaLockedBy = new HashSet<Survey>(); 
+
+//MP-MANAGED-UPDATABLE-ENDING
 //MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @surveyRespondentRespondentViaRespondentId-field-respondent@
     @OneToMany (targetEntity=model.SurveyRespondent.class, fetch=FetchType.LAZY, mappedBy="respondentId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
     private Set <SurveyRespondent> surveyRespondentRespondentViaRespondentId = new HashSet<SurveyRespondent>(); 
@@ -143,8 +215,10 @@ public class Respondent implements Serializable {
        String pwdHash,
        Integer roleId,
        Integer groupId,
-       Boolean active,
-       Integer languageId) {
+       Boolean enabled,
+       Integer preferredLanguageId,
+       Integer countryId,
+       String activationCode) {
 	 this(
        id,
        firstname,
@@ -154,8 +228,10 @@ public class Respondent implements Serializable {
        pwdHash,
        roleId,
        groupId,
-       active,
-       languageId
+       enabled,
+       preferredLanguageId,
+       countryId,
+       activationCode
 	 ,true);
 	}
     
@@ -168,8 +244,10 @@ public class Respondent implements Serializable {
        String pwdHash,
        Integer roleId,
        Integer groupId,
-       Boolean active,
-       Integer languageId	
+       Boolean enabled,
+       Integer preferredLanguageId,
+       Integer countryId,
+       String activationCode	
     , boolean setRelationship) {
        //primary keys
        setId (id);
@@ -179,17 +257,23 @@ public class Respondent implements Serializable {
        setEmail (email);
        setTelephone (telephone);
        setPwdHash (pwdHash);
-       setActive (active);
+       setEnabled (enabled);
+       setActivationCode (activationCode);
        //parents
+       if (setRelationship && countryId!=null) {
+          this.countryId = new Country();
+          this.countryId.setId(countryId);
+	      setCountryId_ (countryId);
+       }
        if (setRelationship && groupId!=null) {
           this.groupId = new Group();
           this.groupId.setId(groupId);
 	      setGroupId_ (groupId);
        }
-       if (setRelationship && languageId!=null) {
-          this.languageId = new Language();
-          this.languageId.setId(languageId);
-	      setLanguageId_ (languageId);
+       if (setRelationship && preferredLanguageId!=null) {
+          this.preferredLanguageId = new Language();
+          this.preferredLanguageId.setId(preferredLanguageId);
+	      setPreferredLanguageId_ (preferredLanguageId);
        }
        if (setRelationship && roleId!=null) {
           this.roleId = new Role();
@@ -208,8 +292,10 @@ public class Respondent implements Serializable {
           getPwdHash(),
           getRoleId_(),
           getGroupId_(),
-          getActive(),
-          getLanguageId_()
+          getEnabled(),
+          getPreferredLanguageId_(),
+          getCountryId_(),
+          getActivationCode()
        , false
 	   );
 	}
@@ -277,18 +363,45 @@ public class Respondent implements Serializable {
 	
 //MP-MANAGED-UPDATABLE-ENDING
 
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @GETTER-SETTER-active@
-    public Boolean getActive() {
-        return active;
+//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @GETTER-SETTER-enabled@
+    public Boolean getEnabled() {
+        return enabled;
     }
 	
-    public void setActive (Boolean active) {
-        this.active =  active;
+    public void setEnabled (Boolean enabled) {
+        this.enabled =  enabled;
+    }
+	
+//MP-MANAGED-UPDATABLE-ENDING
+
+//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @GETTER-SETTER-activation_code@
+    public String getActivationCode() {
+        return activationCode;
+    }
+	
+    public void setActivationCode (String activationCode) {
+        this.activationCode =  activationCode;
     }
 	
 //MP-MANAGED-UPDATABLE-ENDING
 
 
+    public Country getCountryId () {
+    	return countryId;
+    }
+	
+    public void setCountryId (Country countryId) {
+    	this.countryId = countryId;
+    }
+
+    public Integer getCountryId_() {
+        return countryId_;
+    }
+	
+    public void setCountryId_ (Integer countryId) {
+        this.countryId_ =  countryId;
+    }
+	
     public Group getGroupId () {
     	return groupId;
     }
@@ -305,20 +418,20 @@ public class Respondent implements Serializable {
         this.groupId_ =  groupId;
     }
 	
-    public Language getLanguageId () {
-    	return languageId;
+    public Language getPreferredLanguageId () {
+    	return preferredLanguageId;
     }
 	
-    public void setLanguageId (Language languageId) {
-    	this.languageId = languageId;
+    public void setPreferredLanguageId (Language preferredLanguageId) {
+    	this.preferredLanguageId = preferredLanguageId;
     }
 
-    public Integer getLanguageId_() {
-        return languageId_;
+    public Integer getPreferredLanguageId_() {
+        return preferredLanguageId_;
     }
 	
-    public void setLanguageId_ (Integer languageId) {
-        this.languageId_ =  languageId;
+    public void setPreferredLanguageId_ (Integer preferredLanguageId) {
+        this.preferredLanguageId_ =  preferredLanguageId;
     }
 	
     public Role getRoleId () {
@@ -338,6 +451,23 @@ public class Respondent implements Serializable {
     }
 	
 
+//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @surveyRespondentViaLockedBy-getter-respondent@
+    public Set<Survey> getSurveyRespondentViaLockedBy() {
+        if (surveyRespondentViaLockedBy == null){
+            surveyRespondentViaLockedBy = new HashSet<Survey>();
+        }
+        return surveyRespondentViaLockedBy;
+    }
+
+    public void setSurveyRespondentViaLockedBy (Set<Survey> surveyRespondentViaLockedBy) {
+        this.surveyRespondentViaLockedBy = surveyRespondentViaLockedBy;
+    }	
+    
+    public void addSurveyRespondentViaLockedBy (Survey element) {
+    	    getSurveyRespondentViaLockedBy().add(element);
+    }
+    
+//MP-MANAGED-UPDATABLE-ENDING
 //MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @surveyRespondentRespondentViaRespondentId-getter-respondent@
     public Set<SurveyRespondent> getSurveyRespondentRespondentViaRespondentId() {
         if (surveyRespondentRespondentViaRespondentId == null){

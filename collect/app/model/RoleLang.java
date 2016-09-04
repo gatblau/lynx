@@ -1,29 +1,17 @@
 package model;
 
-//MP-MANAGED-ADDED-AREA-BEGINNING @import@
-//MP-MANAGED-ADDED-AREA-ENDING @import@
 import javax.persistence.*;
 import java.io.Serializable;
 
-/**
- *
- * <p>Title: RoleLang</p>
- *
- * <p>Description: Domain Object describing a RoleLang entity</p>
- *
- */
 @Entity (name="RoleLang")
 @Table (name="\"role_lang\"")
 @NamedQueries ({
 	 @NamedQuery(name="RoleLang.findAll", query="SELECT a FROM RoleLang a")
 	,@NamedQuery(name="RoleLang.findByName", query="SELECT a FROM RoleLang a WHERE a.name = :name")
 	,@NamedQuery(name="RoleLang.findByNameContaining", query="SELECT a FROM RoleLang a WHERE a.name like :name")
-
 	,@NamedQuery(name="RoleLang.findByDescription", query="SELECT a FROM RoleLang a WHERE a.description = :description")
 	,@NamedQuery(name="RoleLang.findByDescriptionContaining", query="SELECT a FROM RoleLang a WHERE a.description like :description")
-
 })
-
 public class RoleLang implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -37,19 +25,11 @@ public class RoleLang implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-//MP-MANAGED-ADDED-AREA-BEGINNING @name-field-annotation@
-//MP-MANAGED-ADDED-AREA-ENDING @name-field-annotation@
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @ATTRIBUTE-name@
     @Column(name="name"  , length=45 , nullable=false , unique=false)
     private String name; 
-//MP-MANAGED-UPDATABLE-ENDING
 
-//MP-MANAGED-ADDED-AREA-BEGINNING @description-field-annotation@
-//MP-MANAGED-ADDED-AREA-ENDING @description-field-annotation@
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @ATTRIBUTE-description@
     @Column(name="description"   , nullable=true , unique=false)
     private String description; 
-//MP-MANAGED-UPDATABLE-ENDING
 
     @ManyToOne (fetch=FetchType.LAZY , optional=false)
     @JoinColumn(name="language_id", referencedColumnName = "id" , nullable=false , unique=false , insertable=true, updatable=true) 
@@ -65,15 +45,9 @@ public class RoleLang implements Serializable {
     @Column(name="role_id"  , nullable=false , unique=true, insertable=false, updatable=false)
     private Integer roleId_;
 
-    /**
-    * Default constructor
-    */
     public RoleLang() {
     }
 
-	/**
-	* All field constructor 
-	*/
     public RoleLang(
        Integer id,
        String name,
@@ -132,8 +106,7 @@ public class RoleLang implements Serializable {
     public void setId (Integer id) {
         this.id =  id;
     }
-    
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @GETTER-SETTER-name@
+
     public String getName() {
         return name;
     }
@@ -141,10 +114,7 @@ public class RoleLang implements Serializable {
     public void setName (String name) {
         this.name =  name;
     }
-	
-//MP-MANAGED-UPDATABLE-ENDING
 
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @GETTER-SETTER-description@
     public String getDescription() {
         return description;
     }
@@ -152,9 +122,6 @@ public class RoleLang implements Serializable {
     public void setDescription (String description) {
         this.description =  description;
     }
-	
-//MP-MANAGED-UPDATABLE-ENDING
-
 
     public Language getLanguageId () {
     	return languageId;
@@ -187,12 +154,4 @@ public class RoleLang implements Serializable {
     public void setRoleId_ (Integer roleId) {
         this.roleId_ =  roleId;
     }
-	
-
-
-
-
-//MP-MANAGED-ADDED-AREA-BEGINNING @implementation@
-//MP-MANAGED-ADDED-AREA-ENDING @implementation@
-
 }

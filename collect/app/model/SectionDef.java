@@ -1,50 +1,35 @@
 package model;
 
-//MP-MANAGED-ADDED-AREA-BEGINNING @import@
-//MP-MANAGED-ADDED-AREA-ENDING @import@
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- *
- * <p>Title: SectionDef</p>
- *
- * <p>Description: Domain Object describing a SectionDef entity</p>
- *
- */
 @Entity (name="SectionDef")
 @Table (name="\"section_def\"")
 @NamedQueries ({
 	 @NamedQuery(name="SectionDef.findAll", query="SELECT a FROM SectionDef a")
-	,@NamedQuery(name="SectionDef.findByStatic_Name", query="SELECT a FROM SectionDef a WHERE a.static_Name = :static_Name")
-
+	,@NamedQuery(name="SectionDef.findByDynamic", query="SELECT a FROM SectionDef a WHERE a.dynamic = :dynamic")
 })
-
 public class SectionDef implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public static final String FIND_ALL = "SectionDef.findAll";
-    public static final String FIND_BY_STATIC_NAME = "SectionDef.findByStatic_Name";
+    public static final String FIND_BY_DYNAMIC = "SectionDef.findByDynamic";
 	
     @Id @Column(name="id" ) 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-//MP-MANAGED-ADDED-AREA-BEGINNING @static-field-annotation@
-//MP-MANAGED-ADDED-AREA-ENDING @static-field-annotation@
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @ATTRIBUTE-static@
-    @Column(name="static"   , nullable=true , unique=false)
-    private Boolean static_Name; 
-//MP-MANAGED-UPDATABLE-ENDING
+    @Column(name="dynamic"   , nullable=false , unique=false)
+    private Boolean dynamic;
 
-    @ManyToOne (fetch=FetchType.LAZY , optional=false)
-    @JoinColumn(name="section_def_id", referencedColumnName = "id" , nullable=false , unique=false , insertable=true, updatable=true) 
-    private SectionDef sectionDefId;  
+    @ManyToOne (fetch=FetchType.LAZY )
+    @JoinColumn(name="parent_section_def_id", referencedColumnName = "id" , nullable=true , unique=false , insertable=true, updatable=true) 
+    private SectionDef parentSectionDefId;  
 
-    @Column(name="section_def_id"  , nullable=false , unique=true, insertable=false, updatable=false)
-    private Integer sectionDefId_;
+    @Column(name="parent_section_def_id"  , nullable=true , unique=true, insertable=false, updatable=false)
+    private Integer parentSectionDefId_;
 
     @ManyToOne (fetch=FetchType.LAZY , optional=false)
     @JoinColumn(name="survey_def_id", referencedColumnName = "id" , nullable=false , unique=true  , insertable=true, updatable=true) 
@@ -53,63 +38,46 @@ public class SectionDef implements Serializable {
     @Column(name="survey_def_id"  , nullable=false , unique=true, insertable=false, updatable=false)
     private Integer surveyDefId_;
 
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @factDefSectionDefViaSectionDefId-field-section_def@
     @OneToMany (targetEntity=model.FactDef.class, fetch=FetchType.LAZY, mappedBy="sectionDefId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
     private Set <FactDef> factDefSectionDefViaSectionDefId = new HashSet<FactDef>(); 
 
-//MP-MANAGED-UPDATABLE-ENDING
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @sectionSectionDefViaSectionDefId-field-section_def@
     @OneToMany (targetEntity=model.Section.class, fetch=FetchType.LAZY, mappedBy="sectionDefId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
     private Set <Section> sectionSectionDefViaSectionDefId = new HashSet<Section>(); 
 
-//MP-MANAGED-UPDATABLE-ENDING
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @sectionDefSectionDefViaSectionDefId-field-section_def@
-    @OneToMany (targetEntity=model.SectionDef.class, fetch=FetchType.LAZY, mappedBy="sectionDefId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
-    private Set <SectionDef> sectionDefSectionDefViaSectionDefId = new HashSet<SectionDef>(); 
+    @OneToMany (targetEntity=model.SectionDef.class, fetch=FetchType.LAZY, mappedBy="parentSectionDefId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
+    private Set <SectionDef> sectionDefSectionDefViaParentSectionDefId = new HashSet<SectionDef>(); 
 
-//MP-MANAGED-UPDATABLE-ENDING
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @sectionDefLangSectionDefViaSectionDefId-field-section_def@
     @OneToMany (targetEntity=model.SectionDefLang.class, fetch=FetchType.LAZY, mappedBy="sectionDefId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
     private Set <SectionDefLang> sectionDefLangSectionDefViaSectionDefId = new HashSet<SectionDefLang>(); 
 
-//MP-MANAGED-UPDATABLE-ENDING
-    /**
-    * Default constructor
-    */
     public SectionDef() {
     }
 
-	/**
-	* All field constructor 
-	*/
     public SectionDef(
        Integer id,
-       Boolean static_Name,
+       Boolean dynamic,
        Integer surveyDefId,
-       Integer sectionDefId) {
+       Integer parentSectionDefId) {
 	 this(
        id,
-       static_Name,
+       dynamic,
        surveyDefId,
-       sectionDefId
+       parentSectionDefId
 	 ,true);
 	}
     
 	public SectionDef(
        Integer id,
-       Boolean static_Name,
+       Boolean dynamic,
        Integer surveyDefId,
-       Integer sectionDefId	
+       Integer parentSectionDefId	
     , boolean setRelationship) {
-       //primary keys
        setId (id);
-       //attributes
-       setStatic_Name (static_Name);
-       //parents
-       if (setRelationship && sectionDefId!=null) {
-          this.sectionDefId = new SectionDef();
-          this.sectionDefId.setId(sectionDefId);
-	      setSectionDefId_ (sectionDefId);
+       setDynamic (dynamic);
+       if (setRelationship && parentSectionDefId!=null) {
+          this.parentSectionDefId = new SectionDef();
+          this.parentSectionDefId.setId(parentSectionDefId);
+	      setParentSectionDefId_ (parentSectionDefId);
        }
        if (setRelationship && surveyDefId!=null) {
           this.surveyDefId = new SurveyDef();
@@ -121,9 +89,9 @@ public class SectionDef implements Serializable {
 	public SectionDef flat() {
 	   return new SectionDef(
           getId(),
-          getStatic_Name(),
+          getDynamic(),
           getSurveyDefId_(),
-          getSectionDefId_()
+          getParentSectionDefId_()
        , false
 	   );
 	}
@@ -135,33 +103,29 @@ public class SectionDef implements Serializable {
     public void setId (Integer id) {
         this.id =  id;
     }
-    
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @GETTER-SETTER-static@
-    public Boolean getStatic_Name() {
-        return static_Name;
-    }
-	
-    public void setStatic_Name (Boolean static_Name) {
-        this.static_Name =  static_Name;
-    }
-	
-//MP-MANAGED-UPDATABLE-ENDING
 
-
-    public SectionDef getSectionDefId () {
-    	return sectionDefId;
+    public Boolean getDynamic() {
+        return dynamic;
     }
 	
-    public void setSectionDefId (SectionDef sectionDefId) {
-    	this.sectionDefId = sectionDefId;
+    public void setDynamic (Boolean dynamic) {
+        this.dynamic =  dynamic;
     }
 
-    public Integer getSectionDefId_() {
-        return sectionDefId_;
+    public SectionDef getParentSectionDefId () {
+    	return parentSectionDefId;
     }
 	
-    public void setSectionDefId_ (Integer sectionDefId) {
-        this.sectionDefId_ =  sectionDefId;
+    public void setParentSectionDefId (SectionDef parentSectionDefId) {
+    	this.parentSectionDefId = parentSectionDefId;
+    }
+
+    public Integer getParentSectionDefId_() {
+        return parentSectionDefId_;
+    }
+	
+    public void setParentSectionDefId_ (Integer parentSectionDefId) {
+        this.parentSectionDefId_ =  parentSectionDefId;
     }
 	
     public SurveyDef getSurveyDefId () {
@@ -179,9 +143,7 @@ public class SectionDef implements Serializable {
     public void setSurveyDefId_ (Integer surveyDefId) {
         this.surveyDefId_ =  surveyDefId;
     }
-	
 
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @factDefSectionDefViaSectionDefId-getter-section_def@
     public Set<FactDef> getFactDefSectionDefViaSectionDefId() {
         if (factDefSectionDefViaSectionDefId == null){
             factDefSectionDefViaSectionDefId = new HashSet<FactDef>();
@@ -196,9 +158,7 @@ public class SectionDef implements Serializable {
     public void addFactDefSectionDefViaSectionDefId (FactDef element) {
     	    getFactDefSectionDefViaSectionDefId().add(element);
     }
-    
-//MP-MANAGED-UPDATABLE-ENDING
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @sectionSectionDefViaSectionDefId-getter-section_def@
+
     public Set<Section> getSectionSectionDefViaSectionDefId() {
         if (sectionSectionDefViaSectionDefId == null){
             sectionSectionDefViaSectionDefId = new HashSet<Section>();
@@ -213,26 +173,22 @@ public class SectionDef implements Serializable {
     public void addSectionSectionDefViaSectionDefId (Section element) {
     	    getSectionSectionDefViaSectionDefId().add(element);
     }
-    
-//MP-MANAGED-UPDATABLE-ENDING
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @sectionDefSectionDefViaSectionDefId-getter-section_def@
-    public Set<SectionDef> getSectionDefSectionDefViaSectionDefId() {
-        if (sectionDefSectionDefViaSectionDefId == null){
-            sectionDefSectionDefViaSectionDefId = new HashSet<SectionDef>();
+
+    public Set<SectionDef> getSectionDefSectionDefViaParentSectionDefId() {
+        if (sectionDefSectionDefViaParentSectionDefId == null){
+            sectionDefSectionDefViaParentSectionDefId = new HashSet<SectionDef>();
         }
-        return sectionDefSectionDefViaSectionDefId;
+        return sectionDefSectionDefViaParentSectionDefId;
     }
 
-    public void setSectionDefSectionDefViaSectionDefId (Set<SectionDef> sectionDefSectionDefViaSectionDefId) {
-        this.sectionDefSectionDefViaSectionDefId = sectionDefSectionDefViaSectionDefId;
+    public void setSectionDefSectionDefViaParentSectionDefId (Set<SectionDef> sectionDefSectionDefViaParentSectionDefId) {
+        this.sectionDefSectionDefViaParentSectionDefId = sectionDefSectionDefViaParentSectionDefId;
     }	
     
-    public void addSectionDefSectionDefViaSectionDefId (SectionDef element) {
-    	    getSectionDefSectionDefViaSectionDefId().add(element);
+    public void addSectionDefSectionDefViaParentSectionDefId (SectionDef element) {
+    	    getSectionDefSectionDefViaParentSectionDefId().add(element);
     }
-    
-//MP-MANAGED-UPDATABLE-ENDING
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @sectionDefLangSectionDefViaSectionDefId-getter-section_def@
+
     public Set<SectionDefLang> getSectionDefLangSectionDefViaSectionDefId() {
         if (sectionDefLangSectionDefViaSectionDefId == null){
             sectionDefLangSectionDefViaSectionDefId = new HashSet<SectionDefLang>();
@@ -247,12 +203,12 @@ public class SectionDef implements Serializable {
     public void addSectionDefLangSectionDefViaSectionDefId (SectionDefLang element) {
     	    getSectionDefLangSectionDefViaSectionDefId().add(element);
     }
-    
-//MP-MANAGED-UPDATABLE-ENDING
 
+    @PrePersist
+    public void prePersist_ () {
+    }
 
-
-//MP-MANAGED-ADDED-AREA-BEGINNING @implementation@
-//MP-MANAGED-ADDED-AREA-ENDING @implementation@
-
+    @PreUpdate
+    public void preUpdate_ () {
+    }
 }
