@@ -14,9 +14,6 @@ class groupSteps {
   var client : CollectApi = _
 
   @Inject
-  var driver : DatabaseDriver = _
-
-  @Inject
   var db : DatabaseDriver = _
 
   @And("^group information is known$")
@@ -26,7 +23,7 @@ class groupSteps {
 
   @And("^the group does not exist in the data source")
   def the_group_does_not_exist_in_the_data_source() : Unit = {
-    driver.setup("/data/empty.xml")
+    db.setup("/data/empty.xml")
   }
 
   @And("^a request to create the group is made$")

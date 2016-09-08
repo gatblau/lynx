@@ -59,3 +59,17 @@ lazy val api = (project in file("api"))
       jackson
     )
   )
+
+lazy val util = (project in file("util"))
+  .settings(Settings.basicSettings: _*)
+  .settings(libraryDependencies ++=
+    Lib.compile(
+      weld
+    ) ++
+      Lib.test(
+        cucumberJava,
+        cucumberWeld,
+        cucumberJUnit,
+        junit
+      )
+  )
