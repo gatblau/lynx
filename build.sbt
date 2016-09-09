@@ -26,7 +26,7 @@ lazy val collect = (project in file("collect"))
       javaJpa,
       weld
     )
-  ).dependsOn(api)
+  ).dependsOn(api, util)
 
 lazy val ingest = (project in file("ingest"))
 

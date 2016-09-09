@@ -1,6 +1,6 @@
 package features.token
 
-import java.time.{LocalDate, ZonedDateTime}
+import java.time.{LocalDate, ZoneId, ZonedDateTime}
 import java.util.Date
 import javax.inject.Inject
 
@@ -10,7 +10,7 @@ import util.{Cache, Keys}
 
 class TokenSteps {
   private final val IP : String = "192.168.0.1"
-  private final val LOGIN_TIME : ZonedDateTime = ZonedDateTime.now()
+  private final val LOGIN_TIME : ZonedDateTime = ZonedDateTime.of(2016, 9, 9, 0, 29, 0, 0, ZoneId.systemDefault())
   private final val USER_ID : Int = 10
   private final val USER_AGENT : String = "Mozilla 5.0"
   private final val KEY = "aswdcwe_cwc489846ghvjw0SFcjvPa9dv#fsv"
@@ -41,7 +41,6 @@ class TokenSteps {
 
   @And("^the creation of an encrypted token is requested$")
   def the_creation_of_an_encrypted_token_is_requested() : Unit = {
-    Cache.set(Keys.SUCCESS, false)
     try {
       val token = tokenUtil.create(
         Cache.get(Keys.USER_ID),
@@ -50,7 +49,6 @@ class TokenSteps {
         Cache.get(Keys.USER_AGENT),
         KEY
       )
-      Cache.set(Keys.SUCCESS, true)
       System.out.println(s"token is = $token")
     }
     catch {
@@ -61,32 +59,20 @@ class TokenSteps {
     }
   }
 
-  @And("^the token is created$")
-  def the_token_is_created() : Unit = {
-    assert(Cache.get(Keys.SUCCESS))
-  }
-
-  @And("^an encrypted token for a user is known$")
-  def an_encrypted_token_for_a_user_is_known() : Unit = {
+  @And("^a valid token for a user is known$")
+  def a_valid_token_for_a_user_is_known() : Unit = {
     Cache.set(Keys.TOKEN, TOKEN)
   }
 
   @And("^a request to read the token is made$")
   def a_request_to_read_the_token_is_made() : Unit = {
-    Cache.set(Keys.SUCCESS, false)
-    try {
-      val t =  tokenUtil.read(Cache.get(Keys.TOKEN), KEY)
-      Cache.set(Keys.TOKEN_VALUES, t)
-      Cache.set(Keys.SUCCESS, true)
-    }
-    catch {
-      case e: Exception =>
-    }
+    Cache.set(Keys.TOKEN_VALUES, tokenUtil.read(Cache.get(Keys.TOKEN), KEY))
   }
 
-  @And("^the token is read$")
-  def the_token_is_read() : Unit = {
-    assert(Cache.get(Keys.SUCCESS))
+  @And("^the token is valid")
+  def the_token_is_valid() : Unit = {
+    val t : Token = Cache.get(Keys.TOKEN_VALUES)
+    assert(t.valid)
   }
 
   @And("^the user in the token matches the user id$")
@@ -97,16 +83,30 @@ class TokenSteps {
 
   @And("^the date in the token matches the login date$")
   def the_date_in_the_token_matches_the_login_date() : Unit = {
-
+    val t : Token = Cache.get(Keys.TOKEN_VALUES)
+    assert(t.loginTime == LOGIN_TIME)
   }
 
   @And("^the IP in the token matches the user IP$")
   def the_IP_in_the_token_matches_the_user_IP() : Unit = {
-
+    val t : Token = Cache.get(Keys.TOKEN_VALUES)
+    assert(t.ip == IP)
   }
 
   @And("^the user agent in the token matches the user agent$")
   def the_user_agent_in_the_token_matches_the_user_agent() : Unit = {
+    val t : Token = Cache.get(Keys.TOKEN_VALUES)
+    assert(t.userAgent == USER_AGENT)
+  }
 
+  @And("^a token that has been tampered with is known$")
+  def a_token_that_has_been_tampered_with_is_known() : Unit = {
+    Cache.set(Keys.TOKEN, TOKEN + "ed8d_")
+  }
+
+  @And("^the token is found to be invalid$")
+  def the_token_is_found_to_be_invalid() : Unit = {
+    val t : Token = Cache.get(Keys.TOKEN_VALUES)
+    assert(!t.valid)
   }
 }
