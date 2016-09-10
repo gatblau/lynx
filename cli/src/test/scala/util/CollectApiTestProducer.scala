@@ -1,3 +1,5 @@
+package util
+
 import javax.enterprise.inject.{New, Produces}
 import javax.inject.Named
 

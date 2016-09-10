@@ -8,7 +8,7 @@ import play.api.libs.json.{Writes, _}
 import play.api.mvc.{Action, Controller}
 import repositories.GroupRepository
 
-class Groups extends Controller {
+class Groups extends Controller with ResultConverters {
 
   @Inject
   var repo: GroupRepository = _
@@ -17,15 +17,6 @@ class Groups extends Controller {
     val group = new Group((request.body \ "name").as[String])
     val result = repo.create(group)
     Ok(Json.toJson(result))
-  }
-
-  implicit val resultWrites = new Writes[Result] {
-    def writes(result: Result) = Json.obj(
-      "id" -> result.id,
-      "success" -> result.success,
-      "entity" -> result.entity,
-      "message" -> result.message
-    )
   }
 }
 

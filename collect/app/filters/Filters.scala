@@ -2,7 +2,9 @@ package filters
 
 import javax.inject.Inject
 import play.api.http.DefaultHttpFilters
+import play.filters.headers.SecurityHeadersFilter
 
 class Filters @Inject() (
-    log: LoggingFilter)
-  extends DefaultHttpFilters(log)
+    loggingFilter: LoggingFilter,
+    securityHeadersFilter: SecurityHeadersFilter)
+  extends DefaultHttpFilters(loggingFilter, securityHeadersFilter)

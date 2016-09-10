@@ -4,7 +4,7 @@ import javax.annotation.{PostConstruct, PreDestroy}
 import javax.enterprise.inject.{New, Produces}
 import javax.inject.{Inject, Named}
 
-import lynx.api.{CollectApi, Group, Result}
+import lynx.api.{CollectApi, Group, Registration, Result}
 import javax.ws.rs.client.{Client, ClientBuilder, Entity}
 import javax.ws.rs.core.MediaType;
 
@@ -23,21 +23,16 @@ class CollectAPIClient()
     uri = target
   }
 
+  private def entity[T](obj: T): Entity[T] = Entity.entity(obj, MediaType.APPLICATION_JSON)
+  private def post[T](payload: T, path: String) : Result = client.target(path).request().post(entity(payload), classOf[Result])
+
   @PostConstruct
-  private def init() : Unit = {
-    client = ClientBuilder.newClient()
-  }
+  private def init() : Unit = { client = ClientBuilder.newClient() }
 
   @PreDestroy
-  private def dispose() : Unit = {
-    client.close()
-  }
+  private def dispose() : Unit = { client.close() }
 
-  override def createGroup(group: Group): Result = {
-    val entity : Entity[Group] = Entity.entity(group, MediaType.APPLICATION_JSON)
-    val result = client.target(s"$uri/api/group")
-      .request()
-      .post(entity, classOf[Result])
-    result
-  }
+  override def createGroup(group: Group): Result = post(group, s"$uri/api/group")
+  override def registerRecipients(registrationDetailsList: List[Registration]): Result = post(registrationDetailsList, s"$uri/api/register")
+
 }

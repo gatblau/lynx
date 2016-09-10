@@ -1,24 +1,18 @@
 package features.group
 
-import javax.inject.{Inject, Named, Singleton}
+import javax.inject.Singleton
 
 import cucumber.api.java.en.And
-import lynx.api.{CollectApi, Group, Result}
-import util._
+import lynx.api.{Group, Result}
+import util.Testing
+import util.Keys._
 
 @Singleton
-class groupSteps {
-
-  @Inject
-  @Named("testCollectAPIClient")
-  var client : CollectApi = _
-
-  @Inject
-  var db : DatabaseDriver = _
+class groupSteps extends Testing {
 
   @And("^group information is known$")
   def group_information_is_known() : Unit = {
-    Cache.set(Keys.GROUP, new Group("Business Unit"))
+    set(GROUP, new Group("Business Unit"))
   }
 
   @And("^the group does not exist in the data source")
@@ -28,13 +22,12 @@ class groupSteps {
 
   @And("^a request to create the group is made$")
   def a_request_to_create_the_group_is_made() : Unit = {
-    val result = client.createGroup(Cache.get(Keys.GROUP))
-    Cache.set(Keys.RESULT, result)
+    set(RESULT, client.createGroup(get(GROUP)))
   }
 
   @And("^group is created$")
   def group_is_created() : Unit = {
-    val result : Result = Cache.get(Keys.RESULT)
+    val result : Result = get(RESULT)
     assert(result.success, "Response success flag returned false! " + result.message)
     assert(
       db.query("select * from `group` where id = %s", result.id.toString()).getRowCount == 1,

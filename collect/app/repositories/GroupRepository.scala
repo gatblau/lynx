@@ -7,9 +7,7 @@ import lynx.api.Result
 import play.db.jpa.{JPAApi, Transactional}
 
 @Singleton
-class GroupRepository {
-  @Inject
-  var db : JPAApi = _
+class GroupRepository extends Repository {
 
   def create(group: lynx.api.Group) : Result = {
     try {

@@ -1,6 +1,7 @@
 package util
 
 object Keys {
-  val GROUP : String = "group"
-  val RESULT : String = "result"
+  val GROUP = "group"
+  val RESULT  = "result"
+  val REGISTRATION = "registration"
 }

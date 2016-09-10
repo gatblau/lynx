@@ -18,6 +18,7 @@ lazy val collect = (project in file("collect"))
 //  .settings(fullClasspath in assembly += Attributed.blank(PlayKeys.playPackageAssets.value))
   .settings(libraryDependencies ++=
     Lib.compile(
+      filters,
       javaee,
       hibernate,
       weld,

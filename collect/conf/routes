@@ -1,4 +1,6 @@
 POST     /api/group                   controllers.Groups.create
+POST     /api/register                controllers.Registrations.create
+
 #PATCH   /api/post/:id/like          controllers.Posts.like(id: String)
 #PATCH   /api/post/:id               controllers.Posts.update(id: String)
 #POST    /api/post                   controllers.Posts.add
