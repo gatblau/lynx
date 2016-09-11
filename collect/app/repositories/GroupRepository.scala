@@ -3,18 +3,18 @@ package repositories
 import javax.inject.{Inject, Named, Singleton}
 import javax.persistence.{EntityManager, PersistenceContext}
 
-import lynx.api.Result
+import lynx.api.ApiResult
 import play.db.jpa.{JPAApi, Transactional}
 
 @Singleton
 class GroupRepository extends Repository {
 
-  def create(group: lynx.api.Group) : Result = {
+  def create(group: lynx.api.Group) : ApiResult = {
     try {
-      db.withTransaction(new java.util.function.Function[EntityManager, Result] {
-        override def apply(em: EntityManager): Result = {
+      jpa.withTransaction(new java.util.function.Function[EntityManager, ApiResult] {
+        override def apply(em: EntityManager): ApiResult = {
           val entity = em.merge(map(group))
-          new Result(
+          new ApiResult(
             success = true,
             id = entity.getId(),
             "",
@@ -25,7 +25,7 @@ class GroupRepository extends Repository {
     }
     catch {
       case e : Exception => {
-        val result = new Result(
+        val result = new ApiResult(
           success = false,
           id = -1,
           "",

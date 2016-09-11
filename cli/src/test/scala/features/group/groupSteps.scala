@@ -3,7 +3,7 @@ package features.group
 import javax.inject.Singleton
 
 import cucumber.api.java.en.And
-import lynx.api.{Group, Result}
+import lynx.api.{Group, ApiResult}
 import util.Testing
 import util.Keys._
 
@@ -27,7 +27,7 @@ class groupSteps extends Testing {
 
   @And("^group is created$")
   def group_is_created() : Unit = {
-    val result : Result = get(RESULT)
+    val result : ApiResult = get(RESULT)
     assert(result.success, "Response success flag returned false! " + result.message)
     assert(
       db.query("select * from `group` where id = %s", result.id.toString()).getRowCount == 1,

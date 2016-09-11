@@ -73,18 +73,19 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`respondent` (
   `lastname` VARCHAR(45) NOT NULL,
   `email` VARCHAR(45) NOT NULL,
   `telephone` VARCHAR(45) NULL,
-  `pwd_hash` VARCHAR(100) NULL,
-  `role_id` INT NOT NULL,
-  `group_id` INT NOT NULL,
-  `enabled` TINYINT(1) NOT NULL,
-  `preferred_language_id` INT NOT NULL,
-  `country_id` INT NOT NULL,
+  `pwd_hash` VARCHAR(70) NULL,
+  `role_id` INT NULL,
+  `group_id` INT NULL,
+  `enabled` TINYINT(1) NOT NULL DEFAULT 0,
+  `preferred_language_id` INT NULL,
+  `country_id` INT NULL,
   `activation_code` VARCHAR(45) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_respondent_role1_idx` (`role_id` ASC),
   INDEX `fk_respondent_group1_idx` (`group_id` ASC),
   INDEX `fk_respondent_language1_idx` (`preferred_language_id` ASC),
   INDEX `fk_respondent_country1_idx` (`country_id` ASC),
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC),
   CONSTRAINT `fk_respondent_role1`
   FOREIGN KEY (`role_id`)
   REFERENCES `lynxc`.`role` (`id`)
@@ -491,6 +492,32 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`survey_lang` (
   REFERENCES `lynxc`.`language` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
+  ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `lynxc`.`email_template`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `lynxc`.`email_template` (
+  `id` INT NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
+  `description` TEXT NULL,
+  `subject` VARCHAR(250) NOT NULL,
+  `body` TEXT NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC))
+  ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `lynxc`.`configuration`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `lynxc`.`configuration` (
+  `id` INT NOT NULL,
+  `key` VARCHAR(45) NOT NULL,
+  `value` VARCHAR(300) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `key_UNIQUE` (`key` ASC))
   ENGINE = InnoDB;
 
 

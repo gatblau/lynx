@@ -1,6 +1,8 @@
 package lynx.api
 
+import java.util.ArrayList
+
 trait CollectApi {
-  def registerRecipients(registrationDetailsList: List[Registration]): Result
-  def createGroup(group: Group) : Result
+  def registerRecipients(registrationDetailsList: ArrayList[Registration]): ApiResult
+  def createGroup(group: Group) : ApiResult
 }

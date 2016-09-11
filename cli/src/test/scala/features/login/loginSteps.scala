@@ -3,7 +3,7 @@ package features.login
 import javax.inject.{Inject, Named, Singleton}
 
 import cucumber.api.java.en.And
-import lynx.api.{CollectApi, Group, Result}
+import lynx.api.{CollectApi, Group, ApiResult}
 import util._
 
 @Singleton
