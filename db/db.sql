@@ -521,6 +521,29 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`configuration` (
   ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `lynxc`.`survey_admin`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `lynxc`.`survey_admin` (
+  `id` INT NOT NULL,
+  `respondent_id` INT NOT NULL,
+  `survey_def_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_survey_admin_respondent1_idx` (`respondent_id` ASC),
+  INDEX `fk_survey_admin_survey_def1_idx` (`survey_def_id` ASC),
+  CONSTRAINT `fk_survey_admin_respondent1`
+  FOREIGN KEY (`respondent_id`)
+  REFERENCES `lynxc`.`respondent` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_survey_admin_survey_def1`
+  FOREIGN KEY (`survey_def_id`)
+  REFERENCES `lynxc`.`survey_def` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+  ENGINE = InnoDB;
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
