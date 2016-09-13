@@ -16,7 +16,7 @@ class GroupRepository extends Repository {
           val entity = em.merge(map(group))
           new ApiResult(
             success = true,
-            id = entity.getId(),
+            id = entity.getId().toString(),
             "",
             ""
           )
@@ -27,7 +27,7 @@ class GroupRepository extends Repository {
       case e : Exception => {
         val result = new ApiResult(
           success = false,
-          id = -1,
+          id = "",
           "",
           e.getMessage()
         )

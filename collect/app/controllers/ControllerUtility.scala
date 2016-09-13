@@ -1,5 +1,7 @@
 package controllers
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import lynx.api.ApiResult
 import play.api.libs.json.{Json, Writes}
 import play.api.mvc.{Controller, Result}
@@ -15,4 +17,10 @@ trait ControllerUtility extends Controller {
   }
 
   def Ok(result : ApiResult) : Result = Ok(Json.toJson(result))
+//  def Ok(results: java.util.List[ApiResult])
+
+  def mapper : ObjectMapper = {
+    val m = new ObjectMapper()
+    m.registerModule(DefaultScalaModule)
+  }
 }

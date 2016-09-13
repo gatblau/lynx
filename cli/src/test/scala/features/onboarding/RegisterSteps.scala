@@ -1,22 +1,37 @@
 package features.onboarding
 
+import java.util.ArrayList
 import javax.inject.Singleton
 
 import cucumber.api.java.en.And
-import lynx.api.{ApiResult, Registration}
-import util.Testing
+import lynx.api.Registration
 import util.Keys._
-import java.util.ArrayList
+import util.Testing
 
 @Singleton
 class RegisterSteps extends Testing {
 
+  @And("^an email template to notify the respondents is defined$")
+  def an_email_template_to_notify_the_respondents_is_defined() : Unit = {
+    db.setup("/data/emailtemplate.xml")
+  }
+
   @And("^a list of details of respondents to be registered is known$")
   def a_list_of_details_of_respondents_to_be_registered_is_known() : Unit = {
+    val r = db.load("/data/respondents_to_be_reg.xml").getTable("respondent")
     val regs = new ArrayList[Registration]()
-    regs.add(Registration("John", "Wayne", "john.wayne@mail.com", 1))
-    regs.add(Registration("Joanne", "Mills", "jo.mills@mail.com", 1))
+    for (i <- 0 to 1) {
+      regs.add(Registration(
+        r.getValue(i, "firstname").toString(),
+        r.getValue(i, "lastname").toString(),
+        r.getValue(i, "email").toString(), 1))
+    }
     set(REGISTRATION, regs)
+  }
+
+  @And("^the respondents are not already registered$")
+  def the_respondents_are_not_already_registered() : Unit = {
+    db.setup("/data/no_respondents.xml")
   }
 
   @And("^a request to register the respondents in the list is made$")
@@ -51,6 +66,5 @@ class RegisterSteps extends Testing {
 
   @And("^the respondents have been notified by email$")
   def the_respondents_have_been_notified_by_email() : Unit = {
-
   }
 }

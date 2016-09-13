@@ -2,14 +2,11 @@ package lynx.cli
 
 import java.util.ArrayList
 import javax.annotation.{PostConstruct, PreDestroy}
-import javax.enterprise.inject.{New, Produces}
-import javax.inject.{Inject, Named}
-
-import lynx.api.{ApiResult, CollectApi, Group, Registration}
+import javax.inject.Named
 import javax.ws.rs.client.{Client, ClientBuilder, Entity}
 import javax.ws.rs.core.MediaType
 
-import org.codehaus.jackson.map.ObjectMapper
+import lynx.api.{ApiResult, CollectApi, Group, Registration}
 
 @Named
 class CollectAPIClient()
@@ -27,7 +24,8 @@ class CollectAPIClient()
   }
 
   private def entity[T](obj: T): Entity[T] = Entity.entity(obj, MediaType.APPLICATION_JSON)
-  private def post[T](payload: T, path: String) : ApiResult = client.target(path).request().post(entity(payload), classOf[ApiResult])
+  private def postOne[T](payload: T, path: String) : ApiResult = client.target(path).request().post(entity(payload), classOf[ApiResult])
+  private def postMany[T](payload: T, path: String) : ArrayList[ApiResult] = client.target(path).request().post(entity(payload), classOf[ArrayList[ApiResult]])
 
   @PostConstruct
   private def init() : Unit = { client = ClientBuilder.newClient() }
@@ -35,7 +33,7 @@ class CollectAPIClient()
   @PreDestroy
   private def dispose() : Unit = { client.close() }
 
-  override def createGroup(group: Group): ApiResult = post(group, s"$uri/api/group")
-  override def registerRecipients(registrationDetailsList: ArrayList[Registration]): ApiResult = post(registrationDetailsList, s"$uri/api/register")
+  override def createGroup(group: Group): ApiResult = postOne(group, s"$uri/api/group")
+  override def registerRecipients(registrationDetailsList: ArrayList[Registration]): ArrayList[ApiResult] = postMany(registrationDetailsList, s"$uri/api/register")
 
 }

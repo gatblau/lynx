@@ -25,7 +25,9 @@ lazy val collect = (project in file("collect"))
       mysqlconn,
       javaJdbc,
       javaJpa,
-      weld
+      weld,
+      playmailer,
+      jacksonscalamodule
     )
   ).dependsOn(api, util)
 
@@ -38,6 +40,7 @@ lazy val cli = (project in file("cli"))
       command,
       javaee,
       weld,
+      ws,
       jaxrsclient,
       jacksonprovider
     ) ++

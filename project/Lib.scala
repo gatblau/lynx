@@ -35,4 +35,6 @@ object Lib {
   val jacksonprovider = "org.jboss.resteasy" % "resteasy-jackson-provider" % Version.RESTEASY
   val jaxb = "javax.xml.bind" % "jaxb-api" % Version.JAXB
   val dbunit = "org.dbunit" % "dbunit" % Version.DBUNIT
+  val playmailer = "com.typesafe.play" %% "play-mailer" % Version.PLAYMAILER
+  val jacksonscalamodule = "com.fasterxml.jackson.module" % "jackson-module-scala_2.11" % Version.JACKSON_SCALA_MODULE
 }

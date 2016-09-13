@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+    <email_template
+        id="1"
+        name="Test Email Template"
+        description="Used to test the registration of new respondents."
+        subject="Please activate your account"
+        body="&lt;html&gt;
+            &lt;body&gt;
+                &lt;p&gt;Dear {{firstname}}:&lt;/p&gt;
+                &lt;p&gt;You have been registered to take a survey.&lt;/p&gt;
+                &lt;p&gt;Please activate your account so you can login and complete your profile.&lt;/p&gt;
+                &lt;p&gt;You will be asked for your activation code: &lt;b&gt;{{activationcode}}&lt;/b&gt;&lt;/p&gt;
+                &lt;p&gt;Regards&lt;/p&gt;
+        &lt;/body&gt;
+        &lt;/html&gt;"/>
+</dataset>

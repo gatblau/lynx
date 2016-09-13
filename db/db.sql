@@ -499,7 +499,7 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`survey_lang` (
 -- Table `lynxc`.`email_template`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `lynxc`.`email_template` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `description` TEXT NULL,
   `subject` VARCHAR(250) NOT NULL,
@@ -513,7 +513,7 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`email_template` (
 -- Table `lynxc`.`configuration`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `lynxc`.`configuration` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `key` VARCHAR(45) NOT NULL,
   `value` VARCHAR(300) NOT NULL,
   PRIMARY KEY (`id`),
@@ -525,7 +525,7 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`configuration` (
 -- Table `lynxc`.`survey_admin`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `lynxc`.`survey_admin` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `respondent_id` INT NOT NULL,
   `survey_def_id` INT NOT NULL,
   PRIMARY KEY (`id`),

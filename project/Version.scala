@@ -16,6 +16,8 @@ object Version {
   val PLAYWS = "2.5.6"
   val RESTEASY = "3.0.19.Final"
   val JACKSON = "1.9.13"
+  val JACKSON_SCALA_MODULE = "2.7.2"
   val JAXB = "2.2.12"
   val DBUNIT = "2.5.3"
+  val PLAYMAILER = "5.0.0"
 }
