@@ -26,7 +26,7 @@ public class Configuration implements Serializable {
 	
     @Id
     @Column(name="id" )
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name="key"  , length=45 , nullable=false , unique=false)

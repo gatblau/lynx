@@ -50,13 +50,13 @@ public class Survey implements Serializable {
     @Column(name="survey_def_id"  , nullable=false , unique=true, insertable=false, updatable=false)
     private Integer surveyDefId_;
 
-    @OneToMany (targetEntity=model.Section.class, fetch=FetchType.LAZY, mappedBy="surveyId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
+    @OneToMany (targetEntity=Section.class, fetch=FetchType.LAZY, mappedBy="surveyId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
     private Set <Section> sectionSurveyViaSurveyId = new HashSet<Section>(); 
 
-    @OneToMany (targetEntity=model.SurveyLang.class, fetch=FetchType.LAZY, mappedBy="surveyId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
+    @OneToMany (targetEntity=SurveyLang.class, fetch=FetchType.LAZY, mappedBy="surveyId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
     private Set <SurveyLang> surveyLangSurveyViaSurveyId = new HashSet<SurveyLang>(); 
 
-    @OneToMany (targetEntity=model.SurveyRespondent.class, fetch=FetchType.LAZY, mappedBy="surveyRespondentId__.surveyId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
+    @OneToMany (targetEntity=SurveyRespondent.class, fetch=FetchType.LAZY, mappedBy="surveyId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
     private Set <SurveyRespondent> surveyRespondentSurveyViaSurveyId = new HashSet<SurveyRespondent>(); 
 
     public Survey() {
@@ -87,13 +87,10 @@ public class Survey implements Serializable {
        Integer version,
        Integer lockedBy	
     , boolean setRelationship) {
-       //primary keys
        setId (id);
-       //attributes
        setUpdated (updated);
        setCreated (created);
        setVersion (version);
-       //parents
        if (setRelationship && lockedBy!=null) {
           this.lockedBy = new Respondent();
           this.lockedBy.setId(lockedBy);

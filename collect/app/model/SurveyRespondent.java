@@ -1,17 +1,8 @@
 package model;
 
-import java.sql.*;
-import java.util.Date;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.HashSet;
-
-import java.io.Serializable;
 import javax.persistence.*;
-import model.Respondent;
-import model.Survey;
-import model.SurveyRespondentId;
+import java.io.Serializable;
+import java.sql.Timestamp;
 
 @Entity (name="SurveyRespondent")
 @Table (name="\"survey_respondent\"")
@@ -31,8 +22,9 @@ public class SurveyRespondent implements Serializable {
     public static final String FIND_BY_LASTREAD = "SurveyRespondent.findByLastRead";
     public static final String FIND_BY_LASTWRITE = "SurveyRespondent.findByLastWrite";
 	
-    @EmbeddedId
-    public SurveyRespondentId surveyRespondentId__;
+    @Id @Column(name="id" ) 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     @Column(name="can_read"   , nullable=false , unique=false)
     private Boolean canRead; 
@@ -53,7 +45,6 @@ public class SurveyRespondent implements Serializable {
     @Column(name="respondent_id"  , nullable=false , unique=true, insertable=false, updatable=false)
     private Integer respondentId_;
 
-    @MapsId ("survey_id")
     @ManyToOne (fetch=FetchType.LAZY , optional=false)
     @JoinColumn(name="survey_id", referencedColumnName = "id" , nullable=false , unique=true  , insertable=true, updatable=true) 
     private Survey surveyId;  
@@ -65,6 +56,7 @@ public class SurveyRespondent implements Serializable {
     }
 
     public SurveyRespondent(
+       Integer id,
        Integer surveyId,
        Integer respondentId,
        Boolean canRead,
@@ -72,6 +64,7 @@ public class SurveyRespondent implements Serializable {
        Timestamp lastRead,
        Timestamp lastWrite) {
 	 this(
+       id,
        surveyId,
        respondentId,
        canRead,
@@ -82,6 +75,7 @@ public class SurveyRespondent implements Serializable {
 	}
     
 	public SurveyRespondent(
+       Integer id,
        Integer surveyId,
        Integer respondentId,
        Boolean canRead,
@@ -89,7 +83,7 @@ public class SurveyRespondent implements Serializable {
        Timestamp lastRead,
        Timestamp lastWrite	
     , boolean setRelationship) {
-       this.surveyRespondentId__ = new SurveyRespondentId();
+       setId (id);
        setCanRead (canRead);
        setCanWrite (canWrite);
        setLastRead (lastRead);
@@ -108,7 +102,8 @@ public class SurveyRespondent implements Serializable {
 
 	public SurveyRespondent flat() {
 	   return new SurveyRespondent(
-		  getSurveyRespondentId__().getSurveyId(),
+          getId(),
+          getSurveyId_(),
           getRespondentId_(),
           getCanRead(),
           getCanWrite(),
@@ -118,13 +113,12 @@ public class SurveyRespondent implements Serializable {
 	   );
 	}
 
-    public SurveyRespondentId getSurveyRespondentId__() {
-		if (surveyRespondentId__==null) surveyRespondentId__ = new SurveyRespondentId();
-        return surveyRespondentId__;
+    public Integer getId() {
+        return id;
     }
 	
-    public void setSurveyRespondentId__ (SurveyRespondentId surveyRespondentId__) {
-        this.surveyRespondentId__ =  surveyRespondentId__;
+    public void setId (Integer id) {
+        this.id =  id;
     }
 
     public Boolean getCanRead() {
@@ -191,11 +185,11 @@ public class SurveyRespondent implements Serializable {
         this.surveyId_ =  surveyId;
     }
 
-    @PrePersist
+    @javax.persistence.PrePersist
     public void prePersist_ () {
     }
 
-    @PreUpdate
+    @javax.persistence.PreUpdate
     public void preUpdate_ () {
     }
 }

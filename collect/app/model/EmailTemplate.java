@@ -34,7 +34,7 @@ public class EmailTemplate implements Serializable {
     public static final String FIND_BY_BODY_CONTAINING ="EmailTemplate.findByBodyContaining";
 	
     @Id @Column(name="id" ) 
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name="name"  , length=45 , nullable=false , unique=false)

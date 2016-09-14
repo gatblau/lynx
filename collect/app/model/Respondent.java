@@ -1,96 +1,30 @@
-/**
-	* Copyright (c) minuteproject, minuteproject@gmail.com
-	* All rights reserved.
-	* 
-	* Licensed under the Apache License, Version 2.0 (the "License")
-	* you may not use this file except in compliance with the License.
-	* You may obtain a copy of the License at
-	* 
-	* http://www.apache.org/licenses/LICENSE-2.0
-	* 
-	* Unless required by applicable law or agreed to in writing, software
-	* distributed under the License is distributed on an "AS IS" BASIS,
-	* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	* See the License for the specific language governing permissions and
-	* limitations under the License.
-	* 
-	* More information on minuteproject:
-	* twitter @minuteproject
-	* wiki http://minuteproject.wikispaces.com 
-	* blog http://minuteproject.blogspot.net
-	* 
-*/
-/**
-	* template reference : 
-	* - Minuteproject version : 0.9.8
-	* - name      : DomainEntityJPA2Annotation
-	* - file name : DomainEntityJPA2Annotation.vm
-	* - time      : 2016/09/04 AD at 08:23:24 BST
-*/
 package model;
 
-//MP-MANAGED-ADDED-AREA-BEGINNING @import@
-//MP-MANAGED-ADDED-AREA-ENDING @import@
-import java.sql.*;
-import java.util.Date;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.HashSet;
-
-import java.io.Serializable;
 import javax.persistence.*;
-import model.Survey;
-import model.SurveyRespondent;
-import model.Country;
-import model.Group;
-import model.Language;
-import model.Role;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
-/**
- *
- * <p>Title: Respondent</p>
- *
- * <p>Description: Domain Object describing a Respondent entity</p>
- *
- */
 @Entity (name="Respondent")
 @Table (name="\"respondent\"")
 @NamedQueries ({
 	 @NamedQuery(name="Respondent.findAll", query="SELECT a FROM Respondent a")
 	,@NamedQuery(name="Respondent.findByFirstname", query="SELECT a FROM Respondent a WHERE a.firstname = :firstname")
 	,@NamedQuery(name="Respondent.findByFirstnameContaining", query="SELECT a FROM Respondent a WHERE a.firstname like :firstname")
-//MP-MANAGED-ADDED-AREA-BEGINNING @custom-queries@
-//MP-MANAGED-ADDED-AREA-ENDING @custom-queries@
 	,@NamedQuery(name="Respondent.findByLastname", query="SELECT a FROM Respondent a WHERE a.lastname = :lastname")
 	,@NamedQuery(name="Respondent.findByLastnameContaining", query="SELECT a FROM Respondent a WHERE a.lastname like :lastname")
-//MP-MANAGED-ADDED-AREA-BEGINNING @custom-queries@
-//MP-MANAGED-ADDED-AREA-ENDING @custom-queries@
 	,@NamedQuery(name="Respondent.findByEmail", query="SELECT a FROM Respondent a WHERE a.email = :email")
 	,@NamedQuery(name="Respondent.findByEmailContaining", query="SELECT a FROM Respondent a WHERE a.email like :email")
-//MP-MANAGED-ADDED-AREA-BEGINNING @custom-queries@
-//MP-MANAGED-ADDED-AREA-ENDING @custom-queries@
 	,@NamedQuery(name="Respondent.findByTelephone", query="SELECT a FROM Respondent a WHERE a.telephone = :telephone")
 	,@NamedQuery(name="Respondent.findByTelephoneContaining", query="SELECT a FROM Respondent a WHERE a.telephone like :telephone")
-//MP-MANAGED-ADDED-AREA-BEGINNING @custom-queries@
-//MP-MANAGED-ADDED-AREA-ENDING @custom-queries@
 	,@NamedQuery(name="Respondent.findByPwdHash", query="SELECT a FROM Respondent a WHERE a.pwdHash = :pwdHash")
 	,@NamedQuery(name="Respondent.findByPwdHashContaining", query="SELECT a FROM Respondent a WHERE a.pwdHash like :pwdHash")
-//MP-MANAGED-ADDED-AREA-BEGINNING @custom-queries@
-//MP-MANAGED-ADDED-AREA-ENDING @custom-queries@
 	,@NamedQuery(name="Respondent.findByEnabled", query="SELECT a FROM Respondent a WHERE a.enabled = :enabled")
-//MP-MANAGED-ADDED-AREA-BEGINNING @custom-queries@
-//MP-MANAGED-ADDED-AREA-ENDING @custom-queries@
 	,@NamedQuery(name="Respondent.findByActivationCode", query="SELECT a FROM Respondent a WHERE a.activationCode = :activationCode")
 	,@NamedQuery(name="Respondent.findByActivationCodeContaining", query="SELECT a FROM Respondent a WHERE a.activationCode like :activationCode")
-//MP-MANAGED-ADDED-AREA-BEGINNING @custom-queries@
-//MP-MANAGED-ADDED-AREA-ENDING @custom-queries@
 })
-//MP-MANAGED-ADDED-AREA-BEGINNING @custom-annotations@
-//MP-MANAGED-ADDED-AREA-ENDING @custom-annotations@
 public class Respondent implements Serializable {
     private static final long serialVersionUID = 1L;
-
     public static final String FIND_ALL = "Respondent.findAll";
     public static final String FIND_BY_FIRSTNAME = "Respondent.findByFirstname";
     public static final String FIND_BY_FIRSTNAME_CONTAINING ="Respondent.findByFirstnameContaining";
@@ -110,102 +44,67 @@ public class Respondent implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-//MP-MANAGED-ADDED-AREA-BEGINNING @firstname-field-annotation@
-//MP-MANAGED-ADDED-AREA-ENDING @firstname-field-annotation@
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @ATTRIBUTE-firstname@
     @Column(name="firstname"  , length=45 , nullable=false , unique=false)
-    private String firstname; 
-//MP-MANAGED-UPDATABLE-ENDING
+    private String firstname;
 
-//MP-MANAGED-ADDED-AREA-BEGINNING @lastname-field-annotation@
-//MP-MANAGED-ADDED-AREA-ENDING @lastname-field-annotation@
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @ATTRIBUTE-lastname@
     @Column(name="lastname"  , length=45 , nullable=false , unique=false)
-    private String lastname; 
-//MP-MANAGED-UPDATABLE-ENDING
+    private String lastname;
 
-//MP-MANAGED-ADDED-AREA-BEGINNING @email-field-annotation@
-//MP-MANAGED-ADDED-AREA-ENDING @email-field-annotation@
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @ATTRIBUTE-email@
     @Column(name="email"  , length=45 , nullable=false , unique=false)
     private String email; 
-//MP-MANAGED-UPDATABLE-ENDING
 
-//MP-MANAGED-ADDED-AREA-BEGINNING @telephone-field-annotation@
-//MP-MANAGED-ADDED-AREA-ENDING @telephone-field-annotation@
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @ATTRIBUTE-telephone@
     @Column(name="telephone"  , length=45 , nullable=true , unique=false)
     private String telephone; 
-//MP-MANAGED-UPDATABLE-ENDING
 
-//MP-MANAGED-ADDED-AREA-BEGINNING @pwd_hash-field-annotation@
-//MP-MANAGED-ADDED-AREA-ENDING @pwd_hash-field-annotation@
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @ATTRIBUTE-pwd_hash@
-    @Column(name="pwd_hash"  , length=100 , nullable=true , unique=false)
+    @Column(name="pwd_hash"  , length=70 , nullable=true , unique=false)
     private String pwdHash; 
-//MP-MANAGED-UPDATABLE-ENDING
 
-//MP-MANAGED-ADDED-AREA-BEGINNING @enabled-field-annotation@
-//MP-MANAGED-ADDED-AREA-ENDING @enabled-field-annotation@
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @ATTRIBUTE-enabled@
     @Column(name="enabled"   , nullable=false , unique=false)
     private Boolean enabled; 
-//MP-MANAGED-UPDATABLE-ENDING
 
-//MP-MANAGED-ADDED-AREA-BEGINNING @activation_code-field-annotation@
-//MP-MANAGED-ADDED-AREA-ENDING @activation_code-field-annotation@
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @ATTRIBUTE-activation_code@
     @Column(name="activation_code"  , length=45 , nullable=true , unique=false)
-    private String activationCode; 
-//MP-MANAGED-UPDATABLE-ENDING
+    private String activationCode;
 
-    @ManyToOne (fetch=FetchType.LAZY , optional=false)
-    @JoinColumn(name="country_id", referencedColumnName = "id" , nullable=false , unique=false , insertable=true, updatable=true) 
+    @ManyToOne (fetch=FetchType.LAZY )
+    @JoinColumn(name="country_id", referencedColumnName = "id" , nullable=true , unique=false , insertable=true, updatable=true) 
     private Country countryId;  
 
-    @Column(name="country_id"  , nullable=false , unique=true, insertable=false, updatable=false)
+    @Column(name="country_id"  , nullable=true , unique=true, insertable=false, updatable=false)
     private Integer countryId_;
 
-    @ManyToOne (fetch=FetchType.LAZY , optional=false)
-    @JoinColumn(name="group_id", referencedColumnName = "id" , nullable=false , unique=true  , insertable=true, updatable=true) 
+    @ManyToOne (fetch=FetchType.LAZY )
+    @JoinColumn(name="group_id", referencedColumnName = "id" , nullable=true , unique=true  , insertable=true, updatable=true) 
     private Group groupId;  
 
-    @Column(name="group_id"  , nullable=false , unique=true, insertable=false, updatable=false)
+    @Column(name="group_id"  , nullable=true , unique=true, insertable=false, updatable=false)
     private Integer groupId_;
 
-    @ManyToOne (fetch=FetchType.LAZY , optional=false)
-    @JoinColumn(name="preferred_language_id", referencedColumnName = "id" , nullable=false , unique=true  , insertable=true, updatable=true) 
+    @ManyToOne (fetch=FetchType.LAZY )
+    @JoinColumn(name="preferred_language_id", referencedColumnName = "id" , nullable=true , unique=true  , insertable=true, updatable=true) 
     private Language preferredLanguageId;  
 
-    @Column(name="preferred_language_id"  , nullable=false , unique=true, insertable=false, updatable=false)
+    @Column(name="preferred_language_id"  , nullable=true , unique=true, insertable=false, updatable=false)
     private Integer preferredLanguageId_;
 
-    @ManyToOne (fetch=FetchType.LAZY , optional=false)
-    @JoinColumn(name="role_id", referencedColumnName = "id" , nullable=false , unique=true  , insertable=true, updatable=true) 
+    @ManyToOne (fetch=FetchType.LAZY )
+    @JoinColumn(name="role_id", referencedColumnName = "id" , nullable=true , unique=true  , insertable=true, updatable=true) 
     private Role roleId;  
 
-    @Column(name="role_id"  , nullable=false , unique=true, insertable=false, updatable=false)
+    @Column(name="role_id"  , nullable=true , unique=true, insertable=false, updatable=false)
     private Integer roleId_;
 
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @surveyRespondentViaLockedBy-field-respondent@
-    @OneToMany (targetEntity=model.Survey.class, fetch=FetchType.LAZY, mappedBy="lockedBy", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
+    @OneToMany (targetEntity=Survey.class, fetch=FetchType.LAZY, mappedBy="lockedBy", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
     private Set <Survey> surveyRespondentViaLockedBy = new HashSet<Survey>(); 
 
-//MP-MANAGED-UPDATABLE-ENDING
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @surveyRespondentRespondentViaRespondentId-field-respondent@
-    @OneToMany (targetEntity=model.SurveyRespondent.class, fetch=FetchType.LAZY, mappedBy="respondentId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
+    @OneToMany (targetEntity=SurveyAdmin.class, fetch=FetchType.LAZY, mappedBy="respondentId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
+    private Set <SurveyAdmin> surveyAdminRespondentViaRespondentId = new HashSet<SurveyAdmin>(); 
+
+    @OneToMany (targetEntity=SurveyRespondent.class, fetch=FetchType.LAZY, mappedBy="respondentId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
     private Set <SurveyRespondent> surveyRespondentRespondentViaRespondentId = new HashSet<SurveyRespondent>(); 
 
-//MP-MANAGED-UPDATABLE-ENDING
-    /**
-    * Default constructor
-    */
     public Respondent() {
     }
 
-	/**
-	* All field constructor 
-	*/
     public Respondent(
        Integer id,
        String firstname,
@@ -249,9 +148,7 @@ public class Respondent implements Serializable {
        Integer countryId,
        String activationCode	
     , boolean setRelationship) {
-       //primary keys
        setId (id);
-       //attributes
        setFirstname (firstname);
        setLastname (lastname);
        setEmail (email);
@@ -259,7 +156,6 @@ public class Respondent implements Serializable {
        setPwdHash (pwdHash);
        setEnabled (enabled);
        setActivationCode (activationCode);
-       //parents
        if (setRelationship && countryId!=null) {
           this.countryId = new Country();
           this.countryId.setId(countryId);
@@ -307,8 +203,7 @@ public class Respondent implements Serializable {
     public void setId (Integer id) {
         this.id =  id;
     }
-    
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @GETTER-SETTER-firstname@
+
     public String getFirstname() {
         return firstname;
     }
@@ -316,10 +211,7 @@ public class Respondent implements Serializable {
     public void setFirstname (String firstname) {
         this.firstname =  firstname;
     }
-	
-//MP-MANAGED-UPDATABLE-ENDING
 
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @GETTER-SETTER-lastname@
     public String getLastname() {
         return lastname;
     }
@@ -327,10 +219,7 @@ public class Respondent implements Serializable {
     public void setLastname (String lastname) {
         this.lastname =  lastname;
     }
-	
-//MP-MANAGED-UPDATABLE-ENDING
 
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @GETTER-SETTER-email@
     public String getEmail() {
         return email;
     }
@@ -338,10 +227,7 @@ public class Respondent implements Serializable {
     public void setEmail (String email) {
         this.email =  email;
     }
-	
-//MP-MANAGED-UPDATABLE-ENDING
 
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @GETTER-SETTER-telephone@
     public String getTelephone() {
         return telephone;
     }
@@ -349,10 +235,7 @@ public class Respondent implements Serializable {
     public void setTelephone (String telephone) {
         this.telephone =  telephone;
     }
-	
-//MP-MANAGED-UPDATABLE-ENDING
 
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @GETTER-SETTER-pwd_hash@
     public String getPwdHash() {
         return pwdHash;
     }
@@ -360,10 +243,7 @@ public class Respondent implements Serializable {
     public void setPwdHash (String pwdHash) {
         this.pwdHash =  pwdHash;
     }
-	
-//MP-MANAGED-UPDATABLE-ENDING
 
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @GETTER-SETTER-enabled@
     public Boolean getEnabled() {
         return enabled;
     }
@@ -371,10 +251,7 @@ public class Respondent implements Serializable {
     public void setEnabled (Boolean enabled) {
         this.enabled =  enabled;
     }
-	
-//MP-MANAGED-UPDATABLE-ENDING
 
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @GETTER-SETTER-activation_code@
     public String getActivationCode() {
         return activationCode;
     }
@@ -382,9 +259,6 @@ public class Respondent implements Serializable {
     public void setActivationCode (String activationCode) {
         this.activationCode =  activationCode;
     }
-	
-//MP-MANAGED-UPDATABLE-ENDING
-
 
     public Country getCountryId () {
     	return countryId;
@@ -449,9 +323,7 @@ public class Respondent implements Serializable {
     public void setRoleId_ (Integer roleId) {
         this.roleId_ =  roleId;
     }
-	
 
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @surveyRespondentViaLockedBy-getter-respondent@
     public Set<Survey> getSurveyRespondentViaLockedBy() {
         if (surveyRespondentViaLockedBy == null){
             surveyRespondentViaLockedBy = new HashSet<Survey>();
@@ -466,9 +338,22 @@ public class Respondent implements Serializable {
     public void addSurveyRespondentViaLockedBy (Survey element) {
     	    getSurveyRespondentViaLockedBy().add(element);
     }
+
+    public Set<SurveyAdmin> getSurveyAdminRespondentViaRespondentId() {
+        if (surveyAdminRespondentViaRespondentId == null){
+            surveyAdminRespondentViaRespondentId = new HashSet<SurveyAdmin>();
+        }
+        return surveyAdminRespondentViaRespondentId;
+    }
+
+    public void setSurveyAdminRespondentViaRespondentId (Set<SurveyAdmin> surveyAdminRespondentViaRespondentId) {
+        this.surveyAdminRespondentViaRespondentId = surveyAdminRespondentViaRespondentId;
+    }	
     
-//MP-MANAGED-UPDATABLE-ENDING
-//MP-MANAGED-UPDATABLE-BEGINNING-DISABLE @surveyRespondentRespondentViaRespondentId-getter-respondent@
+    public void addSurveyAdminRespondentViaRespondentId (SurveyAdmin element) {
+    	    getSurveyAdminRespondentViaRespondentId().add(element);
+    }
+
     public Set<SurveyRespondent> getSurveyRespondentRespondentViaRespondentId() {
         if (surveyRespondentRespondentViaRespondentId == null){
             surveyRespondentRespondentViaRespondentId = new HashSet<SurveyRespondent>();
@@ -483,12 +368,12 @@ public class Respondent implements Serializable {
     public void addSurveyRespondentRespondentViaRespondentId (SurveyRespondent element) {
     	    getSurveyRespondentRespondentViaRespondentId().add(element);
     }
-    
-//MP-MANAGED-UPDATABLE-ENDING
 
+    @PrePersist
+    public void prePersist_ () {
+    }
 
-
-//MP-MANAGED-ADDED-AREA-BEGINNING @implementation@
-//MP-MANAGED-ADDED-AREA-ENDING @implementation@
-
+    @PreUpdate
+    public void preUpdate_ () {
+    }
 }

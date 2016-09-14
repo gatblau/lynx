@@ -52,6 +52,13 @@ public class FactDef implements Serializable {
     @Column(name="fact_type_id"  , nullable=false , unique=true, insertable=false, updatable=false)
     private Integer factTypeId_;
 
+    @ManyToOne (fetch=FetchType.LAZY )
+    @JoinColumn(name="resource_layout_id", referencedColumnName = "id" , nullable=true , unique=true  , insertable=true, updatable=true) 
+    private ResourceLayout resourceLayoutId;  
+
+    @Column(name="resource_layout_id"  , nullable=true , unique=true, insertable=false, updatable=false)
+    private Integer resourceLayoutId_;
+
     @ManyToOne (fetch=FetchType.LAZY , optional=false)
     @JoinColumn(name="section_def_id", referencedColumnName = "id" , nullable=false , unique=true  , insertable=true, updatable=true) 
     private SectionDef sectionDefId;  
@@ -59,14 +66,17 @@ public class FactDef implements Serializable {
     @Column(name="section_def_id"  , nullable=false , unique=true, insertable=false, updatable=false)
     private Integer sectionDefId_;
 
-    @OneToMany (targetEntity=model.Fact.class, fetch=FetchType.LAZY, mappedBy="factDefId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
+    @OneToMany (targetEntity=Fact.class, fetch=FetchType.LAZY, mappedBy="factDefId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
     private Set <Fact> factFactDefViaFactDefId = new HashSet<Fact>(); 
 
-    @OneToMany (targetEntity=model.FactDefLang.class, fetch=FetchType.LAZY, mappedBy="factDefId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
+    @OneToMany (targetEntity=FactDefLang.class, fetch=FetchType.LAZY, mappedBy="factDefId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
     private Set <FactDefLang> factDefLangFactDefViaFactDefId = new HashSet<FactDefLang>(); 
 
-    @OneToMany (targetEntity=model.OptionDef.class, fetch=FetchType.LAZY, mappedBy="factDefId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
+    @OneToMany (targetEntity=OptionDef.class, fetch=FetchType.LAZY, mappedBy="factDefId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
     private Set <OptionDef> optionDefFactDefViaFactDefId = new HashSet<OptionDef>(); 
+
+    @OneToMany (targetEntity=Resource.class, fetch=FetchType.LAZY, mappedBy="factDefId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
+    private Set <Resource> resourceFactDefViaFactDefId = new HashSet<Resource>(); 
 
     public FactDef() {
     }
@@ -78,7 +88,8 @@ public class FactDef implements Serializable {
        Boolean required,
        String regex,
        String min,
-       String max) {
+       String max,
+       Integer resourceLayoutId) {
 	 this(
        id,
        sectionDefId,
@@ -86,7 +97,8 @@ public class FactDef implements Serializable {
        required,
        regex,
        min,
-       max
+       max,
+       resourceLayoutId
 	 ,true);
 	}
     
@@ -97,7 +109,8 @@ public class FactDef implements Serializable {
        Boolean required,
        String regex,
        String min,
-       String max	
+       String max,
+       Integer resourceLayoutId	
     , boolean setRelationship) {
        setId (id);
        setRequired (required);
@@ -108,6 +121,11 @@ public class FactDef implements Serializable {
           this.factTypeId = new FactType();
           this.factTypeId.setId(factTypeId);
 	      setFactTypeId_ (factTypeId);
+       }
+       if (setRelationship && resourceLayoutId!=null) {
+          this.resourceLayoutId = new ResourceLayout();
+          this.resourceLayoutId.setId(resourceLayoutId);
+	      setResourceLayoutId_ (resourceLayoutId);
        }
        if (setRelationship && sectionDefId!=null) {
           this.sectionDefId = new SectionDef();
@@ -124,7 +142,8 @@ public class FactDef implements Serializable {
           getRequired(),
           getRegex(),
           getMin(),
-          getMax()
+          getMax(),
+          getResourceLayoutId_()
        , false
 	   );
 	}
@@ -183,6 +202,22 @@ public class FactDef implements Serializable {
 	
     public void setFactTypeId_ (Integer factTypeId) {
         this.factTypeId_ =  factTypeId;
+    }
+	
+    public ResourceLayout getResourceLayoutId () {
+    	return resourceLayoutId;
+    }
+	
+    public void setResourceLayoutId (ResourceLayout resourceLayoutId) {
+    	this.resourceLayoutId = resourceLayoutId;
+    }
+
+    public Integer getResourceLayoutId_() {
+        return resourceLayoutId_;
+    }
+	
+    public void setResourceLayoutId_ (Integer resourceLayoutId) {
+        this.resourceLayoutId_ =  resourceLayoutId;
     }
 	
     public SectionDef getSectionDefId () {
@@ -246,11 +281,27 @@ public class FactDef implements Serializable {
     	    getOptionDefFactDefViaFactDefId().add(element);
     }
 
-    @PrePersist
+    public Set<Resource> getResourceFactDefViaFactDefId() {
+        if (resourceFactDefViaFactDefId == null){
+            resourceFactDefViaFactDefId = new HashSet<Resource>();
+        }
+        return resourceFactDefViaFactDefId;
+    }
+
+    public void setResourceFactDefViaFactDefId (Set<Resource> resourceFactDefViaFactDefId) {
+        this.resourceFactDefViaFactDefId = resourceFactDefViaFactDefId;
+    }	
+    
+    public void addResourceFactDefViaFactDefId (Resource element) {
+    	    getResourceFactDefViaFactDefId().add(element);
+    }
+
+    @javax.persistence.PrePersist
     public void prePersist_ () {
     }
 
-    @PreUpdate
+    @javax.persistence.PreUpdate
     public void preUpdate_ () {
     }
+
 }

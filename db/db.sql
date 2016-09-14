@@ -173,6 +173,7 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`survey` (
 -- Table `lynxc`.`survey_respondent`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `lynxc`.`survey_respondent` (
+  `id` INT NOT NULL AUTO_INCREMENT,
   `survey_id` INT NOT NULL,
   `respondent_id` INT NOT NULL,
   `can_read` TINYINT(1) NOT NULL DEFAULT 1,
@@ -181,6 +182,7 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`survey_respondent` (
   `last_write` TIMESTAMP NULL,
   INDEX `fk_survey_respondent_survey1_idx` (`survey_id` ASC),
   INDEX `fk_survey_respondent_respondent1_idx` (`respondent_id` ASC),
+  PRIMARY KEY (`id`),
   CONSTRAINT `fk_survey_respondent_survey1`
   FOREIGN KEY (`survey_id`)
   REFERENCES `lynxc`.`survey` (`id`)
@@ -201,7 +203,19 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`survey_respondent` (
 CREATE TABLE IF NOT EXISTS `lynxc`.`fact_type` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `value` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`))
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `value_UNIQUE` (`value` ASC))
+  ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `lynxc`.`resource_layout`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `lynxc`.`resource_layout` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `value` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `value_UNIQUE` (`value` ASC))
   ENGINE = InnoDB;
 
 
@@ -209,16 +223,18 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`fact_type` (
 -- Table `lynxc`.`fact_def`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `lynxc`.`fact_def` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `section_def_id` INT NOT NULL,
   `fact_type_id` INT NOT NULL,
   `required` TINYINT(1) NOT NULL DEFAULT 0,
   `regex` VARCHAR(200) NULL,
   `min` VARCHAR(100) NULL,
   `max` VARCHAR(100) NULL,
+  `resource_layout_id` INT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_fact_def_section_def1_idx` (`section_def_id` ASC),
   INDEX `fk_fact_def_fact_type1_idx` (`fact_type_id` ASC),
+  INDEX `fk_fact_def_resource_layout1_idx` (`resource_layout_id` ASC),
   CONSTRAINT `fk_fact_def_section_def1`
   FOREIGN KEY (`section_def_id`)
   REFERENCES `lynxc`.`section_def` (`id`)
@@ -227,6 +243,11 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`fact_def` (
   CONSTRAINT `fk_fact_def_fact_type1`
   FOREIGN KEY (`fact_type_id`)
   REFERENCES `lynxc`.`fact_type` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_fact_def_resource_layout1`
+  FOREIGN KEY (`resource_layout_id`)
+  REFERENCES `lynxc`.`resource_layout` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
   ENGINE = InnoDB;
@@ -347,7 +368,7 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`role_lang` (
 -- Table `lynxc`.`fact_def_lang`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `lynxc`.`fact_def_lang` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `description` TEXT NULL,
   `question` VARCHAR(250) NULL,
@@ -539,6 +560,68 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`survey_admin` (
   CONSTRAINT `fk_survey_admin_survey_def1`
   FOREIGN KEY (`survey_def_id`)
   REFERENCES `lynxc`.`survey_def` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+  ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `lynxc`.`resource_type`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `lynxc`.`resource_type` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `value` VARCHAR(45) NOT NULL,
+  `icon_path` VARCHAR(250) NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `value_UNIQUE` (`value` ASC))
+  ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `lynxc`.`resource`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `lynxc`.`resource` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `resource_type_id` INT NOT NULL,
+  `resource_path` VARCHAR(250) NOT NULL,
+  `link` VARCHAR(250) NULL,
+  `fact_def_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_resource_resource_type1_idx` (`resource_type_id` ASC),
+  INDEX `fk_resource_fact_def1_idx` (`fact_def_id` ASC),
+  CONSTRAINT `fk_resource_resource_type1`
+  FOREIGN KEY (`resource_type_id`)
+  REFERENCES `lynxc`.`resource_type` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_resource_fact_def1`
+  FOREIGN KEY (`fact_def_id`)
+  REFERENCES `lynxc`.`fact_def` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+  ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `lynxc`.`resource_lang`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `lynxc`.`resource_lang` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `description` TEXT NULL,
+  `resource_id` INT NOT NULL,
+  `language_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_resource_lang_resource1_idx` (`resource_id` ASC),
+  INDEX `fk_resource_lang_language1_idx` (`language_id` ASC),
+  CONSTRAINT `fk_resource_lang_resource1`
+  FOREIGN KEY (`resource_id`)
+  REFERENCES `lynxc`.`resource` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_resource_lang_language1`
+  FOREIGN KEY (`language_id`)
+  REFERENCES `lynxc`.`language` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
   ENGINE = InnoDB;
