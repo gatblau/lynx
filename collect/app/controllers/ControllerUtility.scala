@@ -23,4 +23,6 @@ trait ControllerUtility extends Controller {
     val m = new ObjectMapper()
     m.registerModule(DefaultScalaModule)
   }
+
+  def isUndefined(x: String) =  { x == null || x.trim.length() == 0 }
 }

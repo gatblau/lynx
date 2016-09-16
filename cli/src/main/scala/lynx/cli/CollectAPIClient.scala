@@ -7,6 +7,7 @@ import javax.ws.rs.client.{Client, ClientBuilder, Entity}
 import javax.ws.rs.core.MediaType
 
 import lynx.api.{ApiResult, CollectApi, Group, Registration}
+import lynx.api.CollectApi._
 
 @Named
 class CollectAPIClient()
@@ -24,8 +25,8 @@ class CollectAPIClient()
   }
 
   private def entity[T](obj: T): Entity[T] = Entity.entity(obj, MediaType.APPLICATION_JSON)
-  private def postOne[T](payload: T, path: String) : ApiResult = client.target(path).request().post(entity(payload), classOf[ApiResult])
-  private def postMany[T](payload: T, path: String) : ArrayList[ApiResult] = client.target(path).request().post(entity(payload), classOf[ArrayList[ApiResult]])
+  def postOne[T](payload: T, path: String) : ApiResult = client.target(path).request().post(entity(payload), classOf[ApiResult])
+  def postMany[T](payload: T, path: String) : ArrayList[ApiResult] = client.target(path).request().post(entity(payload), classOf[ArrayList[ApiResult]])
 
   @PostConstruct
   private def init() : Unit = { client = ClientBuilder.newClient() }
@@ -33,7 +34,8 @@ class CollectAPIClient()
   @PreDestroy
   private def dispose() : Unit = { client.close() }
 
-  override def createGroup(group: Group): ApiResult = postOne(group, s"$uri/api/group")
-  override def registerRecipients(registrationDetailsList: ArrayList[Registration]): ArrayList[ApiResult] = postMany(registrationDetailsList, s"$uri/api/register")
+  override def getHost(): String = uri
+  override def createGroup(group: Group): ApiResult = postOne(group, URI_GROUP(uri))
+  override def registerRecipients(registrationDetailsList: ArrayList[Registration]): ArrayList[ApiResult] = postMany(registrationDetailsList, URI_REGISTER(uri))
 
 }

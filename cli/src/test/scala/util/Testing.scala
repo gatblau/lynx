@@ -15,7 +15,10 @@ trait Testing {
   @Inject
   var db : DatabaseDriver = _
 
-  def get[T](key: String): T = values.get(key).get.asInstanceOf[T]
-  def set(key: String, value: Any) = values.put(key, value)
+  def get[T](key: String): T = {
+    assert(values.contains(key), s"Key ${key.toUpperCase()} not found.")
+    values.get(key).get.asInstanceOf[T]
+  }
 
+  def set(key: String, value: Any) = values.put(key, value)
 }
