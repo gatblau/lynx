@@ -1,6 +1,5 @@
 package services
 
-import java.security.MessageDigest
 import javax.inject.{Inject, Singleton}
 
 import lynx.api.{Activation, ApiResult}
@@ -14,7 +13,8 @@ class ActivationService @Inject() (
         respondentRepo: RespondentRepository,
         groupRepo: GroupRepository,
         roleRepo: RoleRepository,
-        languageRepo: LanguageRepository)
+        languageRepo: LanguageRepository,
+        countryRepo: CountryRepository)
   extends Service {
 
   def activate(activationList: List[Activation]): List[ApiResult] = activationList.map(a => activate(a))
@@ -25,6 +25,7 @@ class ActivationService @Inject() (
       val group = groupRepo.find(activation.groupId)
       val role = roleRepo.find(activation.roleId)
       val preferredLanguage = languageRepo.find(activation.preferredLanguageId)
+      val country = countryRepo.find(activation.countryId)
       respondent.setActivationCode(null)
       respondent.setCountryId_(activation.countryId)
       respondent.setFirstname(activation.firstname)
@@ -33,6 +34,7 @@ class ActivationService @Inject() (
       respondent.setGroupId(group)
       respondent.setRoleId(role)
       respondent.setPreferredLanguageId(preferredLanguage)
+      respondent.setCountryId(country)
       respondent.setEmail(activation.email)
       respondent.setPwdHash(hash(activation.password))
       respondent.setEnabled(true)

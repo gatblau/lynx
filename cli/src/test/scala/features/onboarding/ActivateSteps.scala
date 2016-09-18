@@ -53,6 +53,7 @@ class ActivateSteps extends Testing {
       assert(r.getValue(i, "role_id") == info.get(i).roleId, "Role was not set.")
       assert(r.getValue(i, "group_id") == info.get(i).groupId, "Group was not set.")
       assert(r.getValue(i, "preferred_language_id") == info.get(i).preferredLanguageId, "Preferred language was not set.")
+      assert(r.getValue(i, "country_id") == info.get(i).countryId, "Country was not set.")
     }
   }
 

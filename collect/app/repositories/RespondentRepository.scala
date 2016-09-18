@@ -3,7 +3,7 @@ package repositories
 import javax.inject.Singleton
 import javax.persistence.EntityManager
 
-import lynx.api.{Activation, Registration}
+import lynx.api.Registration
 import model.Respondent
 
 @Singleton

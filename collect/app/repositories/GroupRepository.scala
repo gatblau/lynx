@@ -18,13 +18,7 @@ class GroupRepository extends Repository {
     })
   }
 
-  def find(id: Int) : Group = {
-    jpa.withTransaction(new java.util.function.Function[EntityManager, Group] {
-      override def apply(em: EntityManager): Group = {
-        em.find(classOf[Group], id)
-      }
-    })
-  }
+  def find(id: Int) : Group = find(classOf[Group], id)
 
   private def map(apiGroup : lynx.api.Group) : model.Group = {
     val g = new model.Group()
