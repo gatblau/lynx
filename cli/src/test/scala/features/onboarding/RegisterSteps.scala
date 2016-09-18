@@ -4,14 +4,11 @@ import java.util.ArrayList
 import javax.inject.Singleton
 
 import cucumber.api.java.en.And
-import lynx.api.{ApiResult, Registration}
-import lynx.api.CollectApi._
-import play.api.libs.json.{JsValue, Json}
+import lynx.api.Registration
 import util.Keys._
 import util.Testing
 
 import scala.beans.BeanProperty
-import scala.collection.mutable
 
 case class IncorrectPayload (
     @BeanProperty asgd: String,
@@ -28,7 +25,7 @@ class RegisterSteps extends Testing {
 
   @And("^a list of details of respondents to be registered is known$")
   def a_list_of_details_of_respondents_to_be_registered_is_known() : Unit = {
-    set(REGISTRATION, payloadOK())
+    set(REGISTRATION_DATA, regPayloadOK())
   }
 
   @And("^the respondents are not already registered$")
@@ -40,13 +37,10 @@ class RegisterSteps extends Testing {
   def a_request_to_register_the_respondents_is_made() : Unit = {
     try {
       set(ERROR, null)
-      set(RESULT, client.registerRecipients(get(REGISTRATION)))
+      set(RESULT, client.registerRespondent(get(REGISTRATION_DATA)))
     }
     catch {
-      case ex : Exception => {
-        val e = ex
-        set(ERROR, ex.getMessage())
-      }
+      case ex : Exception => set(ERROR, ex.getMessage())
     }
   }
 
@@ -74,7 +68,7 @@ class RegisterSteps extends Testing {
   @And("^an incorrect payload is created$")
   def an_incorrect_payload_is_created() : Unit = {
     val payload = IncorrectPayload("A", "B")
-    set(REGISTRATION, new ArrayList(){payload})
+    set(REGISTRATION_DATA, new ArrayList(){payload})
   }
 
   @And("^a bad request response is received$")
@@ -86,7 +80,7 @@ class RegisterSteps extends Testing {
 
   @And("^a payload with missing information is created$")
   def a_payload_with_missing_information_is_created() : Unit = {
-    set(REGISTRATION, payloadMissingValues())
+    set(REGISTRATION_DATA, regPayloadMissingValues())
   }
 
   @And("^the respondents are already registered$")
@@ -119,10 +113,10 @@ class RegisterSteps extends Testing {
     }
   }
 
-  private def payloadOK()  = {
+  private def regPayloadOK()  = {
     val r = db.load("/data/respondents_to_be_reg.xml").getTable("respondent")
     val regs = new ArrayList[Registration]()
-    for (i <- 0 to 1) {
+    for (i <- 0 to r.getRowCount() - 1) {
       regs.add(Registration(
         r.getValue(i, "firstname").toString(),
         r.getValue(i, "lastname").toString(),
@@ -131,7 +125,7 @@ class RegisterSteps extends Testing {
     regs
   }
 
-  private def payloadMissingValues()  = {
+  private def regPayloadMissingValues()  = {
     val regs = new ArrayList[Registration]()
     for (i <- 0 to 1) {
       regs.add(Registration(
@@ -142,7 +136,7 @@ class RegisterSteps extends Testing {
     regs
   }
 
-  private def payloadWrongEmailTemplate()  = {
+  private def regPayloadWrongEmailTemplate()  = {
     val r = db.load("/data/respondents_to_be_reg.xml").getTable("respondent")
     val regs = new ArrayList[Registration]()
     for (i <- 0 to 1) {

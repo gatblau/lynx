@@ -16,7 +16,7 @@ Feature: Register Survey Respondents
 
   # Handling technical errors
 
-  Scenario: Gives a BAD REQUEST response if a Request is made with a malformed payload
+  Scenario: Gives a BAD REQUEST response if a Request is made with an invalid payload
     Given an incorrect payload is created
     When a request to register the respondents is made
     Then a bad request response is received

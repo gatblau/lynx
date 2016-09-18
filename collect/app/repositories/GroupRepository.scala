@@ -1,39 +1,29 @@
 package repositories
 
-import javax.inject.{Inject, Named, Singleton}
-import javax.persistence.{EntityManager, PersistenceContext}
+import javax.inject.Singleton
+import javax.persistence.EntityManager
 
 import lynx.api.ApiResult
-import play.db.jpa.{JPAApi, Transactional}
+import model.Group
 
 @Singleton
 class GroupRepository extends Repository {
 
   def create(group: lynx.api.Group) : ApiResult = {
-    try {
-      jpa.withTransaction(new java.util.function.Function[EntityManager, ApiResult] {
-        override def apply(em: EntityManager): ApiResult = {
-          val entity = em.merge(map(group))
-          new ApiResult(
-            success = true,
-            id = entity.getId().toString(),
-            "",
-            ""
-          )
-        }
-      })
-    }
-    catch {
-      case e : Exception => {
-        val result = new ApiResult(
-          success = false,
-          id = "",
-          "",
-          e.getMessage()
-        )
-        result
+    jpa.withTransaction(new java.util.function.Function[EntityManager, ApiResult] {
+      override def apply(em: EntityManager): ApiResult = {
+        val entity = em.merge(map(group))
+        ApiResult.ok(id = entity.getId().toString())
       }
-    }
+    })
+  }
+
+  def find(id: Int) : Group = {
+    jpa.withTransaction(new java.util.function.Function[EntityManager, Group] {
+      override def apply(em: EntityManager): Group = {
+        em.find(classOf[Group], id)
+      }
+    })
   }
 
   private def map(apiGroup : lynx.api.Group) : model.Group = {

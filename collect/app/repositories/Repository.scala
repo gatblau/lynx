@@ -4,7 +4,6 @@ import java.security.MessageDigest
 import javax.inject.Inject
 import javax.persistence.EntityManager
 
-import model.Respondent
 import play.db.jpa.JPAApi
 
 class Repository {

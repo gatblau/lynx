@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+    <role
+        id="1"/>
+    <group
+        id="1"
+        name="AAA"/>
+    <language
+        id="1"
+        name="English"
+        code="en"/>
+    <country
+        id="1"
+        default_language_id="1"/>
+    <respondent
+        id="1"
+        firstname="John"
+        lastname="Wayne"
+        email="john.wayne@email.com"
+        activation_code="1234"
+    />
+    <respondent
+        id="2"
+        firstname="Jack"
+        lastname="Shaw"
+        email="jack.shaw@email.com"
+        activation_code="5678"
+    />
+</dataset>

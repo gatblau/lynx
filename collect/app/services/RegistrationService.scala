@@ -1,22 +1,20 @@
 package services
 
-import javax.inject.Inject
-import javax.inject.Singleton
-import javax.persistence.{Persistence, PersistenceException}
-import javax.validation.{Constraint, ConstraintViolationException}
+import javax.inject.{Inject, Singleton}
+import javax.persistence.PersistenceException
 
 import lynx.api.{ApiResult, Registration}
 import model.Respondent
 import play.api.libs.mailer.{Email, MailerClient}
-import repositories.{EmailTemplateRepository, RegistrationRepository}
+import repositories.{EmailTemplateRepository, RespondentRepository}
 
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
-
 import scala.util.control.Breaks._
 
 @Singleton
-class RegistrationService @Inject() (mailerClient: MailerClient, emailTemplateRepository: EmailTemplateRepository, registrationRepository: RegistrationRepository) {
+class RegistrationService @Inject() (mailerClient: MailerClient, emailTemplateRepository: EmailTemplateRepository, registrationRepository: RespondentRepository)
+  extends Service {
 
   def register(registrationList: List[Registration]): List[ApiResult]= {
     var ids = ListBuffer[Int]()
@@ -39,7 +37,7 @@ class RegistrationService @Inject() (mailerClient: MailerClient, emailTemplateRe
           }
         }
         try {
-          val respondent = registrationRepository.createRespondent(registration)
+          val respondent = registrationRepository.register(registration, uuid())
           mail(registration, respondent)
           results ++= List(
             new ApiResult(
@@ -82,5 +80,15 @@ class RegistrationService @Inject() (mailerClient: MailerClient, emailTemplateRe
       bodyHtml = Some(bodyactivationcode)
     )
     mailerClient.send(email)
+  }
+
+  def checkRequired(list : List[Registration]) : String = {
+    for (i <- 0 to list.length - 1) {
+      if (isUndefined(list(i).firstname)) return "Firstname is required."
+      if (isUndefined(list(i).lastname)) return "Lastname is required."
+      if (isUndefined(list(i).email)) return "Email is required."
+      if (list(i).emailTemplateId == 0) return "Email Template Id is required."
+    }
+    ""
   }
 }

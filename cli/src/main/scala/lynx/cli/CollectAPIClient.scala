@@ -1,12 +1,13 @@
 package lynx.cli
 
+import java.util
 import java.util.ArrayList
 import javax.annotation.{PostConstruct, PreDestroy}
 import javax.inject.Named
 import javax.ws.rs.client.{Client, ClientBuilder, Entity}
 import javax.ws.rs.core.MediaType
 
-import lynx.api.{ApiResult, CollectApi, Group, Registration}
+import lynx.api._
 import lynx.api.CollectApi._
 
 @Named
@@ -36,6 +37,6 @@ class CollectAPIClient()
 
   override def getHost(): String = uri
   override def createGroup(group: Group): ApiResult = postOne(group, URI_GROUP(uri))
-  override def registerRecipients(registrationDetailsList: ArrayList[Registration]): ArrayList[ApiResult] = postMany(registrationDetailsList, URI_REGISTER(uri))
-
+  override def registerRespondent(registrationDetailsList: ArrayList[Registration]): ArrayList[ApiResult] = postMany(registrationDetailsList, URI_REGISTER(uri))
+  override def activateAccount(activationDetailsList: util.ArrayList[Activation]): util.ArrayList[ApiResult] = postMany(activationDetailsList, URI_ACTIVATE(uri))
 }
