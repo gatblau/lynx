@@ -3,13 +3,13 @@ package repositories
 import javax.inject.Singleton
 import javax.persistence.EntityManager
 
-import lynx.api.Registration
+import lynx.api.RegistrationRequest
 import model.Respondent
 
 @Singleton
 class RespondentRepository extends Repository {
 
-  def register(reg: Registration, activationCode: String) = {
+  def register(reg: RegistrationRequest, activationCode: String) = {
     val respondent = new Respondent()
     respondent.setActivationCode(activationCode)
     respondent.setFirstname(reg.firstname)

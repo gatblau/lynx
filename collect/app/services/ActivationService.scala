@@ -2,7 +2,7 @@ package services
 
 import javax.inject.{Inject, Singleton}
 
-import lynx.api.{Activation, ApiResult}
+import lynx.api.{ActivationRequest, ApiResult, PwdChangeRequest}
 import model.Respondent
 import repositories._
 
@@ -17,9 +17,9 @@ class ActivationService @Inject() (
         countryRepo: CountryRepository)
   extends Service {
 
-  def activate(activationList: List[Activation]): List[ApiResult] = activationList.map(a => activate(a))
+  def activate(activationList: List[ActivationRequest]): List[ApiResult] = activationList.map(a => activate(a))
 
-  private def activate(activation: Activation) : ApiResult = {
+  private def activate(activation: ActivationRequest) : ApiResult = {
     val respondent : Respondent = respondentRepo.findByEmail(activation.email)
     if (respondent.getActivationCode().equals(activation.activationCode)) {
       val group = groupRepo.find(activation.groupId)
@@ -45,7 +45,7 @@ class ActivationService @Inject() (
     }
   }
 
-  def checkRequired(list : List[Activation]) : String = {
+  def checkRequired(list : List[ActivationRequest]) : String = {
     var ids = ListBuffer[Int]()
     for (i <- 0 to list.length - 1) {
       if (isUndefined(list(i).activationCode)) return "Activation Code is required."

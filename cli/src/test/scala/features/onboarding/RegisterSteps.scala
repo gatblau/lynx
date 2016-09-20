@@ -4,7 +4,7 @@ import java.util.ArrayList
 import javax.inject.Singleton
 
 import cucumber.api.java.en.And
-import lynx.api.Registration
+import lynx.api.RegistrationRequest
 import util.Keys._
 import util.Testing
 
@@ -18,9 +18,9 @@ case class IncorrectPayload (
 @Singleton
 class RegisterSteps extends Testing {
 
-  @And("^an email template to notify the respondents is defined$")
-  def an_email_template_to_notify_the_respondents_is_defined() : Unit = {
-    db.setup("/data/email_template.xml")
+  @And("^a registration email template to notify the respondents is defined$")
+  def a_registration_email_template_to_notify_the_respondents_is_defined() : Unit = {
+    db.setup("/data/registration_email_template.xml")
   }
 
   @And("^a list of details of respondents to be registered is known$")
@@ -115,9 +115,9 @@ class RegisterSteps extends Testing {
 
   private def regPayloadOK()  = {
     val r = db.load("/data/respondents_to_be_reg.xml").getTable("respondent")
-    val regs = new ArrayList[Registration]()
+    val regs = new ArrayList[RegistrationRequest]()
     for (i <- 0 to r.getRowCount() - 1) {
-      regs.add(Registration(
+      regs.add(RegistrationRequest(
         r.getValue(i, "firstname").toString(),
         r.getValue(i, "lastname").toString(),
         r.getValue(i, "email").toString(), 1))
@@ -126,9 +126,9 @@ class RegisterSteps extends Testing {
   }
 
   private def regPayloadMissingValues()  = {
-    val regs = new ArrayList[Registration]()
+    val regs = new ArrayList[RegistrationRequest]()
     for (i <- 0 to 1) {
-      regs.add(Registration(
+      regs.add(RegistrationRequest(
         "",
         "",
         "", 1))
@@ -138,9 +138,9 @@ class RegisterSteps extends Testing {
 
   private def regPayloadWrongEmailTemplate()  = {
     val r = db.load("/data/respondents_to_be_reg.xml").getTable("respondent")
-    val regs = new ArrayList[Registration]()
+    val regs = new ArrayList[RegistrationRequest]()
     for (i <- 0 to 1) {
-      regs.add(Registration(
+      regs.add(RegistrationRequest(
         r.getValue(i, "firstname").toString(),
         r.getValue(i, "lastname").toString(),
         r.getValue(i, "email").toString(), 2000))

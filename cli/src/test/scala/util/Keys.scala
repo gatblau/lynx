@@ -8,4 +8,5 @@ object Keys {
   val ERROR = "error"
   val RESPONDENTS_INFO = "respondents_info"
   val RESPONDENTS_RECORD = "respondents_record"
+  val PWD_CHANGE_DETAILS = "pwd_change_details"
 }

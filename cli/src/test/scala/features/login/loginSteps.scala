@@ -18,7 +18,7 @@ class loginSteps {
 
   @And("^the respondent is registered$")
   def the_respondent_is_registered() : Unit = {
-    db.setup("/data/respondent.xml")
+    db.setup("/data/active_respondent.xml")
   }
 
   @And("^the respondent credentials are known$")

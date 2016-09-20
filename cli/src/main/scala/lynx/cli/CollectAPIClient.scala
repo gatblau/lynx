@@ -37,6 +37,7 @@ class CollectAPIClient()
 
   override def getHost(): String = uri
   override def createGroup(group: Group): ApiResult = postOne(group, URI_GROUP(uri))
-  override def registerRespondent(registrationDetailsList: ArrayList[Registration]): ArrayList[ApiResult] = postMany(registrationDetailsList, URI_REGISTER(uri))
-  override def activateAccount(activationDetailsList: util.ArrayList[Activation]): util.ArrayList[ApiResult] = postMany(activationDetailsList, URI_ACTIVATE(uri))
+  override def registerRespondent(registrationDetailsList: ArrayList[RegistrationRequest]): ArrayList[ApiResult] = postMany(registrationDetailsList, URI_REGISTER(uri))
+  override def activateAccount(activationDetailsList: util.ArrayList[ActivationRequest]): util.ArrayList[ApiResult] = postMany(activationDetailsList, URI_ACTIVATE(uri))
+  override def changePassword(request: PwdChangeRequest): ApiResult = postOne(request, URI_CHANGE_PWD(uri))
 }

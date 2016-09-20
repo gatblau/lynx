@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+    <email_template
+        id="1"
+        name="Password Change Notification Template"
+        description="Used to test the registration of new respondents."
+        subject="Please change your password"
+        body="&lt;html&gt;
+            &lt;body&gt;
+                &lt;p&gt;Dear {{firstname}}:&lt;/p&gt;
+                &lt;p&gt;You have requested a password change.&lt;/p&gt;
+                &lt;p&gt;Please use the following activation code to change your password.&lt;/p&gt;
+                &lt;p&gt;Your new activation code is: &lt;b&gt;{{activationcode}}&lt;/b&gt;&lt;/p&gt;
+                &lt;p&gt;Regards&lt;/p&gt;
+        &lt;/body&gt;
+        &lt;/html&gt;"/>
+</dataset>

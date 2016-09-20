@@ -2,7 +2,7 @@ package lynx.api
 
 import scala.beans.BeanProperty
 
-case class Registration (
+case class RegistrationRequest(
   @BeanProperty firstname: String,
   @BeanProperty lastname: String,
   @BeanProperty email: String,

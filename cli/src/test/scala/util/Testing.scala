@@ -1,10 +1,10 @@
 package util
 
-import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
 import javax.inject.{Inject, Named}
 
 import lynx.api.CollectApi
+import util.Keys._
 
 import scala.collection.mutable
 
@@ -20,6 +20,11 @@ trait Testing {
   def get[T](key: String): T = {
     assert(values.contains(key), s"Key ${key.toUpperCase()} not found.")
     values.get(key).get.asInstanceOf[T]
+  }
+
+  def checkForError(msg: String) : Unit = {
+    val error : String = get(ERROR)
+    assert(error == null || error.trim().length() == 0, s"$msg -> $error")
   }
 
   def hash(str: String, salt: Option[Array[Byte]] = None) = {

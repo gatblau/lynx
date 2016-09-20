@@ -4,7 +4,7 @@ import java.util.ArrayList
 import javax.inject.Singleton
 
 import cucumber.api.java.en.And
-import lynx.api.Activation
+import lynx.api.ActivationRequest
 import util.Keys._
 import util.Testing
 
@@ -34,14 +34,13 @@ class ActivateSteps extends Testing {
 
   @And("^the account is activated$")
   def the_account_is_activated() : Unit = {
-    val error : String = get(ERROR)
-    assert(error == null || error.trim().length() == 0, s"Account could not be activated: $error")
+    checkForError("Account could not be activated")
   }
 
   @And("^the account details are updated$")
   def the_account_details_are_updated() : Unit = {
     val r = db.query("SELECT * FROM respondent;")
-    val info : ArrayList[Activation] = get(ACTIVATION_DATA)
+    val info : ArrayList[ActivationRequest] = get(ACTIVATION_DATA)
     for (i <- 0 to r.getRowCount() - 1) {
       val h1 = r.getValue(i, "pwd_hash").toString()
       val h2 = hash(info.get(i).password)
@@ -59,9 +58,9 @@ class ActivateSteps extends Testing {
 
   private def activationPayloadOK()  = {
     val a = db.load("/data/respondents_to_be_activated.xml").getTable("respondent")
-    val acts = new ArrayList[Activation]()
+    val acts = new ArrayList[ActivationRequest]()
     for (i <- 0 to a.getRowCount() - 1) {
-      acts.add(Activation(
+      acts.add(ActivationRequest(
         a.getValue(i, "firstname").toString(),
         a.getValue(i, "lastname").toString(),
         a.getValue(i, "email").toString(),

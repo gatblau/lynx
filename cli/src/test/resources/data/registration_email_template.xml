@@ -2,7 +2,7 @@
 <dataset>
     <email_template
         id="1"
-        name="Test Email Template"
+        name="Registration Notification Template"
         description="Used to test the registration of new respondents."
         subject="Please activate your account"
         body="&lt;html&gt;
