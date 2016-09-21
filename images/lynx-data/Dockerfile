@@ -13,7 +13,7 @@ LABEL Vendor="gatblau" \
 COPY mariadb-10-1.repo /etc/yum.repos.d/
 
 # copy server configuration files
-COPY tables.sql mysql-init.sql perm.sh start.sh /config/
+COPY tables.sql perm.sh start.sh /config/
 
 # installs mariadb server
 RUN yum -y install --setopt=tsflags=nodocs epel-release && \
