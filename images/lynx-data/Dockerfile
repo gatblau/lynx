@@ -16,8 +16,7 @@ COPY mariadb-10-1.repo /etc/yum.repos.d/
 COPY tables.sql start.sh /config/
 
 # installs mariadb server
-RUN yum -y install --setopt=tsflags=nodocs epel-release && \
-    yum -y install --setopt=tsflags=nodocs MariaDB-server bind-utils pwgen psmisc hostname && \
+RUN yum -y install --setopt=tsflags=nodocs MariaDB-server && \
     yum -y erase vim-minimal && \
     yum clean all
 
