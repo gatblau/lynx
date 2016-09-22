@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
-
-MySqlInitFile='/config/mysql-init.sql'
-
+MYSQL_INIT_FILE='/config/mysql-init.sql'
 echo 'Checking the database server has been initialised'
-if [ ! -e "$MySqlInitFile" ]; then
+if [ ! -e "$MYSQL_INIT_FILE" ]; then
     echo 'The database server is not initialised.'
     echo 'Attempting to initialise the server.'
     echo 'Checking for required environment variables.'
@@ -17,10 +15,11 @@ if [ ! -e "$MySqlInitFile" ]; then
         echo >&2 '  Did you forget to add -e MYSQL_PASSWORD=... ?'
         exit 1
     fi
-
+    echo 'Installing System Tables'
+    mysql_install_db --datadir="/var/lib/mysql"
     echo 'Creating mysql-init file.'
     echo 'Appending Users and Databases to mysql-init file'
-    cat > "$MySqlInitFile" <<-EOSQL
+    cat > "$MYSQL_INIT_FILE" <<-EOSQL
 FLUSH PRIVILEGES ;
 DELETE FROM mysql.user ;
 CREATE USER 'root'@'%' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}' ;
@@ -32,9 +31,7 @@ GRANT ALL ON lynxc.* TO 'lynx'@'%' ;
 FLUSH PRIVILEGES ;
 EOSQL
     echo 'Appending tables to mysql-init file'
-    cat '/config/tables.sql' >> "$MySqlInitFile"
-
+    cat '/config/tables.sql' >> "$MYSQL_INIT_FILE"
 fi
-
 echo 'Executing mysqld_safe'
 exec mysqld_safe

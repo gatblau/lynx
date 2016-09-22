@@ -9,14 +9,11 @@ LABEL Vendor="gatblau" \
       io.openshift.expose-services="3306:lynxdata" \
       io.openshift.tags="lynx, data"
 
-# installs mariadb yum repo
-COPY mariadb-10-1.repo /etc/yum.repos.d/
-
 # copy server configuration files
 COPY tables.sql start.sh /config/
 
 # installs mariadb server
-RUN yum -y install --setopt=tsflags=nodocs MariaDB-server && \
+RUN yum -y install --setopt=tsflags=nodocs mariadb-server && \
     yum -y erase vim-minimal && \
     yum clean all
 
