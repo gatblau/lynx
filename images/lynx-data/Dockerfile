@@ -1,12 +1,12 @@
 FROM centos:7
 
-MAINTAINER Lynx <http://www.gatblau.org/lynx>
+MAINTAINER Lynx <lynx@gatblau.org>
 
 LABEL Vendor="gatblau" \
       Version=0.0.1 \
-      io.k8s.description="The database services for Lynx surveys." \
+      io.k8s.description="The database service for Lynx." \
       io.k8s.display-name="Lynx Data" \
-      io.openshift.expose-services="3306:lynxdata" \
+      io.openshift.expose-services="3306:lynx-data" \
       io.openshift.tags="lynx, data"
 
 # copy server configuration files

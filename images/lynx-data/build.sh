@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
-docker build --rm -t lynx-data:latest .
+# REGISTRY[:PORT]/USER/REPO[:TAG]
+docker build --rm -t gatblau/lynx-data:latest .
