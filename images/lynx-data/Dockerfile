@@ -13,32 +13,33 @@ LABEL Vendor="gatblau" \
 COPY mariadb-10-1.repo /etc/yum.repos.d/
 
 # copy server configuration files
-COPY tables.sql perm.sh start.sh /config/
+COPY tables.sql start.sh /config/
 
 # installs mariadb server
 RUN yum -y install --setopt=tsflags=nodocs epel-release && \
     yum -y install --setopt=tsflags=nodocs MariaDB-server bind-utils pwgen psmisc hostname && \
     yum -y erase vim-minimal && \
-    yum -y update && \
-    yum clean all && \
-    test "$(id mysql)" = "uid=997(mysql) gid=996(mysql) groups=996(mysql)"
+    yum clean all
 
 # copy mariadb configuration file
 COPY my.cnf /etc/
 
 # assign permissions
-RUN  /config/perm.sh /var/lib/mysql/ && \
-     /config/perm.sh /run/ && \
-     /config/perm.sh /config/ && \
-     /config/perm.sh /etc/my.cnf && \
-     /config/perm.sh /etc/my.cnf.d/
+RUN chown -R mysql /var/lib/mysql/ /run/ /config/ /etc/my.cnf /etc/my.cnf.d/ && \
+    chgrp -R 0 /var/lib/mysql/ /run/ /config/ /etc/my.cnf /etc/my.cnf.d/  && \
+    chmod -R g+rw /var/lib/mysql/ /run/ /config/ /etc/my.cnf /etc/my.cnf.d/  && \
+    find /var/lib/mysql/ -type d -exec chmod g+x {} + && \
+    find /run/ -type d -exec chmod g+x {} + && \
+    find /config/ -type d -exec chmod g+x {} + && \
+    find /etc/my.cnf -type d -exec chmod g+x {} + && \
+    find /etc/my.cnf.d/ -type d -exec chmod g+x {} +
 
 ENTRYPOINT ["/config/start.sh"]
 
 # after any changes to the file system!
 VOLUME /var/lib/mysql
 
-# runs as mariadb mysql user 997 (or a random user in OpenShift)
-USER 997
+# runs as mariadb mysql user (or a random user in OpenShift)
+USER mysql
 
 EXPOSE 3306
