@@ -39,8 +39,8 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`group` (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `lynxc`.`language` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
-  `code` VARCHAR(10) NOT NULL,
+  `name` VARCHAR(255) NOT NULL,
+  `code` VARCHAR(2) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `name_UNIQUE` (`name` ASC),
   UNIQUE INDEX `code_UNIQUE` (`code` ASC))

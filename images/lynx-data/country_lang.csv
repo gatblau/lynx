@@ -1,0 +1,192 @@
+id,name,country_id,language_id
+1,"Afghanistan",1,297
+2,"Albania",2,297
+3,"Algeria",3,297
+4,"Andorra",4,297
+5,"Angola",5,297
+6,"Antigua and Barbuda",6,297
+7,"Argentina",7,297
+8,"Armenia,8,297
+9,"Australia",9,297
+10,"Austria",10,297
+11,"Azerbaijan",11,297
+12,"Bahamas",12,297
+13,"Bahrain",13,297
+14,"Bangladesh",14,297
+15,"Barbados",15,297
+16,"Belarus",16,297
+17,"Belgium",17,29718,"Belize",18,297
+19,"Benin",19,297
+20,"Bhutan",20,297
+21,"Bolivia",21,297
+22,"Bosnia and Herzegovina",22,297
+23,"Botswana",23,297
+24,"Brazil",24,297
+25,"Brunei Darussalam",25,297
+26,"Bulgaria",26,297
+27,"Burkina Faso",27,297
+28,"Burundi",28,297
+30,"Cabo Verde",30,297
+31,"Cambodia",31,297
+32,"Cameroon",32,297
+33,"Canada",33,297
+34,"Central African Republic",34,297
+35,"Chad",35,297
+36,"Chile",36,297
+37,"China",37,297
+38,"Colombia",38,297
+39,"Comoros",39,297
+40,"Congo",40,297
+41,"Costa Rica",41,297
+42,"Croatia",42,297
+43,"Cuba",43,297
+44,"Cyprus",44,297
+45,"Czech Republic",45,297
+46,"Democratic People's Republic of Korea (North ",46,297
+47,"Democratic Republic of the Cong",47,297
+48,"Denmark",48,297
+49,"Djibouti",49,297
+50,"Dominica",50,297
+51,"Dominican Republic",51,297
+52,"Ecuador",52,297
+53,"Egypt",53,297
+54,"El Salvador",54,297
+55,"Equatorial Guinea",55,297
+56,"Eritrea",56,297
+57,"Estonia",57,297
+58,"Ethiopia",58,297
+59,"Fiji",59,297
+60,"Finland",60,297
+61,"France",61,297
+62,"Gabon",62,297
+63,"Gambia",63,297
+64,"Georgia",64,297
+65,"Germany",65,297
+66,"Ghana",66,297
+67,"Greece",67,297
+68,"Grenada",68,297
+69,"Guatemala",69,297
+70,"Guinea",70,297
+71,"Guinea-Bissau",71,297
+72,"Guyana",72,297
+73,"Haiti",73,297
+74,"Honduras",74,297
+75,"Hungary",75,297
+76,"Iceland",76,297
+77,"India",77,297
+78,"Indonesia",78,297
+79,"Iran",79,297
+80,"Iraq",80,297
+81,"Ireland",81,297
+82,"Israel",82,297
+83,"Italy",83,297
+84,"Jamaica",84,297
+85,"Japan",85,297
+86,"Jordan",86,297
+87,"Kazakhstan",87,297
+88,"Kenya",88,297
+89,"Kiribati",89,297
+90,"Kuwait",90,297
+91,"Kyrgyzstan",91,297
+92,"Lao People's Democratic Republic (Laos)",92,297
+93,"Latvia",93,297
+94,"Lebanon",94,297
+95,"Lesotho",95,297
+96,"Liberia",96,297
+97,"Libya",97,297
+98,"Liechtenstein",98,297
+99,"Lithuania",99,297
+100,"Luxembourg",100,297
+101,"Macedonia",101,297
+102,"Madagascar",102,297
+103,"Malawi",103,297
+104,"Malaysia",104,297
+105,"Maldives",105,297
+106,"Mali",106,297
+107,"Malta",107,297
+108,"Marshall Islands",108,297
+109,"Mauritania",109,297
+110,"Mauritius",110,297
+111,"Mexico",111,297
+112,"Micronesia (Federated States of)",112,297
+113,"Monaco",113,297
+114,"Mongolia",114,297
+115,"Montenegro",115,297
+116,"Morocco",116,297
+117,"Mozambique",117,297
+118,"Myanmar",118,297
+119,"Namibia",119,297
+120,"Nauru",120,297
+121,"Nepal",121,297
+122,"Netherlands",122,297
+123,"New Zealand",123,297
+124,"Nicaragua",124,297
+125,"Niger",125,297
+126,"Nigeria",126,297
+127,"Norway",127,297
+128,"Oman",128,297
+129,"Pakistan",129,297
+130,"Palau",130,297
+131,"Panama",131,297
+132,"Papua New Guinea",132,297
+133,"Paraguay",133,297
+134,"Peru",134,297
+135,"Philippines",135,297
+136,"Poland",136,297
+137,"Portugal",137,297
+138,"Qatar",138,297
+139,"Republic of Korea (South Korea)",139,297
+140,"Republic of Moldova",140,297
+141,"Romania",141,297
+142,"Russian Federation",142,297
+143,"Rwanda",143,297
+144,"Saint Kitts and Nevis",144,297
+145,"Saint Lucia",145,297
+146,"Saint Vincent and the Grenadines",146,297
+147,"Samoa",147,297
+148,"San Marino",148,297
+149,"Sao Tome and Principe",149,297
+150,"Saudi Arabia",150,297
+151,"Senegal",151,297
+152,"Serbia",152,297
+153,"Seychelles",153,297
+154,"Sierra Leone",154,297
+155,"Singapore",155,297
+156,"Slovakia",156,297
+157,"Slovenia",157,297
+158,"Solomon Islands",158,297
+159,"Somalia",159,297
+160,"South Africa",160,297
+161,"South Sudan",161,297
+162,"Spain",162,297
+163,"Sri Lanka",163,297
+164,"Sudan",164,297
+165,"Suriname",165,297
+166,"Swaziland",166,297
+167,"Sweden",167,297
+168,"Switzerland",168,297
+169,"Syrian Arab Republic",169,297
+170,"Tajikistan",170,297
+171,"Thailand",171,297
+172,"Timor-Leste",172,297
+173,"Togo",173,297
+174,"Tonga",174,297
+175,"Trinidad and Tobago",175,297
+176,"Tunisia",176,297
+177,"Turkey",177,297
+178,"Turkmenistan",178,297
+179,"Tuvalu",179,297
+180,"Uganda",180,297
+181,"Ukraine",181,297
+182,"United Arab Emirates",182,297
+183,"United Kingdom",183,297
+184,"United Republic of Tanzania",184,297
+185,"United States of America",185,297
+186,"Uruguay",186,297
+187,"Uzbekistan",187,297
+188,"Vanuatu",188,297
+189,"Venezuela",189,297
+190,"Vietnam",190,297
+191,"Yemen",191,297
+192,"Zambia",192,297
+193,"Zimbabwe",193,297

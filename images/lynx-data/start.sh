@@ -32,6 +32,11 @@ FLUSH PRIVILEGES ;
 EOSQL
     echo 'Appending tables to mysql-init file'
     cat '/config/tables.sql' >> "$MYSQL_INIT_FILE"
+
+    echo 'Adding loading of reference data'
+    echo "LOAD DATA INFILE '/config/language.csv' INTO TABLE language CHARACTER SET utf8 FIELDS TERMINATED BY ',' ENCLOSED BY '\"' IGNORE 1 LINES ;" >> "$MYSQL_INIT_FILE"
+    echo "LOAD DATA INFILE '/config/country.csv' INTO TABLE country CHARACTER SET utf8 FIELDS TERMINATED BY ',' ENCLOSED BY '\"' IGNORE 1 LINES ;" >> "$MYSQL_INIT_FILE"
+    echo "LOAD DATA INFILE '/config/country_lang.csv' INTO TABLE country_lang CHARACTER SET utf8 FIELDS TERMINATED BY ',' ENCLOSED BY '\"' IGNORE 1 LINES ;" >> "$MYSQL_INIT_FILE"
 fi
 echo 'Executing mysqld_safe'
 exec mysqld_safe
