@@ -1,0 +1,2 @@
+id,name,description,subject,body
+1,"Registration Notification Template","Used to test the registration of new respondents.","Please activate your account","<html><body><p>Dear {{firstname}}:</p><p>You have been registered to take a survey.</p><p>Please activate your account so you can login and complete your profile.</p> <p>You will be asked for your activation code: <b>{{activationcode}}</b></p><p>Regards</p></body></html>"

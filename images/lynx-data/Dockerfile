@@ -10,7 +10,7 @@ LABEL Vendor="gatblau" \
       io.openshift.tags="lynx, data"
 
 # copy server configuration files
-COPY start.sh tables.sql language.csv country.csv country_lang.csv /config/
+COPY start.sh *.sql data/*.csv /config/
 
 # installs mariadb server
 RUN yum -y install --setopt=tsflags=nodocs mariadb-server && \

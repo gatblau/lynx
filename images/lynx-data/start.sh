@@ -18,7 +18,7 @@ if [ ! -e "$MYSQL_INIT_FILE" ]; then
     echo 'Installing System Tables'
     mysql_install_db --datadir="/var/lib/mysql"
     echo 'Creating mysql-init file.'
-    echo 'Appending Users and Databases to mysql-init file'
+    echo 'Adding creation of users and databases to mysql-init'
     cat > "$MYSQL_INIT_FILE" <<-EOSQL
 FLUSH PRIVILEGES ;
 DELETE FROM mysql.user ;
@@ -30,13 +30,14 @@ CREATE USER 'lynx'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}' ;
 GRANT ALL ON lynxc.* TO 'lynx'@'%' ;
 FLUSH PRIVILEGES ;
 EOSQL
-    echo 'Appending tables to mysql-init file'
-    cat '/config/tables.sql' >> "$MYSQL_INIT_FILE"
-
-    echo 'Adding loading of reference data'
-    echo "LOAD DATA INFILE '/config/language.csv' INTO TABLE language CHARACTER SET utf8 FIELDS TERMINATED BY ',' ENCLOSED BY '\"' IGNORE 1 LINES ;" >> "$MYSQL_INIT_FILE"
-    echo "LOAD DATA INFILE '/config/country.csv' INTO TABLE country CHARACTER SET utf8 FIELDS TERMINATED BY ',' ENCLOSED BY '\"' IGNORE 1 LINES ;" >> "$MYSQL_INIT_FILE"
-    echo "LOAD DATA INFILE '/config/country_lang.csv' INTO TABLE country_lang CHARACTER SET utf8 FIELDS TERMINATED BY ',' ENCLOSED BY '\"' IGNORE 1 LINES ;" >> "$MYSQL_INIT_FILE"
+    echo 'Adding creation of db schema to mysql-init'
+    cat '/config/schema.sql' >> "$MYSQL_INIT_FILE"
+    echo 'Adding loading of reference data to mysql-init'
+    declare -a tables=("language" "country" "country_lang" "email_template")
+    for table in "${tables[@]}";
+    do
+       echo "LOAD DATA INFILE '/config/${table}.csv' INTO TABLE ${table} CHARACTER SET utf8 FIELDS TERMINATED BY ',' ENCLOSED BY '\"' IGNORE 1 LINES ;" >> "$MYSQL_INIT_FILE"
+    done;
 fi
 echo 'Executing mysqld_safe'
 exec mysqld_safe
