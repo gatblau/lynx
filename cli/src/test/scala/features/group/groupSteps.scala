@@ -8,7 +8,7 @@ import util.Testing
 import util.Keys._
 
 @Singleton
-class groupSteps extends Testing {
+class GroupSteps extends Testing {
 
   @And("^group information is known$")
   def group_information_is_known() : Unit = {
