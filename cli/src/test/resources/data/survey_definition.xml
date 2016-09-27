@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+    <survey_def
+        id="1"/>
+    <section_def
+        id="1"
+        dynamic="false"
+        survey_def_id="1"/>
+    <section_def_lang
+        id="1"
+        name="Section 1"
+        description="Section 1 is great."
+        section_def_id="1"
+        language_id="39"/>
+    <fact_def
+        id="1"
+        section_def_id="1"
+    />
+
+    <section_def
+            id="2"
+            dynamic="false"
+            survey_def_id="1"/>
+    <section_def_lang
+            id="2"
+            name="Section 2"
+            description="Section 2 is awesome."
+            section_def_id="2"
+            language_id="39"/>
+</dataset>
