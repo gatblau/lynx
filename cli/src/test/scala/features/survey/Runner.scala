@@ -1,8 +1,9 @@
-package features.login
+package features.survey
 
 import cucumber.api.CucumberOptions
 import cucumber.api.junit.Cucumber
 import org.junit.runner.RunWith
 
 @RunWith(classOf[Cucumber])
-class loginRunner
+@CucumberOptions(glue = Array[String]{ "features.survey" })
+class Runner

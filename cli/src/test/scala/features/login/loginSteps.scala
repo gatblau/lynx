@@ -7,7 +7,7 @@ import lynx.api.{CollectApi, Group, ApiResult}
 import util._
 
 @Singleton
-class loginSteps {
+class LoginSteps {
 
   @Inject
   @Named("testCollectAPIClient")

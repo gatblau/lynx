@@ -1,0 +1,27 @@
+---
+- journey:
+    name= Granting access to a Survey
+    actor=Admin
+
+  - path: Add respondent to Survey
+    features:
+        - Create Survey
+        - Add Respondent To Survey
+
+- journey:
+    name=Fill in a Survey
+    actor=Respondent
+
+  - path: Filling a Survey and Saving
+    features:
+      - Get Surveys by Respondent
+      - Get Survey by Id And Language
+      - Edit Survey
+      - Save Survey
+
+  - path: Filling a Survey and Discarding Changes
+    features:
+      - Get Surveys by Respondent
+      - Get Survey by Id And Language
+      - Edit Survey
+      - Cancel Survey Edit
