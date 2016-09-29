@@ -46,37 +46,37 @@
         fact_def_id="1"/>
     <option_def_lang
         id="1"
-        language_ig="39"
+        language_id="39"
         option_def_id="1"
         name="Red"
         description="Red colour."/>
     <option_def_lang
         id="2"
-        language_ig="39"
+        language_id="39"
         option_def_id="1"
         name="Blue"
         description="Blue colour."/>
     <option_def_lang
         id="3"
-        language_ig="39"
+        language_id="39"
         option_def_id="1"
         name="Yellow"
         description="Yellow colour."/>
     <option_def_lang
         id="4"
-        language_ig="140"
+        language_id="140"
         option_def_id="1"
         name="Colorado"
         description="Color colorado."/>
     <option_def_lang
         id="5"
-        language_ig="140"
+        language_id="140"
         option_def_id="1"
         name="Azul"
         description="Color azul."/>
     <option_def_lang
         id="6"
-        language_ig="140"
+        language_id="140"
         option_def_id="1"
         name="Amarillo"
         description="Color amarillo."/>
@@ -85,13 +85,13 @@
         dynamic="false"
         survey_def_id="1"/>
     <section_def_lang
-        id="2"
+        id="3"
         name="Section 2"
         description="Section 2 is awesome."
         section_def_id="2"
         language_id="39"/>
     <section_def_lang
-        id="2"
+        id="4"
         name="Seccion 2"
         description="La Seccion 2 es fantastica."
         section_def_id="2"
@@ -120,13 +120,13 @@
         fact_def_id="2"/>
     <option_def_lang
         id="7"
-        language_ig="39"
+        language_id="39"
         option_def_id="2"
         name="Option 1"
         description="The advantages of Option 1 are..."/>
     <option_def_lang
         id="8"
-        language_ig="140"
+        language_id="140"
         option_def_id="2"
         name="Opcion 1"
         description="Las ventajas de la Opcion 1 son..."/>
@@ -135,13 +135,13 @@
         fact_def_id="2"/>
     <option_def_lang
         id="9"
-        language_ig="39"
+        language_id="39"
         option_def_id="3"
         name="Option 2"
         description="The advantages of Option 2 are..."/>
     <option_def_lang
         id="10"
-        language_ig="140"
+        language_id="140"
         option_def_id="3"
         name="Opcion 2"
         description="Las ventajas de la Opcion 2 son..."/>

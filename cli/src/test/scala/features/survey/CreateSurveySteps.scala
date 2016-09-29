@@ -11,8 +11,7 @@ class CreateSurveySteps extends Testing {
 
   @And("^a survey definition exists$")
   def a_survey_definition_exists() : Unit = {
-    // Write code here that turns the phrase above into concrete actions
-    throw new PendingException()
+    db.setup("/data/survey_definition.xml")
   }
 
   @And("^the survey details are known$")
