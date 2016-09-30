@@ -26,8 +26,8 @@ public class Group implements Serializable {
     @Column(name="name"  , length=45 , nullable=false , unique=false)
     private String name; 
 
-    @OneToMany (targetEntity=model.Respondent.class, fetch=FetchType.LAZY, mappedBy="groupId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
-    private Set <Respondent> respondentGroupViaGroupId = new HashSet<Respondent>(); 
+    @OneToMany (targetEntity=model.User.class, fetch=FetchType.LAZY, mappedBy="groupId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
+    private Set <User> userGroupViaGroupId = new HashSet<User>();
 
     public Group() {
     }
@@ -73,18 +73,18 @@ public class Group implements Serializable {
         this.name =  name;
     }
 
-    public Set<Respondent> getRespondentGroupViaGroupId() {
-        if (respondentGroupViaGroupId == null){
-            respondentGroupViaGroupId = new HashSet<Respondent>();
+    public Set<User> getUserGroupViaGroupId() {
+        if (userGroupViaGroupId == null){
+            userGroupViaGroupId = new HashSet<User>();
         }
-        return respondentGroupViaGroupId;
+        return userGroupViaGroupId;
     }
 
-    public void setRespondentGroupViaGroupId (Set<Respondent> respondentGroupViaGroupId) {
-        this.respondentGroupViaGroupId = respondentGroupViaGroupId;
+    public void setUserGroupViaGroupId (Set<User> userGroupViaGroupId) {
+        this.userGroupViaGroupId = userGroupViaGroupId;
     }	
     
-    public void addRespondentGroupViaGroupId (Respondent element) {
-    	    getRespondentGroupViaGroupId().add(element);
+    public void addUserGroupViaGroupId (User element) {
+    	    getUserGroupViaGroupId().add(element);
     }
 }

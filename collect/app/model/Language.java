@@ -39,14 +39,14 @@ public class Language implements Serializable {
     @OneToMany (targetEntity=model.CountryLang.class, fetch=FetchType.LAZY, mappedBy="languageId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
     private Set <CountryLang> countryLangLanguageViaLanguageId = new HashSet<CountryLang>(); 
 
-    @OneToMany (targetEntity=model.FactDefLang.class, fetch=FetchType.LAZY, mappedBy="languageId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
-    private Set <FactDefLang> factDefLangLanguageViaLanguageId = new HashSet<FactDefLang>(); 
+    @OneToMany (targetEntity=model.ItemDefLang.class, fetch=FetchType.LAZY, mappedBy="languageId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
+    private Set <ItemDefLang> itemDefLangLanguageViaLanguageId = new HashSet<ItemDefLang>();
 
     @OneToMany (targetEntity=model.OptionDefLang.class, fetch=FetchType.LAZY, mappedBy="languageId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
     private Set <OptionDefLang> optionDefLangLanguageViaLanguageId = new HashSet<OptionDefLang>(); 
 
-    @OneToMany (targetEntity=model.Respondent.class, fetch=FetchType.LAZY, mappedBy="preferredLanguageId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
-    private Set <Respondent> respondentLanguageViaPreferredLanguageId = new HashSet<Respondent>(); 
+    @OneToMany (targetEntity=model.User.class, fetch=FetchType.LAZY, mappedBy="preferredLanguageId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
+    private Set <User> userLanguageViaPreferredLanguageId = new HashSet<User>();
 
     @OneToMany (targetEntity=model.RoleLang.class, fetch=FetchType.LAZY, mappedBy="languageId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
     private Set <RoleLang> roleLangLanguageViaLanguageId = new HashSet<RoleLang>(); 
@@ -54,11 +54,11 @@ public class Language implements Serializable {
     @OneToMany (targetEntity=model.SectionDefLang.class, fetch=FetchType.LAZY, mappedBy="languageId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
     private Set <SectionDefLang> sectionDefLangLanguageViaLanguageId = new HashSet<SectionDefLang>(); 
 
-    @OneToMany (targetEntity=model.SurveyDefLang.class, fetch=FetchType.LAZY, mappedBy="languageId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
-    private Set <SurveyDefLang> surveyDefLangLanguageViaLanguageId = new HashSet<SurveyDefLang>(); 
+    @OneToMany (targetEntity=model.ContentDefLang.class, fetch=FetchType.LAZY, mappedBy="languageId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
+    private Set <ContentDefLang> contentDefLangLanguageViaLanguageId = new HashSet<ContentDefLang>();
 
-    @OneToMany (targetEntity=model.SurveyLang.class, fetch=FetchType.LAZY, mappedBy="languageId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
-    private Set <SurveyLang> surveyLangLanguageViaLanguageId = new HashSet<SurveyLang>(); 
+    @OneToMany (targetEntity=model.ContentLang.class, fetch=FetchType.LAZY, mappedBy="languageId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
+    private Set <ContentLang> contentLangLanguageViaLanguageId = new HashSet<ContentLang>();
 
     public Language() {
     }
@@ -147,19 +147,19 @@ public class Language implements Serializable {
     	    getCountryLangLanguageViaLanguageId().add(element);
     }
 
-    public Set<FactDefLang> getFactDefLangLanguageViaLanguageId() {
-        if (factDefLangLanguageViaLanguageId == null){
-            factDefLangLanguageViaLanguageId = new HashSet<FactDefLang>();
+    public Set<ItemDefLang> getItemDefLangLanguageViaLanguageId() {
+        if (itemDefLangLanguageViaLanguageId == null){
+            itemDefLangLanguageViaLanguageId = new HashSet<ItemDefLang>();
         }
-        return factDefLangLanguageViaLanguageId;
+        return itemDefLangLanguageViaLanguageId;
     }
 
-    public void setFactDefLangLanguageViaLanguageId (Set<FactDefLang> factDefLangLanguageViaLanguageId) {
-        this.factDefLangLanguageViaLanguageId = factDefLangLanguageViaLanguageId;
+    public void setItemDefLangLanguageViaLanguageId (Set<ItemDefLang> itemDefLangLanguageViaLanguageId) {
+        this.itemDefLangLanguageViaLanguageId = itemDefLangLanguageViaLanguageId;
     }	
     
-    public void addFactDefLangLanguageViaLanguageId (FactDefLang element) {
-    	    getFactDefLangLanguageViaLanguageId().add(element);
+    public void addItemDefLangLanguageViaLanguageId (ItemDefLang element) {
+    	    getItemDefLangLanguageViaLanguageId().add(element);
     }
 
     public Set<OptionDefLang> getOptionDefLangLanguageViaLanguageId() {
@@ -177,19 +177,19 @@ public class Language implements Serializable {
     	    getOptionDefLangLanguageViaLanguageId().add(element);
     }
 
-    public Set<Respondent> getRespondentLanguageViaPreferredLanguageId() {
-        if (respondentLanguageViaPreferredLanguageId == null){
-            respondentLanguageViaPreferredLanguageId = new HashSet<Respondent>();
+    public Set<User> getUserLanguageViaPreferredLanguageId() {
+        if (userLanguageViaPreferredLanguageId == null){
+            userLanguageViaPreferredLanguageId = new HashSet<User>();
         }
-        return respondentLanguageViaPreferredLanguageId;
+        return userLanguageViaPreferredLanguageId;
     }
 
-    public void setRespondentLanguageViaPreferredLanguageId (Set<Respondent> respondentLanguageViaPreferredLanguageId) {
-        this.respondentLanguageViaPreferredLanguageId = respondentLanguageViaPreferredLanguageId;
+    public void setUserLanguageViaPreferredLanguageId (Set<User> userLanguageViaPreferredLanguageId) {
+        this.userLanguageViaPreferredLanguageId = userLanguageViaPreferredLanguageId;
     }	
     
-    public void addRespondentLanguageViaPreferredLanguageId (Respondent element) {
-    	    getRespondentLanguageViaPreferredLanguageId().add(element);
+    public void addUserLanguageViaPreferredLanguageId (User element) {
+    	    getUserLanguageViaPreferredLanguageId().add(element);
     }
 
     public Set<RoleLang> getRoleLangLanguageViaLanguageId() {
@@ -222,33 +222,33 @@ public class Language implements Serializable {
     	    getSectionDefLangLanguageViaLanguageId().add(element);
     }
 
-    public Set<SurveyDefLang> getSurveyDefLangLanguageViaLanguageId() {
-        if (surveyDefLangLanguageViaLanguageId == null){
-            surveyDefLangLanguageViaLanguageId = new HashSet<SurveyDefLang>();
+    public Set<ContentDefLang> getContentDefLangLanguageViaLanguageId() {
+        if (contentDefLangLanguageViaLanguageId == null){
+            contentDefLangLanguageViaLanguageId = new HashSet<ContentDefLang>();
         }
-        return surveyDefLangLanguageViaLanguageId;
+        return contentDefLangLanguageViaLanguageId;
     }
 
-    public void setSurveyDefLangLanguageViaLanguageId (Set<SurveyDefLang> surveyDefLangLanguageViaLanguageId) {
-        this.surveyDefLangLanguageViaLanguageId = surveyDefLangLanguageViaLanguageId;
+    public void setContentDefLangLanguageViaLanguageId (Set<ContentDefLang> contentDefLangLanguageViaLanguageId) {
+        this.contentDefLangLanguageViaLanguageId = contentDefLangLanguageViaLanguageId;
     }	
     
-    public void addSurveyDefLangLanguageViaLanguageId (SurveyDefLang element) {
-    	    getSurveyDefLangLanguageViaLanguageId().add(element);
+    public void addContentDefLangLanguageViaLanguageId (ContentDefLang element) {
+    	    getContentDefLangLanguageViaLanguageId().add(element);
     }
 
-    public Set<SurveyLang> getSurveyLangLanguageViaLanguageId() {
-        if (surveyLangLanguageViaLanguageId == null){
-            surveyLangLanguageViaLanguageId = new HashSet<SurveyLang>();
+    public Set<ContentLang> getContentLangLanguageViaLanguageId() {
+        if (contentLangLanguageViaLanguageId == null){
+            contentLangLanguageViaLanguageId = new HashSet<ContentLang>();
         }
-        return surveyLangLanguageViaLanguageId;
+        return contentLangLanguageViaLanguageId;
     }
 
-    public void setSurveyLangLanguageViaLanguageId (Set<SurveyLang> surveyLangLanguageViaLanguageId) {
-        this.surveyLangLanguageViaLanguageId = surveyLangLanguageViaLanguageId;
+    public void setContentLangLanguageViaLanguageId (Set<ContentLang> contentLangLanguageViaLanguageId) {
+        this.contentLangLanguageViaLanguageId = contentLangLanguageViaLanguageId;
     }	
     
-    public void addSurveyLangLanguageViaLanguageId (SurveyLang element) {
-    	    getSurveyLangLanguageViaLanguageId().add(element);
+    public void addContentLangLanguageViaLanguageId (ContentLang element) {
+    	    getContentLangLanguageViaLanguageId().add(element);
     }
 }

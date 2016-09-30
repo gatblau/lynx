@@ -26,8 +26,8 @@ public class ResourceLayout implements Serializable {
     @Column(name="value"  , length=45 , nullable=false , unique=false)
     private String value; 
 
-    @OneToMany (targetEntity=FactDef.class, fetch=FetchType.LAZY, mappedBy="resourceLayoutId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
-    private Set <FactDef> factDefResourceLayoutViaResourceLayoutId = new HashSet<FactDef>(); 
+    @OneToMany (targetEntity=ItemDef.class, fetch=FetchType.LAZY, mappedBy="resourceLayoutId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
+    private Set <ItemDef> itemDefResourceLayoutViaResourceLayoutId = new HashSet<ItemDef>();
 
     public ResourceLayout() {
     }
@@ -73,18 +73,18 @@ public class ResourceLayout implements Serializable {
         this.value =  value;
     }
 
-    public Set<FactDef> getFactDefResourceLayoutViaResourceLayoutId() {
-        if (factDefResourceLayoutViaResourceLayoutId == null){
-            factDefResourceLayoutViaResourceLayoutId = new HashSet<FactDef>();
+    public Set<ItemDef> getItemDefResourceLayoutViaResourceLayoutId() {
+        if (itemDefResourceLayoutViaResourceLayoutId == null){
+            itemDefResourceLayoutViaResourceLayoutId = new HashSet<ItemDef>();
         }
-        return factDefResourceLayoutViaResourceLayoutId;
+        return itemDefResourceLayoutViaResourceLayoutId;
     }
 
-    public void setFactDefResourceLayoutViaResourceLayoutId (Set<FactDef> factDefResourceLayoutViaResourceLayoutId) {
-        this.factDefResourceLayoutViaResourceLayoutId = factDefResourceLayoutViaResourceLayoutId;
+    public void setItemDefResourceLayoutViaResourceLayoutId (Set<ItemDef> itemDefResourceLayoutViaResourceLayoutId) {
+        this.itemDefResourceLayoutViaResourceLayoutId = itemDefResourceLayoutViaResourceLayoutId;
     }	
     
-    public void addFactDefResourceLayoutViaResourceLayoutId (FactDef element) {
-    	    getFactDefResourceLayoutViaResourceLayoutId().add(element);
+    public void addItemDefResourceLayoutViaResourceLayoutId (ItemDef element) {
+    	    getItemDefResourceLayoutViaResourceLayoutId().add(element);
     }
 }

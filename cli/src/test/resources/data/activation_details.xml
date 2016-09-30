@@ -5,21 +5,14 @@
     <group
         id="1"
         name="AAA"/>
-    <language
-        id="1"
-        name="English"
-        code="en"/>
-    <country
-        id="1"
-        default_language_id="1"/>
-    <respondent
+    <user
         id="1"
         firstname="John"
         lastname="Wayne"
         email="john.wayne@email.com"
         activation_code="1234"
     />
-    <respondent
+    <user
         id="2"
         firstname="Jack"
         lastname="Shaw"

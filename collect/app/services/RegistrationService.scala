@@ -4,16 +4,15 @@ import javax.inject.{Inject, Singleton}
 import javax.persistence.PersistenceException
 
 import lynx.api.{ApiResult, PwdChangeRequest, RegistrationRequest}
-import model.Respondent
 import play.api.libs.mailer.{Email, MailerClient}
-import repositories.{EmailTemplateRepository, RespondentRepository}
+import repositories.{EmailTemplateRepository, UserRepository}
 
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 import scala.util.control.Breaks._
 
 @Singleton
-class RegistrationService @Inject() (mailerClient: MailerClient, emailTemplateRepository: EmailTemplateRepository, respondentRepository: RespondentRepository)
+class RegistrationService @Inject() (mailerClient: MailerClient, emailTemplateRepository: EmailTemplateRepository, userRepository: UserRepository)
   extends Service {
 
   def register(registrationList: List[RegistrationRequest]): List[ApiResult]= {
@@ -37,17 +36,17 @@ class RegistrationService @Inject() (mailerClient: MailerClient, emailTemplateRe
           }
         }
         try {
-          val respondent = respondentRepository.register(registration, uuid())
+          val user = userRepository.register(registration, uuid())
           mail(registration.emailTemplateId,
                 registration.firstname,
                 registration.lastname,
-                respondent.getEmail(),
-                respondent.getActivationCode())
+                user.getEmail(),
+                user.getActivationCode())
           results ++= List(
             new ApiResult(
               success = true,
               id= registration.email,
-              message = "Respondents have been created."))
+              message = "Users have been created."))
         }
         catch {
           case pex : PersistenceException => {
@@ -55,7 +54,7 @@ class RegistrationService @Inject() (mailerClient: MailerClient, emailTemplateRe
               results ++= List(
                 new ApiResult(success = false,
                   id= registration.email,
-                  message = "Respondent is already registered."))
+                  message = "User is already registered."))
             }
             else throw pex
           }
@@ -73,18 +72,18 @@ class RegistrationService @Inject() (mailerClient: MailerClient, emailTemplateRe
   }
 
   def changePassword(changeRequest: PwdChangeRequest) : ApiResult = {
-    val respondent = respondentRepository.findByEmail(changeRequest.email)
+    val user = userRepository.findByEmail(changeRequest.email)
     val template = emailTemplateRepository.findTemplate(changeRequest.emailTemplateId)
-    if (respondent == null) return ApiResult.error(id= changeRequest.email, message = "Respondent is not registered.")
+    if (user == null) return ApiResult.error(id= changeRequest.email, message = "User is not registered.")
     if (template == null) return ApiResult.error(id= changeRequest.email, message = s"Email template with id ${changeRequest.emailTemplateId} is not defined.")
     val activationCode = uuid()
-    respondent.setActivationCode(activationCode)
-    respondent.setPwdHash(null)
-    respondentRepository.update(respondent)
+    user.setActivationCode(activationCode)
+    user.setPwdHash(null)
+    userRepository.update(user)
     mail(changeRequest.emailTemplateId,
-      respondent.getFirstname(),
-      respondent.getLastname(),
-      respondent.getEmail(),
+      user.getFirstname(),
+      user.getLastname(),
+      user.getEmail(),
       activationCode)
     ApiResult.ok(id= changeRequest.email, message = "Email has been reset.")
   }

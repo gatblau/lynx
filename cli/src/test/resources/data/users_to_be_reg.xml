@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+    <user
+        id="1"
+        firstname="John"
+        lastname="Wayne"
+        email="john.wayne@email.com"/>
+    <user
+        id="2"
+        firstname="Jack"
+        lastname="Shaw"
+        email="jack.shaw@email.com"/>
+</dataset>

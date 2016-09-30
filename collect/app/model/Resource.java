@@ -34,11 +34,11 @@ public class Resource implements Serializable {
     private String link; 
 
     @ManyToOne (fetch=FetchType.LAZY , optional=false)
-    @JoinColumn(name="fact_def_id", referencedColumnName = "id" , nullable=false , unique=false , insertable=true, updatable=true) 
-    private FactDef factDefId;  
+    @JoinColumn(name="item_def_id", referencedColumnName = "id" , nullable=false , unique=false , insertable=true, updatable=true)
+    private ItemDef itemDefId;
 
-    @Column(name="fact_def_id"  , nullable=false , unique=true, insertable=false, updatable=false)
-    private Integer factDefId_;
+    @Column(name="item_def_id"  , nullable=false , unique=true, insertable=false, updatable=false)
+    private Integer itemDefId_;
 
     @ManyToOne (fetch=FetchType.LAZY , optional=false)
     @JoinColumn(name="resource_type_id", referencedColumnName = "id" , nullable=false , unique=true  , insertable=true, updatable=true) 
@@ -58,13 +58,13 @@ public class Resource implements Serializable {
        Integer resourceTypeId,
        String resourcePath,
        String link,
-       Integer factDefId) {
+       Integer itemDefId) {
 	 this(
        id,
        resourceTypeId,
        resourcePath,
        link,
-       factDefId
+       itemDefId
 	 ,true);
 	}
     
@@ -73,15 +73,15 @@ public class Resource implements Serializable {
        Integer resourceTypeId,
        String resourcePath,
        String link,
-       Integer factDefId	
+       Integer itemDefId
     , boolean setRelationship) {
        setId (id);
        setResourcePath (resourcePath);
        setLink (link);
-       if (setRelationship && factDefId!=null) {
-          this.factDefId = new FactDef();
-          this.factDefId.setId(factDefId);
-	      setFactDefId_ (factDefId);
+       if (setRelationship && itemDefId!=null) {
+          this.itemDefId = new ItemDef();
+          this.itemDefId.setId(itemDefId);
+	      setItemDefId_ (itemDefId);
        }
        if (setRelationship && resourceTypeId!=null) {
           this.resourceTypeId = new ResourceType();
@@ -96,7 +96,7 @@ public class Resource implements Serializable {
           getResourceTypeId_(),
           getResourcePath(),
           getLink(),
-          getFactDefId_()
+          getItemDefId_()
        , false
 	   );
 	}
@@ -125,20 +125,20 @@ public class Resource implements Serializable {
         this.link =  link;
     }
 
-    public FactDef getFactDefId () {
-    	return factDefId;
+    public ItemDef getItemDefId () {
+    	return itemDefId;
     }
 	
-    public void setFactDefId (FactDef factDefId) {
-    	this.factDefId = factDefId;
+    public void setItemDefId (ItemDef itemDefId) {
+    	this.itemDefId = itemDefId;
     }
 
-    public Integer getFactDefId_() {
-        return factDefId_;
+    public Integer getItemDefId_() {
+        return itemDefId_;
     }
 	
-    public void setFactDefId_ (Integer factDefId) {
-        this.factDefId_ =  factDefId;
+    public void setItemDefId_ (Integer itemDefId) {
+        this.itemDefId_ =  itemDefId;
     }
 	
     public ResourceType getResourceTypeId () {

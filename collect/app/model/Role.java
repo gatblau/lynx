@@ -19,8 +19,8 @@ public class Role implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToMany (targetEntity=model.Respondent.class, fetch=FetchType.LAZY, mappedBy="roleId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
-    private Set <Respondent> respondentRoleViaRoleId = new HashSet<Respondent>(); 
+    @OneToMany (targetEntity=model.User.class, fetch=FetchType.LAZY, mappedBy="roleId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
+    private Set <User> userRoleViaRoleId = new HashSet<User>();
 
     @OneToMany (targetEntity=model.RoleLang.class, fetch=FetchType.LAZY, mappedBy="roleId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
     private Set <RoleLang> roleLangRoleViaRoleId = new HashSet<RoleLang>(); 
@@ -56,19 +56,19 @@ public class Role implements Serializable {
         this.id =  id;
     }
 
-    public Set<Respondent> getRespondentRoleViaRoleId() {
-        if (respondentRoleViaRoleId == null){
-            respondentRoleViaRoleId = new HashSet<Respondent>();
+    public Set<User> getUserRoleViaRoleId() {
+        if (userRoleViaRoleId == null){
+            userRoleViaRoleId = new HashSet<User>();
         }
-        return respondentRoleViaRoleId;
+        return userRoleViaRoleId;
     }
 
-    public void setRespondentRoleViaRoleId (Set<Respondent> respondentRoleViaRoleId) {
-        this.respondentRoleViaRoleId = respondentRoleViaRoleId;
+    public void setUserRoleViaRoleId (Set<User> userRoleViaRoleId) {
+        this.userRoleViaRoleId = userRoleViaRoleId;
     }	
     
-    public void addRespondentRoleViaRoleId (Respondent element) {
-    	    getRespondentRoleViaRoleId().add(element);
+    public void addUserRoleViaRoleId (User element) {
+    	    getUserRoleViaRoleId().add(element);
     }
 
     public Set<RoleLang> getRoleLangRoleViaRoleId() {

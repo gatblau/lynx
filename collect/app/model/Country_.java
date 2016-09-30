@@ -12,5 +12,5 @@ public class Country_ {
     public static volatile SingularAttribute<Country, Integer> defaultLanguageId_;
 
     public static volatile SetAttribute<Country, CountryLang> countryLangCountryViaCountryId;
-    public static volatile SetAttribute<Country, Respondent> respondentCountryViaCountryId;
+    public static volatile SetAttribute<Country, User> userCountryViaCountryId;
 }

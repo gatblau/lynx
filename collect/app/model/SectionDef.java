@@ -32,14 +32,14 @@ public class SectionDef implements Serializable {
     private Integer parentSectionDefId_;
 
     @ManyToOne (fetch=FetchType.LAZY , optional=false)
-    @JoinColumn(name="survey_def_id", referencedColumnName = "id" , nullable=false , unique=true  , insertable=true, updatable=true) 
-    private SurveyDef surveyDefId;  
+    @JoinColumn(name="content_def_id", referencedColumnName = "id" , nullable=false , unique=true  , insertable=true, updatable=true)
+    private ContentDef contentDefId;
 
-    @Column(name="survey_def_id"  , nullable=false , unique=true, insertable=false, updatable=false)
-    private Integer surveyDefId_;
+    @Column(name="content_def_id"  , nullable=false , unique=true, insertable=false, updatable=false)
+    private Integer contentDefId_;
 
-    @OneToMany (targetEntity=model.FactDef.class, fetch=FetchType.LAZY, mappedBy="sectionDefId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
-    private Set <FactDef> factDefSectionDefViaSectionDefId = new HashSet<FactDef>(); 
+    @OneToMany (targetEntity=model.ItemDef.class, fetch=FetchType.LAZY, mappedBy="sectionDefId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
+    private Set <ItemDef> itemDefSectionDefViaSectionDefId = new HashSet<ItemDef>();
 
     @OneToMany (targetEntity=model.Section.class, fetch=FetchType.LAZY, mappedBy="sectionDefId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
     private Set <Section> sectionSectionDefViaSectionDefId = new HashSet<Section>(); 
@@ -56,12 +56,12 @@ public class SectionDef implements Serializable {
     public SectionDef(
        Integer id,
        Boolean dynamic,
-       Integer surveyDefId,
+       Integer contentDefId,
        Integer parentSectionDefId) {
 	 this(
        id,
        dynamic,
-       surveyDefId,
+       contentDefId,
        parentSectionDefId
 	 ,true);
 	}
@@ -69,7 +69,7 @@ public class SectionDef implements Serializable {
 	public SectionDef(
        Integer id,
        Boolean dynamic,
-       Integer surveyDefId,
+       Integer contentDefId,
        Integer parentSectionDefId	
     , boolean setRelationship) {
        setId (id);
@@ -79,10 +79,10 @@ public class SectionDef implements Serializable {
           this.parentSectionDefId.setId(parentSectionDefId);
 	      setParentSectionDefId_ (parentSectionDefId);
        }
-       if (setRelationship && surveyDefId!=null) {
-          this.surveyDefId = new SurveyDef();
-          this.surveyDefId.setId(surveyDefId);
-	      setSurveyDefId_ (surveyDefId);
+       if (setRelationship && contentDefId!=null) {
+          this.contentDefId = new ContentDef();
+          this.contentDefId.setId(contentDefId);
+	      setContentDefId_ (contentDefId);
        }
     }
 
@@ -90,7 +90,7 @@ public class SectionDef implements Serializable {
 	   return new SectionDef(
           getId(),
           getDynamic(),
-          getSurveyDefId_(),
+          getContentDefId_(),
           getParentSectionDefId_()
        , false
 	   );
@@ -128,35 +128,35 @@ public class SectionDef implements Serializable {
         this.parentSectionDefId_ =  parentSectionDefId;
     }
 	
-    public SurveyDef getSurveyDefId () {
-    	return surveyDefId;
+    public ContentDef getContentDefId () {
+    	return contentDefId;
     }
 	
-    public void setSurveyDefId (SurveyDef surveyDefId) {
-    	this.surveyDefId = surveyDefId;
+    public void setContentDefId (ContentDef contentDefId) {
+    	this.contentDefId = contentDefId;
     }
 
-    public Integer getSurveyDefId_() {
-        return surveyDefId_;
+    public Integer getContentDefId_() {
+        return contentDefId_;
     }
 	
-    public void setSurveyDefId_ (Integer surveyDefId) {
-        this.surveyDefId_ =  surveyDefId;
+    public void setContentDefId_ (Integer contentDefId) {
+        this.contentDefId_ =  contentDefId;
     }
 
-    public Set<FactDef> getFactDefSectionDefViaSectionDefId() {
-        if (factDefSectionDefViaSectionDefId == null){
-            factDefSectionDefViaSectionDefId = new HashSet<FactDef>();
+    public Set<ItemDef> getItemDefSectionDefViaSectionDefId() {
+        if (itemDefSectionDefViaSectionDefId == null){
+            itemDefSectionDefViaSectionDefId = new HashSet<ItemDef>();
         }
-        return factDefSectionDefViaSectionDefId;
+        return itemDefSectionDefViaSectionDefId;
     }
 
-    public void setFactDefSectionDefViaSectionDefId (Set<FactDef> factDefSectionDefViaSectionDefId) {
-        this.factDefSectionDefViaSectionDefId = factDefSectionDefViaSectionDefId;
+    public void setItemDefSectionDefViaSectionDefId (Set<ItemDef> itemDefSectionDefViaSectionDefId) {
+        this.itemDefSectionDefViaSectionDefId = itemDefSectionDefViaSectionDefId;
     }	
     
-    public void addFactDefSectionDefViaSectionDefId (FactDef element) {
-    	    getFactDefSectionDefViaSectionDefId().add(element);
+    public void addItemDefSectionDefViaSectionDefId (ItemDef element) {
+    	    getItemDefSectionDefViaSectionDefId().add(element);
     }
 
     public Set<Section> getSectionSectionDefViaSectionDefId() {

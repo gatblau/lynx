@@ -9,7 +9,7 @@ public class Section_ {
 	public static volatile SingularAttribute<Section, Integer> id;
 	public static volatile SingularAttribute<Section, SectionDef> sectionDefId;
     public static volatile SingularAttribute<Section, Integer> sectionDefId_;
-    public static volatile SingularAttribute<Section, Survey> surveyId;
-    public static volatile SingularAttribute<Section, Integer> surveyId_;
-	public static volatile SetAttribute<Section, Fact> factSectionViaSectionId;
+    public static volatile SingularAttribute<Section, Content> contentId;
+    public static volatile SingularAttribute<Section, Integer> contentId_;
+	public static volatile SetAttribute<Section, Item> itemSectionViaSectionId;
 }

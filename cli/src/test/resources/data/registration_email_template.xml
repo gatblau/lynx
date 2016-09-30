@@ -3,7 +3,7 @@
     <email_template
         id="1"
         name="Registration Notification Template"
-        description="Used to test the registration of new respondents."
+        description="Used to test the registration of new users."
         subject="Please activate your account"
         body="&lt;html&gt;
             &lt;body&gt;

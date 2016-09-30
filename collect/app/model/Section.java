@@ -27,14 +27,14 @@ public class Section implements Serializable {
     private Integer sectionDefId_;
 
     @ManyToOne (fetch=FetchType.LAZY , optional=false)
-    @JoinColumn(name="survey_id", referencedColumnName = "id" , nullable=false , unique=true  , insertable=true, updatable=true) 
-    private Survey surveyId;  
+    @JoinColumn(name="content_id", referencedColumnName = "id" , nullable=false , unique=true  , insertable=true, updatable=true)
+    private Content contentId;
 
-    @Column(name="survey_id"  , nullable=false , unique=true, insertable=false, updatable=false)
-    private Integer surveyId_;
+    @Column(name="content_id"  , nullable=false , unique=true, insertable=false, updatable=false)
+    private Integer contentId_;
 
-    @OneToMany (targetEntity=model.Fact.class, fetch=FetchType.LAZY, mappedBy="sectionId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
-    private Set <Fact> factSectionViaSectionId = new HashSet<Fact>(); 
+    @OneToMany (targetEntity=model.Item.class, fetch=FetchType.LAZY, mappedBy="sectionId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
+    private Set <Item> itemSectionViaSectionId = new HashSet<Item>();
 
     public Section() {
     }
@@ -42,27 +42,27 @@ public class Section implements Serializable {
     public Section(
        Integer id,
        Integer sectionDefId,
-       Integer surveyId) {
+       Integer contentId) {
 	 this(
        id,
        sectionDefId,
-       surveyId
+       contentId
 	 ,true);
 	}
     
 	public Section(
        Integer id,
        Integer sectionDefId,
-       Integer surveyId	
+       Integer contentId
     , boolean setRelationship) {
        setId (id);
        if (setRelationship && sectionDefId!=null) {
           this.sectionDefId = new SectionDef();
           this.sectionDefId.setId(sectionDefId);
        }
-       if (setRelationship && surveyId!=null) {
-          this.surveyId = new Survey();
-          this.surveyId.setId(surveyId);
+       if (setRelationship && contentId!=null) {
+          this.contentId = new Content();
+          this.contentId.setId(contentId);
        }
     }
 
@@ -70,7 +70,7 @@ public class Section implements Serializable {
 	   return new Section(
           getId(),
           getSectionDefId_(),
-          getSurveyId_()
+          getContentId_()
        , false
 	   );
 	}
@@ -100,34 +100,34 @@ public class Section implements Serializable {
         this.sectionDefId_ =  sectionDefId;
     }
 	
-    public Survey getSurveyId () {
-    	return surveyId;
+    public Content getContentId () {
+    	return contentId;
     }
 	
-    public void setSurveyId (Survey surveyId) {
-    	this.surveyId = surveyId;
+    public void setContentId (Content contentId) {
+    	this.contentId = contentId;
     }
 
-    public Integer getSurveyId_() {
-        return surveyId_;
+    public Integer getContentId_() {
+        return contentId_;
     }
 	
-    public void setSurveyId_ (Integer surveyId) {
-        this.surveyId_ =  surveyId;
+    public void setContentId_ (Integer contentId) {
+        this.contentId_ =  contentId;
     }
 
-    public Set<Fact> getFactSectionViaSectionId() {
-        if (factSectionViaSectionId == null){
-            factSectionViaSectionId = new HashSet<Fact>();
+    public Set<Item> getItemSectionViaSectionId() {
+        if (itemSectionViaSectionId == null){
+            itemSectionViaSectionId = new HashSet<Item>();
         }
-        return factSectionViaSectionId;
+        return itemSectionViaSectionId;
     }
 
-    public void setFactSectionViaSectionId (Set<Fact> factSectionViaSectionId) {
-        this.factSectionViaSectionId = factSectionViaSectionId;
+    public void setItemSectionViaSectionId (Set<Item> itemSectionViaSectionId) {
+        this.itemSectionViaSectionId = itemSectionViaSectionId;
     }	
     
-    public void addFactSectionViaSectionId (Fact element) {
-    	    getFactSectionViaSectionId().add(element);
+    public void addItemSectionViaSectionId (Item element) {
+    	    getItemSectionViaSectionId().add(element);
     }
 }

@@ -61,13 +61,13 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`country` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
   ENGINE = InnoDB
-  COMMENT = 'The country the respondent lives in.';
+  COMMENT = 'The country the user lives in.';
 
 
 -- -----------------------------------------------------
--- Table `lynxc`.`respondent`
+-- Table `lynxc`.`user`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `lynxc`.`respondent` (
+CREATE TABLE IF NOT EXISTS `lynxc`.`user` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `firstname` VARCHAR(45) NOT NULL,
   `lastname` VARCHAR(45) NOT NULL,
@@ -81,33 +81,33 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`respondent` (
   `country_id` INT NULL,
   `activation_code` VARCHAR(45) NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_respondent_role1_idx` (`role_id` ASC),
-  INDEX `fk_respondent_group1_idx` (`group_id` ASC),
-  INDEX `fk_respondent_language1_idx` (`preferred_language_id` ASC),
-  INDEX `fk_respondent_country1_idx` (`country_id` ASC),
+  INDEX `fk_user_role1_idx` (`role_id` ASC),
+  INDEX `fk_user_group1_idx` (`group_id` ASC),
+  INDEX `fk_user_language1_idx` (`preferred_language_id` ASC),
+  INDEX `fk_user_country1_idx` (`country_id` ASC),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC),
-  CONSTRAINT `fk_respondent_role1`
+  CONSTRAINT `fk_user_role1`
   FOREIGN KEY (`role_id`)
   REFERENCES `lynxc`.`role` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_respondent_group1`
+  CONSTRAINT `fk_user_group1`
   FOREIGN KEY (`group_id`)
   REFERENCES `lynxc`.`group` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_respondent_language1`
+  CONSTRAINT `fk_user_language1`
   FOREIGN KEY (`preferred_language_id`)
   REFERENCES `lynxc`.`language` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_respondent_country1`
+  CONSTRAINT `fk_user_country1`
   FOREIGN KEY (`country_id`)
   REFERENCES `lynxc`.`country` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
   ENGINE = InnoDB
-  COMMENT = 'A respondent to a survey.';
+  COMMENT = 'A user to a survey.';
 
 
 -- -----------------------------------------------------
@@ -155,46 +155,46 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`survey` (
   `locked_by` INT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_survey_survey_def1_idx` (`survey_def_id` ASC),
-  INDEX `fk_survey_respondent1_idx` (`locked_by` ASC),
+  INDEX `fk_survey_user1_idx` (`locked_by` ASC),
   CONSTRAINT `fk_survey_survey_def1`
   FOREIGN KEY (`survey_def_id`)
   REFERENCES `lynxc`.`survey_def` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_survey_respondent1`
+  CONSTRAINT `fk_survey_user1`
   FOREIGN KEY (`locked_by`)
-  REFERENCES `lynxc`.`respondent` (`id`)
+  REFERENCES `lynxc`.`user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
   ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `lynxc`.`survey_respondent`
+-- Table `lynxc`.`survey_user`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `lynxc`.`survey_respondent` (
+CREATE TABLE IF NOT EXISTS `lynxc`.`survey_user` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `survey_id` INT NOT NULL,
-  `respondent_id` INT NOT NULL,
+  `user_id` INT NOT NULL,
   `can_read` TINYINT(1) NOT NULL DEFAULT 1,
   `can_write` TINYINT(1) NOT NULL DEFAULT 0,
   `last_read` TIMESTAMP NULL,
   `last_write` TIMESTAMP NULL,
-  INDEX `fk_survey_respondent_survey1_idx` (`survey_id` ASC),
-  INDEX `fk_survey_respondent_respondent1_idx` (`respondent_id` ASC),
+  INDEX `fk_survey_user_survey1_idx` (`survey_id` ASC),
+  INDEX `fk_survey_user_user1_idx` (`user_id` ASC),
   PRIMARY KEY (`id`),
-  CONSTRAINT `fk_survey_respondent_survey1`
+  CONSTRAINT `fk_survey_user_survey1`
   FOREIGN KEY (`survey_id`)
   REFERENCES `lynxc`.`survey` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_survey_respondent_respondent1`
-  FOREIGN KEY (`respondent_id`)
-  REFERENCES `lynxc`.`respondent` (`id`)
+  CONSTRAINT `fk_survey_user_user1`
+  FOREIGN KEY (`user_id`)
+  REFERENCES `lynxc`.`user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
   ENGINE = InnoDB
-  COMMENT = 'The information for a respondent of a specific survey.';
+  COMMENT = 'The information for a user of a specific survey.';
 
 
 -- -----------------------------------------------------
@@ -550,14 +550,14 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`configuration` (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `lynxc`.`survey_admin` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `respondent_id` INT NOT NULL,
+  `user_id` INT NOT NULL,
   `survey_def_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_survey_admin_respondent1_idx` (`respondent_id` ASC),
+  INDEX `fk_survey_admin_user1_idx` (`user_id` ASC),
   INDEX `fk_survey_admin_survey_def1_idx` (`survey_def_id` ASC),
-  CONSTRAINT `fk_survey_admin_respondent1`
-  FOREIGN KEY (`respondent_id`)
-  REFERENCES `lynxc`.`respondent` (`id`)
+  CONSTRAINT `fk_survey_admin_user1`
+  FOREIGN KEY (`user_id`)
+  REFERENCES `lynxc`.`user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_survey_admin_survey_def1`

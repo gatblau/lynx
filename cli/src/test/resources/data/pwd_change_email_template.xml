@@ -3,7 +3,7 @@
     <email_template
         id="1"
         name="Password Change Notification Template"
-        description="Used to test the registration of new respondents."
+        description="Used to test the registration of new users."
         subject="Please change your password"
         body="&lt;html&gt;
             &lt;body&gt;

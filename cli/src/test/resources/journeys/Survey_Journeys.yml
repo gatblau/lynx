@@ -1,27 +1,27 @@
 ---
 - journey:
-    name= Granting access to a Survey
+    name= Granting access to a Content
     actor=Admin
 
-  - path: Add respondent to Survey
+  - path: Add user to Content
     features:
-        - Create Survey
-        - Add Respondent To Survey
+        - Create Content
+        - Add Respondent To Content
 
 - journey:
-    name=Fill in a Survey
+    name=Fill in a Content
     actor=Respondent
 
-  - path: Filling a Survey and Saving
+  - path: Filling a Content and Saving
     features:
-      - Get Surveys by Respondent
-      - Get Survey by Id And Language
-      - Edit Survey
-      - Save Survey
+      - Get Contents by Respondent
+      - Get Content by Id And Language
+      - Edit Content
+      - Save Content
 
-  - path: Filling a Survey and Discarding Changes
+  - path: Filling a Content and Discarding Changes
     features:
-      - Get Surveys by Respondent
-      - Get Survey by Id And Language
-      - Edit Survey
-      - Cancel Survey Edit
+      - Get Contents by Respondent
+      - Get Content by Id And Language
+      - Edit Content
+      - Cancel Content Edit

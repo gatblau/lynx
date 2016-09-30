@@ -11,11 +11,11 @@ public class Language_ {
     public static volatile SingularAttribute<Language, String> code;
 	public static volatile SetAttribute<Language, Country> countryLanguageViaDefaultLanguageId;
     public static volatile SetAttribute<Language, CountryLang> countryLangLanguageViaLanguageId;
-    public static volatile SetAttribute<Language, FactDefLang> factDefLangLanguageViaLanguageId;
+    public static volatile SetAttribute<Language, ItemDefLang> itemDefLangLanguageViaLanguageId;
     public static volatile SetAttribute<Language, OptionDefLang> optionDefLangLanguageViaLanguageId;
-    public static volatile SetAttribute<Language, Respondent> respondentLanguageViaPreferredLanguageId;
+    public static volatile SetAttribute<Language, User> userLanguageViaPreferredLanguageId;
     public static volatile SetAttribute<Language, RoleLang> roleLangLanguageViaLanguageId;
     public static volatile SetAttribute<Language, SectionDefLang> sectionDefLangLanguageViaLanguageId;
-    public static volatile SetAttribute<Language, SurveyDefLang> surveyDefLangLanguageViaLanguageId;
-    public static volatile SetAttribute<Language, SurveyLang> surveyLangLanguageViaLanguageId;
+    public static volatile SetAttribute<Language, ContentDefLang> contentDefLangLanguageViaLanguageId;
+    public static volatile SetAttribute<Language, ContentLang> contentLangLanguageViaLanguageId;
 }

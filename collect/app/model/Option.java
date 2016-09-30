@@ -25,11 +25,11 @@ public class Option implements Serializable {
     private String value;
 
     @ManyToOne (fetch=FetchType.LAZY , optional=false)
-    @JoinColumn(name="fact_id", referencedColumnName = "id" , nullable=false , unique=false , insertable=true, updatable=true) 
-    private Fact factId;  
+    @JoinColumn(name="item_id", referencedColumnName = "id" , nullable=false , unique=false , insertable=true, updatable=true)
+    private Item itemId;
 
-    @Column(name="fact_id"  , nullable=false , unique=true, insertable=false, updatable=false)
-    private Integer factId_;
+    @Column(name="item_id"  , nullable=false , unique=true, insertable=false, updatable=false)
+    private Integer itemId_;
 
     @ManyToOne (fetch=FetchType.LAZY , optional=false)
     @JoinColumn(name="option_def_id", referencedColumnName = "id" , nullable=false , unique=true  , insertable=true, updatable=true) 
@@ -45,12 +45,12 @@ public class Option implements Serializable {
        Integer id,
        String value,
        Integer optionDefId,
-       Integer factId) {
+       Integer itemId) {
 	 this(
        id,
        value,
        optionDefId,
-       factId
+       itemId
 	 ,true);
 	}
     
@@ -58,14 +58,14 @@ public class Option implements Serializable {
        Integer id,
        String value,
        Integer optionDefId,
-       Integer factId	
+       Integer itemId
     , boolean setRelationship) {
        setId (id);
        setValue (value);
-       if (setRelationship && factId!=null) {
-          this.factId = new Fact();
-          this.factId.setId(factId);
-	      setFactId_ (factId);
+       if (setRelationship && itemId!=null) {
+          this.itemId = new Item();
+          this.itemId.setId(itemId);
+	      setItemId_ (itemId);
        }
        if (setRelationship && optionDefId!=null) {
           this.optionDefId = new OptionDef();
@@ -79,7 +79,7 @@ public class Option implements Serializable {
           getId(),
           getValue(),
           getOptionDefId_(),
-          getFactId_()
+          getItemId_()
        , false
 	   );
 	}
@@ -100,20 +100,20 @@ public class Option implements Serializable {
         this.value =  value;
     }
 
-    public Fact getFactId () {
-    	return factId;
+    public Item getItemId () {
+    	return itemId;
     }
 	
-    public void setFactId (Fact factId) {
-    	this.factId = factId;
+    public void setItemId (Item itemId) {
+    	this.itemId = itemId;
     }
 
-    public Integer getFactId_() {
-        return factId_;
+    public Integer getItemId_() {
+        return itemId_;
     }
 	
-    public void setFactId_ (Integer factId) {
-        this.factId_ =  factId;
+    public void setItemId_ (Integer itemId) {
+        this.itemId_ =  itemId;
     }
 	
     public OptionDef getOptionDefId () {

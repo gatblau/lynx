@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+    <content_def
+        id="1"/>
+    <section_def
+        id="1"
+        dynamic="false"
+        content_def_id="1"/>
+    <section_def_lang
+        id="1"
+        name="Section 1"
+        description="Section 1 is great."
+        section_def_id="1"
+        language_id="39"/>
+    <section_def_lang
+        id="2"
+        name="Seccion 1"
+        description="La Seccion 1 esta my buena."
+        section_def_id="1"
+        language_id="140"/>
+    <item_def
+        id="1"
+        section_def_id="1"
+        item_type_id="11"
+        required="true"
+        regex="\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b"
+        min="0"
+        max="100"
+        resource_layout_id="1"/>
+    <item_def_lang
+        id="1"
+        name="Question 1"
+        description="An explanation for Question 1."
+        question="What colour is my jacket?"
+        language_id="39"
+        item_def_id="1"/>
+    <item_def_lang
+        id="2"
+        name="Pregunta 1"
+        description="Una explicacion de la Pregunta 1."
+        question="De que color es my saco?"
+        language_id="140"
+        item_def_id="1"/>
+    <option_def
+        id="1"
+        item_def_id="1"/>
+    <option_def_lang
+        id="1"
+        language_id="39"
+        option_def_id="1"
+        name="Red"
+        description="Red colour."/>
+    <option_def_lang
+        id="2"
+        language_id="39"
+        option_def_id="1"
+        name="Blue"
+        description="Blue colour."/>
+    <option_def_lang
+        id="3"
+        language_id="39"
+        option_def_id="1"
+        name="Yellow"
+        description="Yellow colour."/>
+    <option_def_lang
+        id="4"
+        language_id="140"
+        option_def_id="1"
+        name="Colorado"
+        description="Color colorado."/>
+    <option_def_lang
+        id="5"
+        language_id="140"
+        option_def_id="1"
+        name="Azul"
+        description="Color azul."/>
+    <option_def_lang
+        id="6"
+        language_id="140"
+        option_def_id="1"
+        name="Amarillo"
+        description="Color amarillo."/>
+    <section_def
+        id="2"
+        dynamic="false"
+        content_def_id="1"/>
+    <section_def_lang
+        id="3"
+        name="Section 2"
+        description="Section 2 is awesome."
+        section_def_id="2"
+        language_id="39"/>
+    <section_def_lang
+        id="4"
+        name="Seccion 2"
+        description="La Seccion 2 es fantastica."
+        section_def_id="2"
+        language_id="140"/>
+    <item_def
+        id="2"
+        section_def_id="2"
+        item_type_id="2"
+        required="true"/>
+    <item_def_lang
+        id="3"
+        name="Question 2"
+        description="An explanation for Question 2."
+        question="Which options are best?"
+        language_id="39"
+        item_def_id="2"/>
+    <item_def_lang
+        id="4"
+        name="Pregunta 2"
+        description="Una explicacion de la pregunta 2."
+        question="Que optiones son las mejores?"
+        language_id="140"
+        item_def_id="2"/>
+    <option_def
+        id="2"
+        item_def_id="2"/>
+    <option_def_lang
+        id="7"
+        language_id="39"
+        option_def_id="2"
+        name="Option 1"
+        description="The advantages of Option 1 are..."/>
+    <option_def_lang
+        id="8"
+        language_id="140"
+        option_def_id="2"
+        name="Opcion 1"
+        description="Las ventajas de la Opcion 1 son..."/>
+    <option_def
+        id="3"
+        item_def_id="2"/>
+    <option_def_lang
+        id="9"
+        language_id="39"
+        option_def_id="3"
+        name="Option 2"
+        description="The advantages of Option 2 are..."/>
+    <option_def_lang
+        id="10"
+        language_id="140"
+        option_def_id="3"
+        name="Opcion 2"
+        description="Las ventajas de la Opcion 2 son..."/>
+</dataset>

@@ -34,12 +34,12 @@ import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 import javax.persistence.metamodel.SetAttribute;
 
-import model.FactDef;
+import model.ItemDef;
 import model.Section;
 import model.SectionDef;
 import model.SectionDefLang;
 import model.SectionDef;
-import model.SurveyDef;
+import model.ContentDef;
 
 @StaticMetamodel(SectionDef.class)
 public class SectionDef_ {
@@ -49,10 +49,10 @@ public class SectionDef_ {
     public static volatile SingularAttribute<SectionDef, Boolean> dynamic;
     public static volatile SingularAttribute<SectionDef, SectionDef> parentSectionDefId;
     public static volatile SingularAttribute<SectionDef, Integer> parentSectionDefId_;
-    public static volatile SingularAttribute<SectionDef, SurveyDef> surveyDefId;
-    public static volatile SingularAttribute<SectionDef, Integer> surveyDefId_;
+    public static volatile SingularAttribute<SectionDef, ContentDef> contentDefId;
+    public static volatile SingularAttribute<SectionDef, Integer> contentDefId_;
 
-    public static volatile SetAttribute<SectionDef, FactDef> factDefSectionDefViaSectionDefId;
+    public static volatile SetAttribute<SectionDef, ItemDef> itemDefSectionDefViaSectionDefId;
     public static volatile SetAttribute<SectionDef, Section> sectionSectionDefViaSectionDefId;
     public static volatile SetAttribute<SectionDef, SectionDef> sectionDefSectionDefViaParentSectionDefId;
     public static volatile SetAttribute<SectionDef, SectionDefLang> sectionDefLangSectionDefViaSectionDefId;

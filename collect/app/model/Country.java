@@ -29,8 +29,8 @@ public class Country implements Serializable {
     @OneToMany (targetEntity=model.CountryLang.class, fetch=FetchType.LAZY, mappedBy="countryId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
     private Set <CountryLang> countryLangCountryViaCountryId = new HashSet<CountryLang>(); 
 
-    @OneToMany (targetEntity=model.Respondent.class, fetch=FetchType.LAZY, mappedBy="countryId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
-    private Set <Respondent> respondentCountryViaCountryId = new HashSet<Respondent>(); 
+    @OneToMany (targetEntity=model.User.class, fetch=FetchType.LAZY, mappedBy="countryId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
+    private Set <User> userCountryViaCountryId = new HashSet<User>();
 
     public Country() {
     }
@@ -104,18 +104,18 @@ public class Country implements Serializable {
     	    getCountryLangCountryViaCountryId().add(element);
     }
 
-    public Set<Respondent> getRespondentCountryViaCountryId() {
-        if (respondentCountryViaCountryId == null){
-            respondentCountryViaCountryId = new HashSet<Respondent>();
+    public Set<User> getUserCountryViaCountryId() {
+        if (userCountryViaCountryId == null){
+            userCountryViaCountryId = new HashSet<User>();
         }
-        return respondentCountryViaCountryId;
+        return userCountryViaCountryId;
     }
 
-    public void setRespondentCountryViaCountryId (Set<Respondent> respondentCountryViaCountryId) {
-        this.respondentCountryViaCountryId = respondentCountryViaCountryId;
+    public void setUserCountryViaCountryId (Set<User> userCountryViaCountryId) {
+        this.userCountryViaCountryId = userCountryViaCountryId;
     }	
     
-    public void addRespondentCountryViaCountryId (Respondent element) {
-    	    getRespondentCountryViaCountryId().add(element);
+    public void addUserCountryViaCountryId (User element) {
+    	    getUserCountryViaCountryId().add(element);
     }
 }

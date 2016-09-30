@@ -20,11 +20,11 @@ public class OptionDef implements Serializable {
     private Integer id;
 
     @ManyToOne (fetch=FetchType.LAZY , optional=false)
-    @JoinColumn(name="fact_def_id", referencedColumnName = "id" , nullable=false , unique=false , insertable=true, updatable=true) 
-    private FactDef factDefId;  
+    @JoinColumn(name="item_def_id", referencedColumnName = "id" , nullable=false , unique=false , insertable=true, updatable=true)
+    private ItemDef itemDefId;
 
-    @Column(name="fact_def_id"  , nullable=false , unique=true, insertable=false, updatable=false)
-    private Integer factDefId_;
+    @Column(name="item_def_id"  , nullable=false , unique=true, insertable=false, updatable=false)
+    private Integer itemDefId_;
 
     @OneToMany (targetEntity=model.Option.class, fetch=FetchType.LAZY, mappedBy="optionDefId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
     private Set <Option> optionOptionDefViaOptionDefId = new HashSet<Option>(); 
@@ -37,28 +37,28 @@ public class OptionDef implements Serializable {
 
     public OptionDef(
        Integer id,
-       Integer factDefId) {
+       Integer itemDefId) {
 	 this(
        id,
-       factDefId
+       itemDefId
 	 ,true);
 	}
     
 	public OptionDef(
        Integer id,
-       Integer factDefId	
+       Integer itemDefId
     , boolean setRelationship) {
        setId (id);
-       if (setRelationship && factDefId!=null) {
-          this.factDefId = new FactDef();
-          this.factDefId.setId(factDefId);
+       if (setRelationship && itemDefId!=null) {
+          this.itemDefId = new ItemDef();
+          this.itemDefId.setId(itemDefId);
        }
     }
 
 	public OptionDef flat() {
 	   return new OptionDef(
           getId(),
-          getFactDefId_()
+          getItemDefId_()
        , false
 	   );
 	}
@@ -71,20 +71,20 @@ public class OptionDef implements Serializable {
         this.id =  id;
     }
 
-    public FactDef getFactDefId () {
-    	return factDefId;
+    public ItemDef getItemDefId () {
+    	return itemDefId;
     }
 	
-    public void setFactDefId (FactDef factDefId) {
-    	this.factDefId = factDefId;
+    public void setItemDefId (ItemDef itemDefId) {
+    	this.itemDefId = itemDefId;
     }
 
-    public Integer getFactDefId_() {
-        return factDefId_;
+    public Integer getItemDefId_() {
+        return itemDefId_;
     }
 	
-    public void setFactDefId_ (Integer factDefId) {
-        this.factDefId_ =  factDefId;
+    public void setItemDefId_ (Integer itemDefId) {
+        this.itemDefId_ =  itemDefId;
     }
 
     public Set<Option> getOptionOptionDefViaOptionDefId() {

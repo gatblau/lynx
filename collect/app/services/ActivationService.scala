@@ -3,42 +3,42 @@ package services
 import javax.inject.{Inject, Singleton}
 
 import lynx.api.{ActivationRequest, ApiResult, PwdChangeRequest}
-import model.Respondent
+import model.User
 import repositories._
 
 import scala.collection.mutable.ListBuffer
 
 @Singleton
 class ActivationService @Inject() (
-        respondentRepo: RespondentRepository,
-        groupRepo: GroupRepository,
-        roleRepo: RoleRepository,
-        languageRepo: LanguageRepository,
-        countryRepo: CountryRepository)
+                                    userRepo: UserRepository,
+                                    groupRepo: GroupRepository,
+                                    roleRepo: RoleRepository,
+                                    languageRepo: LanguageRepository,
+                                    countryRepo: CountryRepository)
   extends Service {
 
   def activate(activationList: List[ActivationRequest]): List[ApiResult] = activationList.map(a => activate(a))
 
   private def activate(activation: ActivationRequest) : ApiResult = {
-    val respondent : Respondent = respondentRepo.findByEmail(activation.email)
-    if (respondent.getActivationCode().equals(activation.activationCode)) {
+    val user : User = userRepo.findByEmail(activation.email)
+    if (user.getActivationCode().equals(activation.activationCode)) {
       val group = groupRepo.find(activation.groupId)
       val role = roleRepo.find(activation.roleId)
       val preferredLanguage = languageRepo.find(activation.preferredLanguageId)
       val country = countryRepo.find(activation.countryId)
-      respondent.setActivationCode(null)
-      respondent.setCountryId_(activation.countryId)
-      respondent.setFirstname(activation.firstname)
-      respondent.setLastname(activation.lastname)
-      respondent.setTelephone(activation.telephone)
-      respondent.setGroupId(group)
-      respondent.setRoleId(role)
-      respondent.setPreferredLanguageId(preferredLanguage)
-      respondent.setCountryId(country)
-      respondent.setEmail(activation.email)
-      respondent.setPwdHash(hash(activation.password))
-      respondent.setEnabled(true)
-      respondentRepo.update(respondent)
+      user.setActivationCode(null)
+      user.setCountryId_(activation.countryId)
+      user.setFirstname(activation.firstname)
+      user.setLastname(activation.lastname)
+      user.setTelephone(activation.telephone)
+      user.setGroupId(group)
+      user.setRoleId(role)
+      user.setPreferredLanguageId(preferredLanguage)
+      user.setCountryId(country)
+      user.setEmail(activation.email)
+      user.setPwdHash(hash(activation.password))
+      user.setEnabled(true)
+      userRepo.update(user)
       return new ApiResult(true, activation.email, "Activation successful.")
     } else {
       return new ApiResult(true, activation.email, "Activation failed: Invalid Activation Code.")

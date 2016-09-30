@@ -8,5 +8,5 @@ import javax.persistence.metamodel.StaticMetamodel;
 public class ResourceLayout_ {
     public static volatile SingularAttribute<ResourceLayout, Integer> id;
     public static volatile SingularAttribute<ResourceLayout, String> value;
-    public static volatile SetAttribute<ResourceLayout, FactDef> factDefResourceLayoutViaResourceLayoutId;
+    public static volatile SetAttribute<ResourceLayout, ItemDef> itemDefResourceLayoutViaResourceLayoutId;
 }
