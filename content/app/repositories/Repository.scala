@@ -7,6 +7,8 @@ import javax.persistence.EntityManager
 import play.db.jpa.JPAApi
 
 class Repository {
+  private final val DIGEST_ALGORITHM : String = "SHA-256"
+
   @Inject
   var jpa : JPAApi = _
 
@@ -25,6 +27,4 @@ class Repository {
       }
     })
   }
-
-  def hash(s: String) = new String(MessageDigest.getInstance("SHA").digest(s.getBytes))
 }
