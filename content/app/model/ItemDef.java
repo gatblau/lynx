@@ -72,8 +72,8 @@ public class ItemDef implements Serializable {
     @OneToMany (targetEntity=ItemDefLang.class, fetch=FetchType.LAZY, mappedBy="itemDefId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
     private Set <ItemDefLang> itemDefLangItemDefViaItemDefId = new HashSet<ItemDefLang>();
 
-    @OneToMany (targetEntity=OptionDef.class, fetch=FetchType.LAZY, mappedBy="itemDefId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
-    private Set <OptionDef> optionDefItemDefViaItemDefId = new HashSet<OptionDef>();
+    @OneToMany (targetEntity=ValueDef.class, fetch=FetchType.LAZY, mappedBy="itemDefId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
+    private Set <ValueDef> valueDefItemDefViaItemDefId = new HashSet<ValueDef>();
 
     @OneToMany (targetEntity=Resource.class, fetch=FetchType.LAZY, mappedBy="itemDefId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
     private Set <Resource> resourceItemDefViaItemDefId = new HashSet<Resource>();
@@ -266,19 +266,19 @@ public class ItemDef implements Serializable {
     	    getItemDefLangItemDefViaItemDefId().add(element);
     }
 
-    public Set<OptionDef> getOptionDefItemDefViaItemDefId() {
-        if (optionDefItemDefViaItemDefId == null){
-            optionDefItemDefViaItemDefId = new HashSet<OptionDef>();
+    public Set<ValueDef> getValueDefItemDefViaItemDefId() {
+        if (valueDefItemDefViaItemDefId == null){
+            valueDefItemDefViaItemDefId = new HashSet<ValueDef>();
         }
-        return optionDefItemDefViaItemDefId;
+        return valueDefItemDefViaItemDefId;
     }
 
-    public void setOptionDefItemDefViaItemDefId (Set<OptionDef> optionDefItemDefViaItemDefId) {
-        this.optionDefItemDefViaItemDefId = optionDefItemDefViaItemDefId;
+    public void setValueDefItemDefViaItemDefId (Set<ValueDef> valueDefItemDefViaItemDefId) {
+        this.valueDefItemDefViaItemDefId = valueDefItemDefViaItemDefId;
     }	
     
-    public void addOptionDefItemDefViaItemDefId (OptionDef element) {
-    	    getOptionDefItemDefViaItemDefId().add(element);
+    public void addValueDefItemDefViaItemDefId (ValueDef element) {
+    	    getValueDefItemDefViaItemDefId().add(element);
     }
 
     public Set<Resource> getResourceItemDefViaItemDefId() {

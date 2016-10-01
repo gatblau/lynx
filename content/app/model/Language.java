@@ -42,8 +42,8 @@ public class Language implements Serializable {
     @OneToMany (targetEntity=model.ItemDefLang.class, fetch=FetchType.LAZY, mappedBy="languageId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
     private Set <ItemDefLang> itemDefLangLanguageViaLanguageId = new HashSet<ItemDefLang>();
 
-    @OneToMany (targetEntity=model.OptionDefLang.class, fetch=FetchType.LAZY, mappedBy="languageId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
-    private Set <OptionDefLang> optionDefLangLanguageViaLanguageId = new HashSet<OptionDefLang>(); 
+    @OneToMany (targetEntity=model.ValueDefLang.class, fetch=FetchType.LAZY, mappedBy="languageId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
+    private Set <ValueDefLang> valueDefLangLanguageViaLanguageId = new HashSet<ValueDefLang>();
 
     @OneToMany (targetEntity=model.User.class, fetch=FetchType.LAZY, mappedBy="preferredLanguageId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
     private Set <User> userLanguageViaPreferredLanguageId = new HashSet<User>();
@@ -162,19 +162,19 @@ public class Language implements Serializable {
     	    getItemDefLangLanguageViaLanguageId().add(element);
     }
 
-    public Set<OptionDefLang> getOptionDefLangLanguageViaLanguageId() {
-        if (optionDefLangLanguageViaLanguageId == null){
-            optionDefLangLanguageViaLanguageId = new HashSet<OptionDefLang>();
+    public Set<ValueDefLang> getValueDefLangLanguageViaLanguageId() {
+        if (valueDefLangLanguageViaLanguageId == null){
+            valueDefLangLanguageViaLanguageId = new HashSet<ValueDefLang>();
         }
-        return optionDefLangLanguageViaLanguageId;
+        return valueDefLangLanguageViaLanguageId;
     }
 
-    public void setOptionDefLangLanguageViaLanguageId (Set<OptionDefLang> optionDefLangLanguageViaLanguageId) {
-        this.optionDefLangLanguageViaLanguageId = optionDefLangLanguageViaLanguageId;
+    public void setValueDefLangLanguageViaLanguageId (Set<ValueDefLang> valueDefLangLanguageViaLanguageId) {
+        this.valueDefLangLanguageViaLanguageId = valueDefLangLanguageViaLanguageId;
     }	
     
-    public void addOptionDefLangLanguageViaLanguageId (OptionDefLang element) {
-    	    getOptionDefLangLanguageViaLanguageId().add(element);
+    public void addValueDefLangLanguageViaLanguageId (ValueDefLang element) {
+    	    getValueDefLangLanguageViaLanguageId().add(element);
     }
 
     public Set<User> getUserLanguageViaPreferredLanguageId() {

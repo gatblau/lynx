@@ -11,5 +11,5 @@ public class Item_ {
     public static volatile SingularAttribute<Item, Integer> itemDefId_;
     public static volatile SingularAttribute<Item, Section> sectionId;
     public static volatile SingularAttribute<Item, Integer> sectionId_;
-	public static volatile SetAttribute<Item, Option> optionItemViaItemId;
+	public static volatile SetAttribute<Item, Value> valueItemViaItemId;
 }

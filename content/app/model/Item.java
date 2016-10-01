@@ -33,8 +33,8 @@ public class Item implements Serializable {
     @Column(name="section_id"  , nullable=false , unique=true, insertable=false, updatable=false)
     private Integer sectionId_;
 
-    @OneToMany (targetEntity=model.Option.class, fetch=FetchType.LAZY, mappedBy="itemId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
-    private Set <Option> optionItemViaItemId = new HashSet<Option>();
+    @OneToMany (targetEntity=model.Value.class, fetch=FetchType.LAZY, mappedBy="itemId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
+    private Set <Value> valueItemViaItemId = new HashSet<Value>();
 
     public Item() {
     }
@@ -116,19 +116,19 @@ public class Item implements Serializable {
         this.sectionId_ =  sectionId;
     }
 
-    public Set<Option> getOptionItemViaItemId() {
-        if (optionItemViaItemId == null){
-            optionItemViaItemId = new HashSet<Option>();
+    public Set<Value> getValueItemViaItemId() {
+        if (valueItemViaItemId == null){
+            valueItemViaItemId = new HashSet<Value>();
         }
-        return optionItemViaItemId;
+        return valueItemViaItemId;
     }
 
-    public void setOptionItemViaItemId (Set<Option> optionItemViaItemId) {
-        this.optionItemViaItemId = optionItemViaItemId;
+    public void setValueItemViaItemId (Set<Value> valueItemViaItemId) {
+        this.valueItemViaItemId = valueItemViaItemId;
     }	
     
-    public void addOptionItemViaItemId (Option element) {
-    	    getOptionItemViaItemId().add(element);
+    public void addValueItemViaItemId (Value element) {
+    	    getValueItemViaItemId().add(element);
     }
 
 }

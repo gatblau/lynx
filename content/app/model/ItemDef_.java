@@ -19,6 +19,6 @@ public class ItemDef_ {
     public static volatile SingularAttribute<ItemDef, Integer> sectionDefId_;
     public static volatile SetAttribute<ItemDef, Item> itemItemDefViaItemDefId;
     public static volatile SetAttribute<ItemDef, ItemDefLang> itemDefLangItemDefViaItemDefId;
-    public static volatile SetAttribute<ItemDef, OptionDef> optionDefItemDefViaItemDefId;
+    public static volatile SetAttribute<ItemDef, ValueDef> valueDefItemDefViaItemDefId;
     public static volatile SetAttribute<ItemDef, Resource> resourceItemDefViaItemDefId;
 }

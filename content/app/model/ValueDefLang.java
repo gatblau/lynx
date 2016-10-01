@@ -3,23 +3,23 @@ package model;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity (name="OptionDefLang")
-@Table (name="\"option_def_lang\"")
+@Entity (name="ValueDefLang")
+@Table (name="\"value_def_lang\"")
 @NamedQueries ({
-	 @NamedQuery(name="OptionDefLang.findAll", query="SELECT a FROM OptionDefLang a")
-	,@NamedQuery(name="OptionDefLang.findByName", query="SELECT a FROM OptionDefLang a WHERE a.name = :name")
-	,@NamedQuery(name="OptionDefLang.findByNameContaining", query="SELECT a FROM OptionDefLang a WHERE a.name like :name")
-	,@NamedQuery(name="OptionDefLang.findByDescription", query="SELECT a FROM OptionDefLang a WHERE a.description = :description")
-	,@NamedQuery(name="OptionDefLang.findByDescriptionContaining", query="SELECT a FROM OptionDefLang a WHERE a.description like :description")
+	 @NamedQuery(name="ValueDefLang.findAll", query="SELECT a FROM ValueDefLang a")
+	,@NamedQuery(name="ValueDefLang.findByName", query="SELECT a FROM ValueDefLang a WHERE a.name = :name")
+	,@NamedQuery(name="ValueDefLang.findByNameContaining", query="SELECT a FROM ValueDefLang a WHERE a.name like :name")
+	,@NamedQuery(name="ValueDefLang.findByDescription", query="SELECT a FROM ValueDefLang a WHERE a.description = :description")
+	,@NamedQuery(name="ValueDefLang.findByDescriptionContaining", query="SELECT a FROM ValueDefLang a WHERE a.description like :description")
 })
-public class OptionDefLang implements Serializable {
+public class ValueDefLang implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    public static final String FIND_ALL = "OptionDefLang.findAll";
-    public static final String FIND_BY_NAME = "OptionDefLang.findByName";
-    public static final String FIND_BY_NAME_CONTAINING ="OptionDefLang.findByNameContaining";
-    public static final String FIND_BY_DESCRIPTION = "OptionDefLang.findByDescription";
-    public static final String FIND_BY_DESCRIPTION_CONTAINING ="OptionDefLang.findByDescriptionContaining";
+    public static final String FIND_ALL = "ValueDefLang.findAll";
+    public static final String FIND_BY_NAME = "ValueDefLang.findByName";
+    public static final String FIND_BY_NAME_CONTAINING ="ValueDefLang.findByNameContaining";
+    public static final String FIND_BY_DESCRIPTION = "ValueDefLang.findByDescription";
+    public static final String FIND_BY_DESCRIPTION_CONTAINING ="ValueDefLang.findByDescriptionContaining";
 	
     @Id @Column(name="id" ) 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,36 +39,36 @@ public class OptionDefLang implements Serializable {
     private Integer languageId_;
 
     @ManyToOne (fetch=FetchType.LAZY , optional=false)
-    @JoinColumn(name="option_def_id", referencedColumnName = "id" , nullable=false , unique=true  , insertable=true, updatable=true) 
-    private OptionDef optionDefId;  
+    @JoinColumn(name="value_def_id", referencedColumnName = "id" , nullable=false , unique=true  , insertable=true, updatable=true)
+    private ValueDef valueDefId;
 
-    @Column(name="option_def_id"  , nullable=false , unique=true, insertable=false, updatable=false)
-    private Integer optionDefId_;
+    @Column(name="value_def_id"  , nullable=false , unique=true, insertable=false, updatable=false)
+    private Integer valueDefId_;
 
-    public OptionDefLang() {
+    public ValueDefLang() {
     }
 
-    public OptionDefLang(
+    public ValueDefLang(
        Integer id,
        String name,
        String description,
        Integer languageId,
-       Integer optionDefId) {
+       Integer valueDefId) {
 	 this(
        id,
        name,
        description,
        languageId,
-       optionDefId
+       valueDefId
 	 ,true);
 	}
     
-	public OptionDefLang(
+	public ValueDefLang(
        Integer id,
        String name,
        String description,
        Integer languageId,
-       Integer optionDefId	
+       Integer valueDefId
     , boolean setRelationship) {
        setId (id);
        setName (name);
@@ -78,20 +78,20 @@ public class OptionDefLang implements Serializable {
           this.languageId.setId(languageId);
 	      setLanguageId_ (languageId);
        }
-       if (setRelationship && optionDefId!=null) {
-          this.optionDefId = new OptionDef();
-          this.optionDefId.setId(optionDefId);
-	      setOptionDefId_ (optionDefId);
+       if (setRelationship && valueDefId!=null) {
+          this.valueDefId = new ValueDef();
+          this.valueDefId.setId(valueDefId);
+	      setValueDefId_ (valueDefId);
        }
     }
 
-	public OptionDefLang flat() {
-	   return new OptionDefLang(
+	public ValueDefLang flat() {
+	   return new ValueDefLang(
           getId(),
           getName(),
           getDescription(),
           getLanguageId_(),
-          getOptionDefId_()
+          getValueDefId_()
        , false
 	   );
 	}
@@ -136,20 +136,20 @@ public class OptionDefLang implements Serializable {
         this.languageId_ =  languageId;
     }
 	
-    public OptionDef getOptionDefId () {
-    	return optionDefId;
+    public ValueDef getValueDefId () {
+    	return valueDefId;
     }
 	
-    public void setOptionDefId (OptionDef optionDefId) {
-    	this.optionDefId = optionDefId;
+    public void setValueDefId (ValueDef valueDefId) {
+    	this.valueDefId = valueDefId;
     }
 
-    public Integer getOptionDefId_() {
-        return optionDefId_;
+    public Integer getValueDefId_() {
+        return valueDefId_;
     }
 	
-    public void setOptionDefId_ (Integer optionDefId) {
-        this.optionDefId_ =  optionDefId;
+    public void setValueDefId_ (Integer valueDefId) {
+        this.valueDefId_ =  valueDefId;
     }
 
 }
