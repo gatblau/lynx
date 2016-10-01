@@ -1,4 +1,4 @@
-package features.token
+package token
 
 import java.time.{LocalDate, ZoneId, ZonedDateTime}
 import java.util.Date

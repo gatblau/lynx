@@ -8,9 +8,9 @@ version := "1.0"
 scalaVersion := "2.11.8"
 
 lazy val lynx = (project in file("."))
-  .aggregate(collect, ingest, cli)
+  .aggregate(content, cli)
 
-lazy val collect = (project in file("collect"))
+lazy val content = (project in file("content"))
   .settings(Settings.basicSettings: _*)
   .enablePlugins(PlayScala)
     .settings(PlayKeys.externalizeResources := false)
@@ -29,9 +29,7 @@ lazy val collect = (project in file("collect"))
       playmailer,
       jacksonscalamodule
     )
-  ).dependsOn(api, util)
-
-lazy val ingest = (project in file("ingest"))
+  ).dependsOn(api)
 
 lazy val cli = (project in file("cli"))
   .settings(Settings.basicSettings: _*)
@@ -61,14 +59,6 @@ lazy val api = (project in file("api"))
       weld,
       logback,
       jackson
-    )
-  )
-
-lazy val util = (project in file("util"))
-  .settings(Settings.basicSettings: _*)
-  .settings(libraryDependencies ++=
-    Lib.compile(
-      weld
     ) ++
       Lib.test(
         cucumberJava,
