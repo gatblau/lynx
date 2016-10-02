@@ -484,14 +484,16 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`item_def_lang` (
 
 
 -- -----------------------------------------------------
--- Table `lynxc`.`resource_type`
+-- Table `lynxc`.`media_type`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `lynxc`.`resource_type` (
+CREATE TABLE IF NOT EXISTS `lynxc`.`media_type` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `value` VARCHAR(45) NOT NULL,
+  `name` VARCHAR(150) NOT NULL,
+  `template` VARCHAR(150) NULL,
+  `reference` VARCHAR(250) NULL,
   `icon_path` VARCHAR(250) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `value_UNIQUE` (`value` ASC))
+  UNIQUE INDEX `value_UNIQUE` (`name` ASC))
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8;
 
@@ -501,16 +503,16 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`resource_type` (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `lynxc`.`resource` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `resource_type_id` INT(11) NOT NULL,
-  `resource_path` VARCHAR(250) NOT NULL,
+  `media_type_id` INT(11) NOT NULL,
+  `path` VARCHAR(250) NOT NULL,
   `link` VARCHAR(250) NULL DEFAULT NULL,
   `item_def_id` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_resource_resource_type1_idx` (`resource_type_id` ASC),
+  INDEX `fk_resource_media_type1_idx` (`media_type_id` ASC),
   INDEX `fk_resource_item_def1_idx` (`item_def_id` ASC),
-  CONSTRAINT `fk_resource_resource_type1`
-  FOREIGN KEY (`resource_type_id`)
-  REFERENCES `lynxc`.`resource_type` (`id`)
+  CONSTRAINT `fk_resource_media_type1`
+  FOREIGN KEY (`media_type_id`)
+  REFERENCES `lynxc`.`media_type` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_resource_item_def1`

@@ -33,7 +33,7 @@ EOSQL
     echo 'Adding creation of db schema to mysql-init'
     cat '/config/schema.sql' >> "$MYSQL_INIT_FILE"
     echo 'Adding loading of reference data to mysql-init'
-    declare -a tables=("language" "country" "country_lang" "email_template" "item_type" "resource_layout" "value_type")
+    declare -a tables=("language" "country" "country_lang" "email_template" "item_type" "resource_layout" "value_type" "media_type")
     for table in "${tables[@]}";
     do
        echo "LOAD DATA INFILE '/config/${table}.csv' INTO TABLE ${table} CHARACTER SET utf8 FIELDS TERMINATED BY ',' ENCLOSED BY '\"' IGNORE 1 LINES ;" >> "$MYSQL_INIT_FILE"
