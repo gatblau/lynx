@@ -9,8 +9,8 @@ import java.util.Set;
 @Table (name="\"resource\"")
 @NamedQueries ({
 	 @NamedQuery(name="Resource.findAll", query="SELECT a FROM Resource a")
-	,@NamedQuery(name="Resource.findByResourcePath", query="SELECT a FROM Resource a WHERE a.resourcePath = :resourcePath")
-	,@NamedQuery(name="Resource.findByResourcePathContaining", query="SELECT a FROM Resource a WHERE a.resourcePath like :resourcePath")
+	,@NamedQuery(name="Resource.findByPath", query="SELECT a FROM Resource a WHERE a.path = :path")
+	,@NamedQuery(name="Resource.findByPathContaining", query="SELECT a FROM Resource a WHERE a.path like :path")
 	,@NamedQuery(name="Resource.findByLink", query="SELECT a FROM Resource a WHERE a.link = :link")
 	,@NamedQuery(name="Resource.findByLinkContaining", query="SELECT a FROM Resource a WHERE a.link like :link")
 })
@@ -18,8 +18,8 @@ public class Resource implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public static final String FIND_ALL = "Resource.findAll";
-    public static final String FIND_BY_RESOURCEPATH = "Resource.findByResourcePath";
-    public static final String FIND_BY_RESOURCEPATH_CONTAINING ="Resource.findByResourcePathContaining";
+    public static final String FIND_BY_PATH = "Resource.findByPath";
+    public static final String FIND_BY_PATH_CONTAINING ="Resource.findByPathContaining";
     public static final String FIND_BY_LINK = "Resource.findByLink";
     public static final String FIND_BY_LINK_CONTAINING ="Resource.findByLinkContaining";
 	
@@ -27,27 +27,27 @@ public class Resource implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name="resource_path"  , length=250 , nullable=false , unique=false)
-    private String resourcePath; 
+    @Column(name="path"  , length=250 , nullable=false , unique=false)
+    private String path; 
 
     @Column(name="link"  , length=250 , nullable=true , unique=false)
     private String link; 
 
     @ManyToOne (fetch=FetchType.LAZY , optional=false)
-    @JoinColumn(name="item_def_id", referencedColumnName = "id" , nullable=false , unique=false , insertable=true, updatable=true)
-    private ItemDef itemDefId;
+    @JoinColumn(name="media_type_id", referencedColumnName = "id" , nullable=false , unique=false , insertable=true, updatable=true) 
+    private MediaType mediaTypeId;  
+
+    @Column(name="media_type_id"  , nullable=false , unique=true, insertable=false, updatable=false)
+    private Integer mediaTypeId_;
+
+    @ManyToOne (fetch=FetchType.LAZY , optional=false)
+    @JoinColumn(name="item_def_id", referencedColumnName = "id" , nullable=false , unique=true  , insertable=true, updatable=true) 
+    private ItemDef itemDefId;  
 
     @Column(name="item_def_id"  , nullable=false , unique=true, insertable=false, updatable=false)
     private Integer itemDefId_;
 
-    @ManyToOne (fetch=FetchType.LAZY , optional=false)
-    @JoinColumn(name="resource_type_id", referencedColumnName = "id" , nullable=false , unique=true  , insertable=true, updatable=true) 
-    private ResourceType resourceTypeId;  
-
-    @Column(name="resource_type_id"  , nullable=false , unique=true, insertable=false, updatable=false)
-    private Integer resourceTypeId_;
-
-    @OneToMany (targetEntity=ResourceLang.class, fetch=FetchType.LAZY, mappedBy="resourceId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
+    @OneToMany (targetEntity=model.ResourceLang.class, fetch=FetchType.LAZY, mappedBy="resourceId", cascade=CascadeType.REMOVE)//, cascade=CascadeType.ALL)
     private Set <ResourceLang> resourceLangResourceViaResourceId = new HashSet<ResourceLang>(); 
 
     public Resource() {
@@ -55,14 +55,14 @@ public class Resource implements Serializable {
 
     public Resource(
        Integer id,
-       Integer resourceTypeId,
-       String resourcePath,
+       Integer mediaTypeId,
+       String path,
        String link,
        Integer itemDefId) {
 	 this(
        id,
-       resourceTypeId,
-       resourcePath,
+       mediaTypeId,
+       path,
        link,
        itemDefId
 	 ,true);
@@ -70,31 +70,31 @@ public class Resource implements Serializable {
     
 	public Resource(
        Integer id,
-       Integer resourceTypeId,
-       String resourcePath,
+       Integer mediaTypeId,
+       String path,
        String link,
-       Integer itemDefId
+       Integer itemDefId	
     , boolean setRelationship) {
        setId (id);
-       setResourcePath (resourcePath);
+       setPath (path);
        setLink (link);
+       if (setRelationship && mediaTypeId!=null) {
+          this.mediaTypeId = new MediaType();
+          this.mediaTypeId.setId(mediaTypeId);
+	      setMediaTypeId_ (mediaTypeId);
+       }
        if (setRelationship && itemDefId!=null) {
           this.itemDefId = new ItemDef();
           this.itemDefId.setId(itemDefId);
 	      setItemDefId_ (itemDefId);
-       }
-       if (setRelationship && resourceTypeId!=null) {
-          this.resourceTypeId = new ResourceType();
-          this.resourceTypeId.setId(resourceTypeId);
-	      setResourceTypeId_ (resourceTypeId);
        }
     }
 
 	public Resource flat() {
 	   return new Resource(
           getId(),
-          getResourceTypeId_(),
-          getResourcePath(),
+          getMediaTypeId_(),
+          getPath(),
           getLink(),
           getItemDefId_()
        , false
@@ -109,12 +109,12 @@ public class Resource implements Serializable {
         this.id =  id;
     }
 
-    public String getResourcePath() {
-        return resourcePath;
+    public String getPath() {
+        return path;
     }
 	
-    public void setResourcePath (String resourcePath) {
-        this.resourcePath =  resourcePath;
+    public void setPath (String path) {
+        this.path =  path;
     }
 
     public String getLink() {
@@ -125,6 +125,22 @@ public class Resource implements Serializable {
         this.link =  link;
     }
 
+    public MediaType getMediaTypeId () {
+    	return mediaTypeId;
+    }
+	
+    public void setMediaTypeId (MediaType mediaTypeId) {
+    	this.mediaTypeId = mediaTypeId;
+    }
+
+    public Integer getMediaTypeId_() {
+        return mediaTypeId_;
+    }
+	
+    public void setMediaTypeId_ (Integer mediaTypeId) {
+        this.mediaTypeId_ =  mediaTypeId;
+    }
+	
     public ItemDef getItemDefId () {
     	return itemDefId;
     }
@@ -139,22 +155,6 @@ public class Resource implements Serializable {
 	
     public void setItemDefId_ (Integer itemDefId) {
         this.itemDefId_ =  itemDefId;
-    }
-	
-    public ResourceType getResourceTypeId () {
-    	return resourceTypeId;
-    }
-	
-    public void setResourceTypeId (ResourceType resourceTypeId) {
-    	this.resourceTypeId = resourceTypeId;
-    }
-
-    public Integer getResourceTypeId_() {
-        return resourceTypeId_;
-    }
-	
-    public void setResourceTypeId_ (Integer resourceTypeId) {
-        this.resourceTypeId_ =  resourceTypeId;
     }
 
     public Set<ResourceLang> getResourceLangResourceViaResourceId() {
