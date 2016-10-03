@@ -41,45 +41,90 @@
         question="De que color es my saco?"
         language_id="140"
         item_def_id="1"/>
-    <option_def
+    <value_def
         id="1"
-        item_def_id="1"/>
-    <option_def_lang
+        item_def_id="1"
+        value_type_id="4"/>
+    <value_def_lang
         id="1"
         language_id="39"
-        option_def_id="1"
+        value_def_id="1"
         name="Red"
         description="Red colour."/>
-    <option_def_lang
+    <value_def_lang
         id="2"
-        language_id="39"
-        option_def_id="1"
-        name="Blue"
-        description="Blue colour."/>
-    <option_def_lang
-        id="3"
-        language_id="39"
-        option_def_id="1"
-        name="Yellow"
-        description="Yellow colour."/>
-    <option_def_lang
-        id="4"
         language_id="140"
-        option_def_id="1"
+        value_def_id="1"
         name="Colorado"
         description="Color colorado."/>
-    <option_def_lang
-        id="5"
+    <value_def
+        id="2"
+        item_def_id="1"
+        value_type_id="4"/>
+    <value_def_lang
+        id="3"
+        language_id="39"
+        value_def_id="2"
+        name="Blue"
+        description="Blue colour."/>
+    <value_def_lang
+        id="4"
         language_id="140"
-        option_def_id="1"
+        value_def_id="2"
         name="Azul"
         description="Color azul."/>
-    <option_def_lang
+    <value_def
+        id="3"
+        item_def_id="1"
+        value_type_id="4"/>
+    <value_def_lang
+        id="5"
+        language_id="39"
+        value_def_id="3"
+        name="Yellow"
+        description="Yellow colour."/>
+    <value_def_lang
         id="6"
         language_id="140"
-        option_def_id="1"
+        value_def_id="3"
         name="Amarillo"
         description="Color amarillo."/>
+    <resource
+        id="1"
+        media_type_id="1334"
+        path="/images/my.png"
+        link="www.abc.com/image/"
+        item_def_id="1"/>
+    <resource_lang
+        id="1"
+        name="PNG Image"
+        description="Test image."
+        resource_id="1"
+        language_id="39"/>
+    <resource_lang
+        id="2"
+        name="Imagen PNG"
+        description="Imagen de prueba."
+        resource_id="1"
+        language_id="140"/>
+    <resource
+        id="2"
+        media_type_id="1334"
+        path="/images/my2.png"
+        link="www.abc.com/image/"
+        item_def_id="2"/>
+    <resource_lang
+        id="3"
+        name="Second PNG Image"
+        description="Second test image."
+        resource_id="2"
+        language_id="39"/>
+    <resource_lang
+        id="4"
+        name="Segunda Imagen PNG"
+        description="Segunda imagen de prueba."
+        resource_id="2"
+        language_id="140"/>
     <section_def
         id="2"
         dynamic="false"
@@ -105,44 +150,46 @@
         id="3"
         name="Question 2"
         description="An explanation for Question 2."
-        question="Which options are best?"
+        question="Which values are best?"
         language_id="39"
         item_def_id="2"/>
     <item_def_lang
         id="4"
         name="Pregunta 2"
         description="Una explicacion de la pregunta 2."
-        question="Que optiones son las mejores?"
+        question="Que valores son los mejores?"
         language_id="140"
         item_def_id="2"/>
-    <option_def
-        id="2"
-        item_def_id="2"/>
-    <option_def_lang
+    <value_def
+        id="4"
+        item_def_id="2"
+        value_type_id="3"/>
+    <value_def_lang
         id="7"
         language_id="39"
-        option_def_id="2"
+        value_def_id="4"
         name="Option 1"
         description="The advantages of Option 1 are..."/>
-    <option_def_lang
+    <value_def_lang
         id="8"
         language_id="140"
-        option_def_id="2"
+        value_def_id="4"
         name="Opcion 1"
         description="Las ventajas de la Opcion 1 son..."/>
-    <option_def
-        id="3"
-        item_def_id="2"/>
-    <option_def_lang
+    <value_def
+        id="5"
+        item_def_id="2"
+        value_type_id="3"/>
+    <value_def_lang
         id="9"
         language_id="39"
-        option_def_id="3"
+        value_def_id="5"
         name="Option 2"
         description="The advantages of Option 2 are..."/>
-    <option_def_lang
+    <value_def_lang
         id="10"
         language_id="140"
-        option_def_id="3"
+        value_def_id="5"
         name="Opcion 2"
         description="Las ventajas de la Opcion 2 son..."/>
 </dataset>
