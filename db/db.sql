@@ -647,6 +647,7 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`value` (
   `date` DATETIME NULL,
   `integer` INT NULL,
   `decimal` DECIMAL(13,2) NULL,
+  `flag` TINYINT(1) NULL,
   `value_def_id` INT(11) NOT NULL,
   `item_id` INT(11) NOT NULL,
   PRIMARY KEY (`id`),

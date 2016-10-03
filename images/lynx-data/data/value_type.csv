@@ -4,3 +4,4 @@ id,name
 3,"INTEGER"
 4,"SHORT TEXT"
 5,"LONG TEXT"
+6,"FLAG"

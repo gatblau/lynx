@@ -15,6 +15,7 @@ import java.sql.Timestamp;
     ,@NamedQuery(name="Value.findByDate", query="SELECT a FROM Value a WHERE a.date = :date")
     ,@NamedQuery(name="Value.findByInteger", query="SELECT a FROM Value a WHERE a.integer = :integer")
     ,@NamedQuery(name="Value.findByDecimal", query="SELECT a FROM Value a WHERE a.decimal = :decimal")
+    ,@NamedQuery(name="Value.findByFlag", query="SELECT a FROM Value a WHERE a.flag = :flag")
 })
 public class Value implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -27,9 +28,10 @@ public class Value implements Serializable {
     public static final String FIND_BY_DATE = "Value.findByDate";
     public static final String FIND_BY_INTEGER = "Value.findByInteger";
     public static final String FIND_BY_DECIMAL = "Value.findByDecimal";
+    public static final String FIND_BY_FLAG = "Value.findByFlag";
 
     @Id @Column(name="id" )
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @Column(name="short_text"  , length=150 , nullable=true , unique=false)
@@ -46,6 +48,9 @@ public class Value implements Serializable {
 
     @Column(name="decimal"   , nullable=true , unique=false)
     private java.math.BigDecimal decimal;
+
+    @Column(name="flag"   , nullable=true , unique=false)
+    private Boolean flag;
 
     @ManyToOne (fetch=FetchType.LAZY , optional=false)
     @JoinColumn(name="value_def_id", referencedColumnName = "id" , nullable=false , unique=false , insertable=true, updatable=true)
@@ -71,6 +76,7 @@ public class Value implements Serializable {
             Timestamp date,
             Integer integer,
             java.math.BigDecimal decimal,
+            Boolean flag,
             Integer valueDefId,
             Integer itemId) {
         this(
@@ -80,6 +86,7 @@ public class Value implements Serializable {
             date,
             integer,
             decimal,
+            flag,
             valueDefId,
             itemId
             ,true);
@@ -92,6 +99,7 @@ public class Value implements Serializable {
             Timestamp date,
             Integer integer,
             java.math.BigDecimal decimal,
+            Boolean flag,
             Integer valueDefId,
             Integer itemId
             , boolean setRelationship) {
@@ -101,6 +109,7 @@ public class Value implements Serializable {
         setDate (date);
         setInteger (integer);
         setDecimal (decimal);
+        setFlag (flag);
         if (setRelationship && valueDefId!=null) {
             this.valueDefId = new ValueDef();
             this.valueDefId.setId(valueDefId);
@@ -121,6 +130,7 @@ public class Value implements Serializable {
             getDate(),
             getInteger(),
             getDecimal(),
+            getFlag(),
             getValueDefId_(),
             getItemId_()
             , false
@@ -173,6 +183,14 @@ public class Value implements Serializable {
 
     public void setDecimal (java.math.BigDecimal decimal) {
         this.decimal =  decimal;
+    }
+
+    public Boolean getFlag() {
+        return flag;
+    }
+
+    public void setFlag (Boolean flag) {
+        this.flag =  flag;
     }
 
     public ValueDef getValueDefId () {
