@@ -14,8 +14,14 @@ class CreateContentSteps extends Testing {
     db.setup("/data/content_definition.xml")
   }
 
-  @And("^the content instance details are known$")
-  def the_content_instance_details_are_known() : Unit = {
+  @And("^the user creating the content is registered$")
+  def the_user_creating_the_content_is_registered() : Unit = {
+    // Write code here that turns the phrase above into concrete actions
+    throw new PendingException()
+  }
+
+  @And("^the user is an administrator for the content definition$")
+  def the_user_is_an_administrator_for_the_content_definition() : Unit = {
     // Write code here that turns the phrase above into concrete actions
     throw new PendingException()
   }
@@ -28,6 +34,18 @@ class CreateContentSteps extends Testing {
 
   @And("^the content instance is created$")
   def the_content_instance_is_created() : Unit = {
+    // Write code here that turns the phrase above into concrete actions
+    throw new PendingException()
+  }
+
+  @And("^the user is not an administrator for the content definition$")
+  def the_user_is_not_an_administrator_for_the_content_definition() : Unit = {
+    // Write code here that turns the phrase above into concrete actions
+    throw new PendingException()
+  }
+
+  @And("^the content instance is not created$")
+  def the_content_instance_is_not_created() : Unit = {
     // Write code here that turns the phrase above into concrete actions
     throw new PendingException()
   }
