@@ -10,14 +10,14 @@ import scala.collection.mutable.ListBuffer
 
 @Singleton
 class ActivationService @Inject() (
-                                    userRepo: UserRepository,
-                                    groupRepo: GroupRepository,
-                                    roleRepo: RoleRepository,
-                                    languageRepo: LanguageRepository,
-                                    countryRepo: CountryRepository)
+    userRepo: UserRepository,
+    groupRepo: GroupRepository,
+    roleRepo: RoleRepository,
+    languageRepo: LanguageRepository,
+    countryRepo: CountryRepository)
   extends Service {
 
-  def activate(activationList: List[ActivationRequest]): List[ApiResult] = activationList.map(a => activate(a))
+  def activate(activations: Array[ActivationRequest]): Array[ApiResult] = activations.map(a => activate(a))
 
   private def activate(activation: ActivationRequest) : ApiResult = {
     val user : User = userRepo.findByEmail(activation.email)
@@ -45,13 +45,12 @@ class ActivationService @Inject() (
     }
   }
 
-  def checkRequired(list : List[ActivationRequest]) : String = {
-    var ids = ListBuffer[Int]()
-    for (i <- 0 to list.length - 1) {
-      if (isUndefined(list(i).activationCode)) return "Activation Code is required."
-      if (list(i).countryId == 0) return "Country is required."
-      if (list(i).groupId == 0) return "Group is required."
-      if (list(i).preferredLanguageId == 0) return "Preferred Language is required."
+  def checkRequired(requests : Array[ActivationRequest]) : String = {
+    for (i <- 0 to requests.length - 1) {
+      if (isUndefined(requests(i).activationCode)) return "Activation Code is required."
+      if (requests(i).countryId == 0) return "Country is required."
+      if (requests(i).groupId == 0) return "Group is required."
+      if (requests(i).preferredLanguageId == 0) return "Preferred Language is required."
     }
     ""
   }

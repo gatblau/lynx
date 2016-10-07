@@ -1,10 +1,12 @@
 package features.onboarding
 
-import java.util.ArrayList
+import lynx.api.ContentAPI._
 import javax.inject.Singleton
+import javax.ws.rs.client.{Client, Entity}
+import javax.ws.rs.core.MediaType
 
 import cucumber.api.java.en.And
-import lynx.api.RegistrationRequest
+import lynx.api.{ApiResult, RegistrationRequest}
 import util.Keys._
 import util.Testing
 
@@ -37,10 +39,18 @@ class RegisterSteps extends Testing {
   def a_request_to_register_the_users_is_made() : Unit = {
     try {
       set(ERROR, null)
-      set(RESULT, client.registerRespondent(get(REGISTRATION_DATA)))
+      if (get(REGISTRATION_DATA).isInstanceOf[Array[RegistrationRequest]]) {
+        set(RESULT, client.registerRespondent(get(REGISTRATION_DATA)))
+      }
+      else {
+        set(RESULT, client.postMany(get(REGISTRATION_DATA), URI_REGISTER("http://localhost:9000")))
+      }
     }
     catch {
-      case ex : Exception => set(ERROR, ex.getMessage())
+      case ex : Exception => {
+        val msg = ex.getMessage()
+        set(ERROR, msg)
+      }
     }
   }
 
@@ -68,7 +78,7 @@ class RegisterSteps extends Testing {
   @And("^an incorrect payload is created$")
   def an_incorrect_payload_is_created() : Unit = {
     val payload = IncorrectPayload("A", "B")
-    set(REGISTRATION_DATA, new ArrayList(){payload})
+    set(REGISTRATION_DATA, Array(payload))
   }
 
   @And("^a bad request response is received$")
@@ -90,10 +100,10 @@ class RegisterSteps extends Testing {
 
   @And("^an error indicating the users are already registered is received$")
   def an_error_indicating_the_users_are_already_registered_is_received() : Unit = {
-    val results : ArrayList[java.util.LinkedHashMap[String, String]] = get(RESULT)
-    for (i <- 0 to results.size() - 1) {
-      assert(!results.get(i).get("success").asInstanceOf[Boolean], "Response was successful but it should not have.")
-      assert(results.get(i).get("message").contains("already registered"), "Error message is wrong.")
+    val results : Array[ApiResult] = get(RESULT)
+    for (i <- 0 to results.length - 1) {
+      assert(!results(i).success, "Response was successful but it should not have.")
+      assert(results(i).message.contains("already registered"), "Error message is wrong.")
     }
   }
 
@@ -106,44 +116,39 @@ class RegisterSteps extends Testing {
   def an_error_indicating_the_email_template_is_not_defined_is_received() : Unit = {
     val error : String = get(ERROR)
     assert(error == null || error.length() == 0, "An exception ocurred.")
-    val results : ArrayList[java.util.LinkedHashMap[String, String]] = get(RESULT)
-    for (i <- 0 to results.size() - 1) {
-      assert(!results.get(i).get("success").asInstanceOf[Boolean], "Response was successful but it should not have.")
-      assert(results.get(i).get("message").contains("Email Template"), "Error message is wrong.")
+    val results : Array[ApiResult] = get(RESULT)
+    for (i <- 0 to results.length - 1) {
+      assert(!results(i).success.asInstanceOf[Boolean], "Response was successful but it should not have.")
+      assert(results(i).message.contains("Email Template"), "Error message is wrong.")
     }
   }
 
   private def regPayloadOK()  = {
     val r = db.load("/data/users_to_be_reg.xml").getTable("user")
-    val regs = new ArrayList[RegistrationRequest]()
+    val regs = new Array[RegistrationRequest](r.getRowCount())
     for (i <- 0 to r.getRowCount() - 1) {
-      regs.add(RegistrationRequest(
+      regs(i) = RegistrationRequest(
         r.getValue(i, "firstname").toString(),
         r.getValue(i, "lastname").toString(),
-        r.getValue(i, "email").toString(), 1))
+        r.getValue(i, "email").toString(), 1)
     }
     regs
   }
 
   private def regPayloadMissingValues()  = {
-    val regs = new ArrayList[RegistrationRequest]()
-    for (i <- 0 to 1) {
-      regs.add(RegistrationRequest(
-        "",
-        "",
-        "", 1))
-    }
+    val regs = new Array[RegistrationRequest](2)
+    for (i <- 0 to 1) regs(i) = RegistrationRequest("", "", "", 1)
     regs
   }
 
   private def regPayloadWrongEmailTemplate()  = {
     val r = db.load("/data/users_to_be_reg.xml").getTable("user")
-    val regs = new ArrayList[RegistrationRequest]()
-    for (i <- 0 to 1) {
-      regs.add(RegistrationRequest(
+    val regs = new Array[RegistrationRequest](r.getRowCount())
+    for (i <- 0 to r.getRowCount()) {
+      regs(i) = RegistrationRequest(
         r.getValue(i, "firstname").toString(),
         r.getValue(i, "lastname").toString(),
-        r.getValue(i, "email").toString(), 2000))
+        r.getValue(i, "email").toString(), 2000)
     }
     regs
   }

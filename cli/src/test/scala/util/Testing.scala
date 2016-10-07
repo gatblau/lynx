@@ -3,7 +3,7 @@ package util
 import java.security.MessageDigest
 import javax.inject.{Inject, Named}
 
-import lynx.api.CollectApi
+import lynx.api.ContentAPI
 import util.Keys._
 
 import scala.collection.mutable
@@ -12,7 +12,7 @@ trait Testing {
   private[Testing] val values = new mutable.WeakHashMap[String, Any]()
 
   @Inject @Named("testCollectAPIClient")
-  var client : CollectApi = _
+  var client : ContentAPI = _
 
   @Inject
   var db : DatabaseDriver = _

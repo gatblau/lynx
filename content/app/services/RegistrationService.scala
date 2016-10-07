@@ -15,9 +15,9 @@ import scala.util.control.Breaks._
 class RegistrationService @Inject() (mailerClient: MailerClient, emailTemplateRepository: EmailTemplateRepository, userRepository: UserRepository)
   extends Service {
 
-  def register(registrationList: List[RegistrationRequest]): List[ApiResult]= {
+  def register(registrationList: Array[RegistrationRequest]): Array[ApiResult]= {
     var ids = ListBuffer[Int]()
-    val results = new mutable.MutableList[ApiResult]()
+    val results = Array[ApiResult]()
     for(i <- 0 to registrationList.length - 1) {
       breakable {
         val registration = registrationList(i)
@@ -27,11 +27,7 @@ class RegistrationService @Inject() (mailerClient: MailerClient, emailTemplateRe
           if (found != null) {
             ids += id
           } else {
-            results ++= List(
-              new ApiResult(
-                success = false,
-                id= registration.email,
-                message = s"Email Template Id=$id is undefined."))
+            results :+ ApiResult(id= registration.email, message = s"Email Template Id=$id is undefined.")
             break()
           }
         }
@@ -42,33 +38,19 @@ class RegistrationService @Inject() (mailerClient: MailerClient, emailTemplateRe
                 registration.lastname,
                 user.getEmail(),
                 user.getActivationCode())
-          results ++= List(
-            new ApiResult(
-              success = true,
-              id= registration.email,
-              message = "Users have been created."))
+          results :+ ApiResult(success = true, id= registration.email, message = "Users have been created.")
         }
         catch {
-          case pex : PersistenceException => {
-            if (pex.getMessage.contains("ConstraintViolation")) {
-              results ++= List(
-                new ApiResult(success = false,
-                  id= registration.email,
-                  message = "User is already registered."))
-            }
+          case pex : PersistenceException =>
+            if (pex.getMessage.contains("ConstraintViolation"))
+              results :+ ApiResult(id= registration.email, message = "User is already registered.")
             else throw pex
-          }
-          case ex : Exception => {
-            val e = ex
-            results ++= List(
-              new ApiResult(success = false,
-                id= registration.email,
-                message = "An error ocurred: " + ex.getMessage()))
-          }
+          case ex : Exception =>
+            results :+ ApiResult(id= registration.email, message = "An error ocurred: " + ex.getMessage())
         }
       }
     }
-    return results.toList
+    results
   }
 
   def changePassword(changeRequest: PwdChangeRequest) : ApiResult = {
@@ -102,12 +84,12 @@ class RegistrationService @Inject() (mailerClient: MailerClient, emailTemplateRe
     mailerClient.send(email)
   }
 
-  def checkRequired(list : List[RegistrationRequest]) : String = {
-    for (i <- 0 to list.length - 1) {
-      if (isUndefined(list(i).firstname)) return "Firstname is required."
-      if (isUndefined(list(i).lastname)) return "Lastname is required."
-      if (isUndefined(list(i).email)) return "Email is required."
-      if (list(i).emailTemplateId == 0) return "Email Template Id is required."
+  def checkRequired(requests : Array[RegistrationRequest]) : String = {
+    for (i <- 0 to requests.length - 1) {
+      if (isUndefined(requests(i).firstname)) return "Firstname is required."
+      if (isUndefined(requests(i).lastname)) return "Lastname is required."
+      if (isUndefined(requests(i).email)) return "Email is required."
+      if (requests(i).emailTemplateId == 0) return "Email Template Id is required."
     }
     ""
   }

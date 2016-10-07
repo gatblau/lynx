@@ -4,7 +4,7 @@ import javax.inject.{Inject, Named, Singleton}
 
 import cucumber.api.PendingException
 import cucumber.api.java.en.And
-import lynx.api.CollectApi
+import lynx.api.ContentAPI
 import util._
 
 @Singleton
@@ -12,7 +12,7 @@ class LoginSteps {
 
   @Inject
   @Named("testCollectAPIClient")
-  var client: CollectApi = _
+  var client: ContentAPI = _
 
   @Inject
   var db: DatabaseDriver = _
