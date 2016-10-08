@@ -16,6 +16,6 @@ class Contents @Inject() (contentService: ContentService)
     implicit val contentFormat = Json.format[Content]
     var payload : Option[Array[Content]] = None
     try payload = Some(request.body.as[Array[Content]]) catch { case _ : Throwable => }
-    process(payload, contentService.checkRequired, contentService.create)
+    process(payload, contentService.validate, contentService.create)
   }
 }
