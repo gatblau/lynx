@@ -11,7 +11,7 @@ import play.api.mvc.{Action, Codec, Controller}
 import services.ActivationService
 
 class Activations @Inject() (actService: ActivationService)
-  extends Controller with ControllerUtility {
+  extends Controller with PayloadManagement {
 
     implicit val activationFormat = Json.format[ActivationRequest]
 

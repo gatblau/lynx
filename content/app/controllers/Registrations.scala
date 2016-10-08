@@ -8,27 +8,11 @@ import play.api.mvc.{Action, Controller}
 import services.RegistrationService
 
 class Registrations @Inject() (regService: RegistrationService)
-  extends Controller with ControllerUtility {
-
-  implicit val registrationFormat = Json.format[RegistrationRequest]
-
+  extends Controller with PayloadManagement {
   def create = Action(parse.json) { request =>
+    implicit val registrationFormat = Json.format[RegistrationRequest]
     var payload : Option[Array[RegistrationRequest]] = None
-    try {
-      payload = Some(request.body.as[Array[RegistrationRequest]])
-    }
-    catch {
-      case _ =>
-    }
-    if (payload.isDefined) {
-      val regs = payload.get
-      val fieldsRequired = regService.checkRequired(regs)
-      if (fieldsRequired.length() > 0) {
-        BadRequest(Errors.INVALID_PAYLOAD + fieldsRequired)
-      } else {
-        Ok(regService.register(regs))
-      }
-    }
-    else BadRequest(Errors.INVALID_PAYLOAD)
+    try payload = Some(request.body.as[Array[RegistrationRequest]]) catch { case _ : Throwable => }
+    process(payload, regService.checkRequired, regService.register)
   }
 }

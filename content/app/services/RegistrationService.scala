@@ -94,7 +94,7 @@ class RegistrationService @Inject() (mailerClient: MailerClient, emailTemplateRe
     ""
   }
 
-  def checkRequired(pwdChangeRequest: PwdChangeRequest) : String = {
+  def checkPwdRequired(pwdChangeRequest: PwdChangeRequest) : String = {
     if (isUndefined(pwdChangeRequest.email)) return "Email is required."
     if (pwdChangeRequest.emailTemplateId == 0) return "An email template is required."
     ""

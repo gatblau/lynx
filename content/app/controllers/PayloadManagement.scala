@@ -10,7 +10,7 @@ import play.api.http.Writeable
 import play.api.libs.json.Json
 import play.api.mvc.{Codec, Controller, Result}
 
-trait ControllerUtility extends Controller {
+trait PayloadManagement extends Controller {
 
   implicit val apiResultFormat = Json.format[ApiResult]
 
@@ -22,5 +22,18 @@ trait ControllerUtility extends Controller {
   def mapper : ObjectMapper = {
     val m = new ObjectMapper()
     m.registerModule(DefaultScalaModule)
+  }
+
+  def process[T](payload: Option[Array[T]], validate: (Array[T]) => String, execute: (Array[T]) => Array[ApiResult]) : Result = {
+    if (payload.isDefined) {
+      val body = payload.get
+      val invalid = validate(body)
+      if (invalid.length() > 0)
+        BadRequest(Errors.INVALID_PAYLOAD + invalid)
+      else
+        Ok(execute(body))
+    }
+    else
+      BadRequest(Errors.INVALID_PAYLOAD)
   }
 }

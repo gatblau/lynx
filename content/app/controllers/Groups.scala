@@ -8,7 +8,7 @@ import play.api.libs.json.{Writes, _}
 import play.api.mvc.{Action, Controller}
 import repositories.GroupRepository
 
-class Groups extends Controller with ControllerUtility {
+class Groups extends Controller with PayloadManagement {
 
   @Inject
   var repo: GroupRepository = _

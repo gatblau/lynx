@@ -1,17 +1,21 @@
 package controllers
 
-import lynx.api.{ApiResult, Content, Descriptor}
+import javax.inject.Inject
+
+import lynx.api.{Content, Descriptor}
 import play.api.libs.json.Json
 import play.api.mvc.{Action, Controller}
+import services.ContentService
 
-class Contents extends Controller with ControllerUtility {
+class Contents @Inject() (contentService: ContentService)
+  extends Controller with PayloadManagement {
 
   def create = Action(parse.json) { request =>
-    // mind the order of the implicits
+    // mind the order of the implicits!
     implicit val descriptorFormat = Json.format[Descriptor]
     implicit val contentFormat = Json.format[Content]
-
-    val registrationList = request.body.as[Array[Content]]
-    Ok(Array(ApiResult()))
+    var payload : Option[Array[Content]] = None
+    try payload = Some(request.body.as[Array[Content]]) catch { case _ : Throwable => }
+    process(payload, contentService.checkRequired, contentService.create)
   }
 }
