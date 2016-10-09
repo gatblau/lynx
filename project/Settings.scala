@@ -24,9 +24,13 @@ object Settings {
       "-language:_",
       "-Xlog-reflective-calls",
       "-Ylog-classpath"
-    ),
-    resourceDirectory in Test := baseDirectory.value / "src" / "test" / "resources",
-    scalaSource in Test := baseDirectory.value / "src" / "test" / "scala"
+    )
+//    ,javaOptions := Seq(
+//      "-Xss4M",
+//      "-Xmx2G"
+//    ),
+    ,resourceDirectory in Test := baseDirectory.value / "src" / "test" / "resources"
+    ,scalaSource in Test := baseDirectory.value / "src" / "test" / "scala"
   )
 
   lazy val serviceSettings = Seq(

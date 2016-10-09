@@ -15,6 +15,7 @@ class CreateContentSteps extends Testing {
 
   @And("^a content definition exists$")
   def a_content_definition_exists() : Unit = {
+    db.setup("/data/empty.xml")
     db.setup("/data/content_definition.xml")
   }
 

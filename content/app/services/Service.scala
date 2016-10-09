@@ -2,6 +2,7 @@ package services
 
 import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
+import java.util.Calendar
 
 trait Service {
   def isUndefined(x: String) =  { x == null || x.trim.length() == 0 }
