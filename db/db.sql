@@ -642,12 +642,12 @@ CREATE TABLE IF NOT EXISTS `lynxc`.`value_def` (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `lynxc`.`value` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `short_text` VARCHAR(150) NULL,
-  `long_text` TEXT NULL,
-  `date` DATETIME NULL,
-  `integer` INT NULL,
-  `decimal` DECIMAL(13,2) NULL,
-  `flag` TINYINT(1) NULL,
+  `short_text_val` VARCHAR(150) NULL,
+  `long_text_val` TEXT NULL,
+  `date_val` DATETIME NULL,
+  `int_val` INT NULL,
+  `dec_val` DECIMAL(13,2) NULL,
+  `bool_val` TINYINT(1) NULL,
   `value_def_id` INT(11) NOT NULL,
   `item_id` INT(11) NOT NULL,
   PRIMARY KEY (`id`),

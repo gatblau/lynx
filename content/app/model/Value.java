@@ -8,49 +8,49 @@ import java.sql.Timestamp;
 @Table (name="\"value\"")
 @NamedQueries ({
     @NamedQuery(name="Value.findAll", query="SELECT a FROM Value a")
-    ,@NamedQuery(name="Value.findByShortText", query="SELECT a FROM Value a WHERE a.shortText = :shortText")
-    ,@NamedQuery(name="Value.findByShortTextContaining", query="SELECT a FROM Value a WHERE a.shortText like :shortText")
-    ,@NamedQuery(name="Value.findByLongText", query="SELECT a FROM Value a WHERE a.longText = :longText")
-    ,@NamedQuery(name="Value.findByLongTextContaining", query="SELECT a FROM Value a WHERE a.longText like :longText")
-    ,@NamedQuery(name="Value.findByDate", query="SELECT a FROM Value a WHERE a.date = :date")
-    ,@NamedQuery(name="Value.findByInteger", query="SELECT a FROM Value a WHERE a.integer = :integer")
-    ,@NamedQuery(name="Value.findByDecimal", query="SELECT a FROM Value a WHERE a.decimal = :decimal")
-    ,@NamedQuery(name="Value.findByFlag", query="SELECT a FROM Value a WHERE a.flag = :flag")
+    ,@NamedQuery(name="Value.findByShortTextVal", query="SELECT a FROM Value a WHERE a.shortTextVal = :shortTextVal")
+    ,@NamedQuery(name="Value.findByShortTextValContaining", query="SELECT a FROM Value a WHERE a.shortTextVal like :shortTextVal")
+    ,@NamedQuery(name="Value.findByLongTextVal", query="SELECT a FROM Value a WHERE a.longTextVal = :longTextVal")
+    ,@NamedQuery(name="Value.findByLongTextValContaining", query="SELECT a FROM Value a WHERE a.longTextVal like :longTextVal")
+    ,@NamedQuery(name="Value.findByDateVal", query="SELECT a FROM Value a WHERE a.dateVal = :dateVal")
+    ,@NamedQuery(name="Value.findByIntVal", query="SELECT a FROM Value a WHERE a.intVal = :intVal")
+    ,@NamedQuery(name="Value.findByDecVal", query="SELECT a FROM Value a WHERE a.decVal = :decVal")
+    ,@NamedQuery(name="Value.findByBoolVal", query="SELECT a FROM Value a WHERE a.boolVal = :boolVal")
 })
 public class Value implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public static final String FIND_ALL = "Value.findAll";
-    public static final String FIND_BY_SHORTTEXT = "Value.findByShortText";
-    public static final String FIND_BY_SHORTTEXT_CONTAINING ="Value.findByShortTextContaining";
-    public static final String FIND_BY_LONGTEXT = "Value.findByLongText";
-    public static final String FIND_BY_LONGTEXT_CONTAINING ="Value.findByLongTextContaining";
-    public static final String FIND_BY_DATE = "Value.findByDate";
-    public static final String FIND_BY_INTEGER = "Value.findByInteger";
-    public static final String FIND_BY_DECIMAL = "Value.findByDecimal";
-    public static final String FIND_BY_FLAG = "Value.findByFlag";
+    public static final String FIND_BY_SHORTTEXTVAL = "Value.findByShortTextVal";
+    public static final String FIND_BY_SHORTTEXTVAL_CONTAINING ="Value.findByShortTextValContaining";
+    public static final String FIND_BY_LONGTEXTVAL = "Value.findByLongTextVal";
+    public static final String FIND_BY_LONGTEXTVAL_CONTAINING ="Value.findByLongTextValContaining";
+    public static final String FIND_BY_DATEVAL = "Value.findByDateVal";
+    public static final String FIND_BY_INTVAL = "Value.findByIntVal";
+    public static final String FIND_BY_DECVAL = "Value.findByDecVal";
+    public static final String FIND_BY_BOOLVAL = "Value.findByBoolVal";
 
     @Id @Column(name="id" )
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name="short_text"  , length=150 , nullable=true , unique=false)
-    private String shortText;
+    @Column(name="short_text_val"  , length=150 , nullable=true , unique=false)
+    private String shortTextVal;
 
-    @Column(name="long_text"   , nullable=true , unique=false)
-    private String longText;
+    @Column(name="long_text_val"   , nullable=true , unique=false)
+    private String longTextVal;
 
-    @Column(name="date"   , nullable=true , unique=false)
-    private Timestamp date;
+    @Column(name="date_val"   , nullable=true , unique=false)
+    private Timestamp dateVal;
 
-    @Column(name="integer"   , nullable=true , unique=false)
-    private Integer integer;
+    @Column(name="int_val"   , nullable=true , unique=false)
+    private Integer intVal;
 
-    @Column(name="decimal"   , nullable=true , unique=false)
-    private java.math.BigDecimal decimal;
+    @Column(name="dec_val"   , nullable=true , unique=false)
+    private java.math.BigDecimal decVal;
 
-    @Column(name="flag"   , nullable=true , unique=false)
-    private Boolean flag;
+    @Column(name="bool_val"   , nullable=true , unique=false)
+    private Boolean boolVal;
 
     @ManyToOne (fetch=FetchType.LAZY , optional=false)
     @JoinColumn(name="value_def_id", referencedColumnName = "id" , nullable=false , unique=false , insertable=true, updatable=true)
@@ -71,45 +71,45 @@ public class Value implements Serializable {
 
     public Value(
             Integer id,
-            String shortText,
-            String longText,
-            Timestamp date,
-            Integer integer,
-            java.math.BigDecimal decimal,
-            Boolean flag,
+            String shortTextVal,
+            String longTextVal,
+            Timestamp dateVal,
+            Integer intVal,
+            java.math.BigDecimal decVal,
+            Boolean boolVal,
             Integer valueDefId,
             Integer itemId) {
         this(
-            id,
-            shortText,
-            longText,
-            date,
-            integer,
-            decimal,
-            flag,
-            valueDefId,
-            itemId
-            ,true);
+                id,
+                shortTextVal,
+                longTextVal,
+                dateVal,
+                intVal,
+                decVal,
+                boolVal,
+                valueDefId,
+                itemId
+                ,true);
     }
 
     public Value(
             Integer id,
-            String shortText,
-            String longText,
-            Timestamp date,
-            Integer integer,
-            java.math.BigDecimal decimal,
-            Boolean flag,
+            String shortTextVal,
+            String longTextVal,
+            Timestamp dateVal,
+            Integer intVal,
+            java.math.BigDecimal decVal,
+            Boolean boolVal,
             Integer valueDefId,
             Integer itemId
             , boolean setRelationship) {
         setId (id);
-        setShortText (shortText);
-        setLongText (longText);
-        setDate (date);
-        setInteger (integer);
-        setDecimal (decimal);
-        setFlag (flag);
+        setShortTextVal (shortTextVal);
+        setLongTextVal (longTextVal);
+        setDateVal (dateVal);
+        setIntVal (intVal);
+        setDecVal (decVal);
+        setBoolVal (boolVal);
         if (setRelationship && valueDefId!=null) {
             this.valueDefId = new ValueDef();
             this.valueDefId.setId(valueDefId);
@@ -124,16 +124,16 @@ public class Value implements Serializable {
 
     public Value flat() {
         return new Value(
-            getId(),
-            getShortText(),
-            getLongText(),
-            getDate(),
-            getInteger(),
-            getDecimal(),
-            getFlag(),
-            getValueDefId_(),
-            getItemId_()
-            , false
+                getId(),
+                getShortTextVal(),
+                getLongTextVal(),
+                getDateVal(),
+                getIntVal(),
+                getDecVal(),
+                getBoolVal(),
+                getValueDefId_(),
+                getItemId_()
+                , false
         );
     }
 
@@ -145,52 +145,52 @@ public class Value implements Serializable {
         this.id =  id;
     }
 
-    public String getShortText() {
-        return shortText;
+    public String getShortTextVal() {
+        return shortTextVal;
     }
 
-    public void setShortText (String shortText) {
-        this.shortText =  shortText;
+    public void setShortTextVal (String shortTextVal) {
+        this.shortTextVal =  shortTextVal;
     }
 
-    public String getLongText() {
-        return longText;
+    public String getLongTextVal() {
+        return longTextVal;
     }
 
-    public void setLongText (String longText) {
-        this.longText =  longText;
+    public void setLongTextVal (String longTextVal) {
+        this.longTextVal =  longTextVal;
     }
 
-    public Timestamp getDate() {
-        return date;
+    public Timestamp getDateVal() {
+        return dateVal;
     }
 
-    public void setDate (Timestamp date) {
-        this.date =  date;
+    public void setDateVal (Timestamp dateVal) {
+        this.dateVal =  dateVal;
     }
 
-    public Integer getInteger() {
-        return integer;
+    public Integer getIntVal() {
+        return intVal;
     }
 
-    public void setInteger (Integer integer) {
-        this.integer =  integer;
+    public void setIntVal (Integer intVal) {
+        this.intVal =  intVal;
     }
 
-    public java.math.BigDecimal getDecimal() {
-        return decimal;
+    public java.math.BigDecimal getDecVal() {
+        return decVal;
     }
 
-    public void setDecimal (java.math.BigDecimal decimal) {
-        this.decimal =  decimal;
+    public void setDecVal (java.math.BigDecimal decVal) {
+        this.decVal =  decVal;
     }
 
-    public Boolean getFlag() {
-        return flag;
+    public Boolean getBoolVal() {
+        return boolVal;
     }
 
-    public void setFlag (Boolean flag) {
-        this.flag =  flag;
+    public void setBoolVal (Boolean boolVal) {
+        this.boolVal =  boolVal;
     }
 
     public ValueDef getValueDefId () {
