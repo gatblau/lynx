@@ -3,7 +3,7 @@ package util
 import java.security.MessageDigest
 import javax.inject.{Inject, Named}
 
-import lynx.api.ContentAPI
+import lynx.api.{ApiResult, ContentAPI}
 import util.Keys._
 
 import scala.collection.mutable
@@ -25,6 +25,12 @@ trait Testing {
   def checkForError(msg: String) : Unit = {
     val error : String = get(ERROR)
     assert(error == null || error.trim().length() == 0, s"$msg -> $error")
+  }
+
+  def checkApiError(fragment: String): Unit = {
+    val result: ApiResult = get(RESULT)
+    assert(!result.success)
+    assert(result.message.contains(fragment))
   }
 
   def hash(str: String, salt: Option[Array[Byte]] = None) = {

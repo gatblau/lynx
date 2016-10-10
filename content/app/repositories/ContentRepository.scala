@@ -10,27 +10,32 @@ import scala.collection.JavaConversions._
 
 @Singleton
 class ContentRepository @Inject() (langRepo: LanguageRepository) extends Repository {
-  def create(c: lynx.api.Content) : Content = {
-    jpa.withTransaction(new java.util.function.Function[EntityManager, Content] {
-      override def apply(em: EntityManager): Content = {
-        val contentDef = loadContentDef(c.contentDefId)
+  def create(c: lynx.api.Content) : Option[Content] = {
+    jpa.withTransaction(new java.util.function.Function[EntityManager, Option[Content]] {
+      override def apply(em: EntityManager): Option[Content] = {
+        val contentDef : Option[ContentDef] = loadContentDef(c.contentDefId)
         val contentInstance = new model.Content()
-        contentInstance.setContentDefId(contentDef)
-        contentInstance.setCreated(now)
-        persist(contentInstance)
-        c.descriptions.map(desc => createContentLang(desc, contentInstance))
-        contentDef
-          .getSectionDefContentDefViaContentDefId()
-          .map(sectionDef => createSection(contentInstance, sectionDef))
-        return contentInstance
+        if (contentDef.isDefined) {
+          val cDef = contentDef.get
+          contentInstance.setContentDefId(cDef)
+          contentInstance.setCreated(now)
+          persist(contentInstance)
+          c.descriptions.map(desc => createContentLang(desc, contentInstance))
+          cDef
+            .getSectionDefContentDefViaContentDefId()
+            .map(sectionDef => createSection(contentInstance, sectionDef))
+          return Some(contentInstance)
+        }
+        return None
       }
     })
   }
 
-  private def loadContentDef(contentDefId: Int) : ContentDef = {
+  private def loadContentDef(contentDefId: Int) : Option[ContentDef]= {
     val contentDef = jpa.em().find(classOf[ContentDef], int2Integer(contentDefId))
+    if (contentDef == null) return None
     contentDef.getSectionDefContentDefViaContentDefId().size()
-    contentDef
+    return Some(contentDef)
   }
 
   def createSection(content: model.Content, sectionDef: SectionDef): Unit = {

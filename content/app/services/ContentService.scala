@@ -35,6 +35,7 @@ class ContentService @Inject() (contentRepo: ContentRepository)
 
   private def createContent(content: Content) : ApiResult = {
     val c = contentRepo.create(content)
-    ApiResult.ok(id = c.getId().toString())
+    if (!c.isDefined) return ApiResult.error("Content definition does not exist.")
+    ApiResult.ok(id = c.get.getId().toString())
   }
 }

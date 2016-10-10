@@ -11,5 +11,6 @@ object ApiResult {
   def error(id: String, message: String) = new ApiResult(success = false, id = id, message = message)
   def error(id: String = "", ex: Exception) : ApiResult = new ApiResult(success = false, id = id, message = ex.getMessage())
   def error(ex: Exception) : ApiResult = error("", ex)
+  def error(message: String) : ApiResult = error(id = "", message=message)
   def ok(id: String = "", message: String = "") : ApiResult = new ApiResult(success = true, id = id, message = message)
 }
