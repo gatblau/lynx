@@ -11,9 +11,38 @@ Feature: Create a Content Instance using a Content Definition
     When a request to create a content instance is made
     Then the content instance is created
 
-  Scenario: Does not create a Content Instance if the user is not an Administrator
+  Scenario: Gives an error if the user is not a Content Administrator
     Given a content definition exists
     Given the user creating the content is registered
     Given the user is not an administrator for the content definition
     When a request to create a content instance is made
     Then the content instance is not created
+
+  Scenario: Gives an error if the user is not registered
+    Given a content definition exists
+    Given the user creating the content is not registered
+    When a request to create a content instance is made
+    Then an error indicating the user is not registered is received
+
+  Scenario: Gives an error if the content definition does not exists
+    Given a content definition does not exists
+    Given the user creating the content is registered
+    Given the user is an administrator for the content definition
+    When a request to create a content instance is made
+    Then an error indicating the content definition does not exist is received
+
+  Scenario: Gives an error if the request is invalid
+    Given a content definition exists
+    Given the user creating the content is registered
+    Given the user is an administrator for the content definition
+    Given the request is invalid
+    When an request to create a content instance is made
+    Then an error indicating the request is invalid is received
+
+  Scenario: Gives an error if the request has missing values
+    Given a content definition exists
+    Given the user creating the content is registered
+    Given the user is an administrator for the content definition
+    Given the request has missing values
+    When a request to create a content instance is made
+    Then an error indicating the request is invalid is received

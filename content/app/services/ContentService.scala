@@ -31,11 +31,10 @@ class ContentService @Inject() (contentRepo: ContentRepository)
 
   def create(items : Array[Content]) : Array[ApiResult] = {
     items.map(c => createContent(c))
-    Array(ApiResult.ok())
   }
 
   private def createContent(content: Content) : ApiResult = {
-    contentRepo.create(content)
-    ApiResult.ok()
+    val c = contentRepo.create(content)
+    ApiResult.ok(id = c.getId().toString())
   }
 }
