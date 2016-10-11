@@ -1,8 +1,9 @@
 POST     /api/group                   controllers.Groups.create
-POST     /api/register                controllers.Registrations.create
-POST     /api/activate                controllers.Activations.create
+POST     /api/registration            controllers.Registrations.create
+POST     /api/activation              controllers.Activations.create
 POST     /api/password                controllers.Passwords.change
 POST     /api/content                 controllers.Contents.create
+GET      /api/content/:id             controllers.Contents.get(id: Int, lang: Option[String])
 
 #PATCH   /api/post/:id/like          controllers.Posts.like(id: String)
 #PATCH   /api/post/:id               controllers.Posts.update(id: String)

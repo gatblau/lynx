@@ -9,12 +9,9 @@ import java.io.Serializable;
 	 @NamedQuery(name="Configuration.findAll", query="SELECT a FROM Configuration a")
 	,@NamedQuery(name="Configuration.findByKey", query="SELECT a FROM Configuration a WHERE a.key = :key")
 	,@NamedQuery(name="Configuration.findByKeyContaining", query="SELECT a FROM Configuration a WHERE a.key like :key")
-
 	,@NamedQuery(name="Configuration.findByValue", query="SELECT a FROM Configuration a WHERE a.value = :value")
 	,@NamedQuery(name="Configuration.findByValueContaining", query="SELECT a FROM Configuration a WHERE a.value like :value")
-
 })
-
 public class Configuration implements Serializable {
     private static final long serialVersionUID = 1L;
 

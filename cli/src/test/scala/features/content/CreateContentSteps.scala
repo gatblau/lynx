@@ -29,7 +29,7 @@ class CreateContentSteps extends Testing {
 
   @And("^the request is valid$")
   def the_request_is_valid() : Unit = {
-    set(PAYLOAD, Content(1, Array(
+    set(PAYLOAD, ContentCreate(1, Array(
       Descriptor("Test Survey", "Collects test survey data", English.code),
       Descriptor("Encuesta de prueba", "Collecta datos para la encuesta de prueba.", Spanish.code)
     )))

@@ -7,6 +7,7 @@ import model.Language
 
 @Singleton
 class LanguageRepository extends Repository {
+
   def findByCode(code: String) : Language = {
     jpa.withTransaction(new java.util.function.Function[EntityManager, Language] {
       override def apply(em: EntityManager): Language = {

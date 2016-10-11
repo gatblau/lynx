@@ -40,10 +40,10 @@ class RegisterSteps extends Testing {
     try {
       set(ERROR, null)
       if (get(REGISTRATION_DATA).isInstanceOf[Array[RegistrationRequest]]) {
-        set(RESULT, client.registerRespondent(get(REGISTRATION_DATA)))
+        set(RESULT, client.registerUser(get(REGISTRATION_DATA)))
       }
       else {
-        set(RESULT, client.postMany(get(REGISTRATION_DATA), URI_REGISTER("http://localhost:9000")))
+        set(RESULT, client.postMany(get(REGISTRATION_DATA), URI_REGISTRATION("http://localhost:9000")))
       }
     }
     catch {

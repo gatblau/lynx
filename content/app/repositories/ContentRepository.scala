@@ -10,7 +10,7 @@ import scala.collection.JavaConversions._
 
 @Singleton
 class ContentRepository @Inject() (langRepo: LanguageRepository) extends Repository {
-  def create(c: lynx.api.Content) : Option[Content] = {
+  def create(c: lynx.api.ContentCreate) : Option[Content] = {
     jpa.withTransaction(new java.util.function.Function[EntityManager, Option[Content]] {
       override def apply(em: EntityManager): Option[Content] = {
         val contentDef : Option[ContentDef] = loadContentDef(c.contentDefId)

@@ -10,4 +10,5 @@ object Keys {
   val RESPONDENTS_RECORD = "users_record"
   val PWD_CHANGE_DETAILS = "pwd_change_details"
   val PAYLOAD = "payload"
+  val CONTENT_ID = "content_id"
 }
