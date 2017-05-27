@@ -1,7 +1,5 @@
 package controllers
 
-import javax.ws.rs.core.MediaType
-
 import akka.util.ByteString
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
@@ -15,7 +13,7 @@ trait PayloadManagement extends Controller {
   implicit val apiResultFormat = Json.format[ApiResult]
 
   implicit def writeableOf_Array(implicit codec: Codec): Writeable[Array[ApiResult]] =
-    Writeable(array => ByteString(mapper.writeValueAsString(array)), Some(MediaType.APPLICATION_JSON))
+    Writeable(array => ByteString(mapper.writeValueAsString(array)), Some("application/json"))
 
   def Ok(result : ApiResult) : Result = Ok(Json.toJson(result))
 

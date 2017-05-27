@@ -25,6 +25,6 @@ class Contents @Inject() (contentService: ContentService)
     implicit val sectionDataFormat = Json.format[SectionData]
     implicit val contentDataFormat = Json.format[ContentData]
     val result = contentService.get(id, lang)
-    Ok()
+    Ok(ApiResult.ok())
   }
 }

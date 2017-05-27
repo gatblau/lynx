@@ -18,7 +18,6 @@ object Lib {
   val mysqlconn = "mysql" % "mysql-connector-java" % Version.MYSQLCONN
   val slick = "com.typesafe.slick" %% "slick" % Version.SLICK
   val hibernate = "org.hibernate" % "hibernate-entitymanager" % Version.HIBERNATE
-  val javaee = "javax" % "javaee-api" % Version.JAVAEE
   val command = "org.scala-sbt" % "command" % Version.SBT
   val cucumberJava = "info.cukes" % "cucumber-java" % Version.CUCUMBER
   val cucumberWeld = "info.cukes" % "cucumber-weld" % Version.CUCUMBER

@@ -1,6 +1,5 @@
 package features.onboarding
 
-import java.util.ArrayList
 import javax.inject.Singleton
 
 import cucumber.api.java.en.And
